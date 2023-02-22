@@ -1,4 +1,8 @@
 package com.example.nutri.domain.gateway
 
-class ApiGateway {
+import retrofit2.http.GET
+
+interface ApiGateway {
+
+
 }

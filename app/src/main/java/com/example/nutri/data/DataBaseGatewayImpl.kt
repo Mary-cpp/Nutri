@@ -1,4 +1,7 @@
 package com.example.nutri.data
 
-interface DataBaseGatewayImpl {
+import com.example.nutri.domain.gateway.DataBaseGateway
+
+class DataBaseGatewayImpl : DataBaseGateway {
+
 }
