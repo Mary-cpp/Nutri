@@ -6,15 +6,14 @@ import com.example.nutri.data.dto.Ingredient
 import com.example.nutri.data.dto.Nutrient
 
 @Entity
-data class RecipeEntity (
+class RecipeEntity (
     @PrimaryKey
     val id: Int?,
+    val url: String?,
     val name: String,
     val calories: Double,
-    val dietLabel: String,
+    val dietLabel: List<String>?,
     val healthLabels: List<String>,
     val ingredients: List<Ingredient>,
-    val nutrient: MutableList<Nutrient>,
-
-    ) {
-}
+    val nutrient: List<Nutrient>,
+    )

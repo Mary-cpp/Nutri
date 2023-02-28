@@ -21,14 +21,12 @@ class RecipeAnalyzeViewModel (
     init {
         useCase = RecipeUseCaseImp()
         Log.d("VIEW_MODEL", "START")
-        start()
-
 
     }
 
-    private fun start() = viewModelScope.launch{
+    fun analyze(ingredientParam: String) = viewModelScope.launch{
         Log.d("VIEW_MODEL", "START")
-        _recipe = useCase.getRecipe("apple 100g")
+        _recipe = useCase.retrieveRecipe(ingredientParam).toString()
         Log.d("USE CASE", _recipe)
         recipe.value = _recipe
         Log.d("VIEW_MODEL", "END")

@@ -45,7 +45,7 @@ fun Analyzer(viewModel: RecipeAnalyzeViewModel) {
     val recipe = viewModel.recipe.value
 
     var list by remember {
-        mutableStateOf("Hello")
+        viewModel.recipe
     }
 
     var text by remember {
@@ -60,8 +60,9 @@ fun Analyzer(viewModel: RecipeAnalyzeViewModel) {
 
         Button(
             onClick =
-            { list = recipe
+            {
                 viewModel.ingr.value = text
+                viewModel.analyze(viewModel.ingr.value)
                 Log.w("Compose", "Mutable analyzed string: $recipe")},
             modifier = Modifier.padding(top = 20.dp)
             )
