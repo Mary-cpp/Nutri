@@ -1,11 +1,11 @@
-package com.example.nutri.repository.database
+package com.example.nutri.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.nutri.repository.database.dao.RecipeDAO
-import com.example.nutri.domain.entity.Recipe
+import com.example.nutri.data.database.dao.RecipeDAO
+import com.example.nutri.data.entity.RecipeEntity
 
-@Database(entities = [Recipe::class],
+@Database(entities = [RecipeEntity::class],
     version = 0,
     exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {

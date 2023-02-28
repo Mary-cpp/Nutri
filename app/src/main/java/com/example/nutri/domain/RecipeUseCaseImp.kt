@@ -2,7 +2,7 @@ package com.example.nutri.domain
 
 import com.example.nutri.data.ApiGatewayImpl
 import com.example.nutri.data.DataBaseGatewayImpl
-import com.example.nutri.domain.entity.Recipe
+import com.example.nutri.data.entity.RecipeEntity
 
 class RecipeUseCaseImp(): RecipeUseCase {
 
@@ -13,6 +13,6 @@ class RecipeUseCaseImp(): RecipeUseCase {
         return api.recieveRecipeData(param)
     }
 
-    suspend fun saveRecipe(param: Recipe){
+    suspend fun saveRecipe(param: RecipeEntity){
     }
 }

@@ -2,7 +2,7 @@ package com.example.nutri.data
 
 import android.util.Log
 import com.example.nutri.domain.gateway.ApiGateway
-import com.example.nutri.repository.EdamamService
+import com.example.nutri.data.api.EdamamService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit

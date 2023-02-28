@@ -1,12 +1,12 @@
-package com.example.nutri.domain.entity
+package com.example.nutri.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.nutri.domain.dto.Ingredient
-import com.example.nutri.domain.dto.Nutrient
+import com.example.nutri.data.dto.Ingredient
+import com.example.nutri.data.dto.Nutrient
 
 @Entity
-data class Recipe (
+data class RecipeEntity (
     @PrimaryKey
     val id: Int?,
     val name: String,

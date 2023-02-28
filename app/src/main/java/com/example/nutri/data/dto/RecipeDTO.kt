@@ -1,6 +1,6 @@
-package com.example.nutri.domain.dto
+package com.example.nutri.data.dto
 
-data class Response (
+data class RecipeDTO (
     val uri: String,
     val calories: Long?,
     val totalWeight: Double?,

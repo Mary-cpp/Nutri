@@ -1,4 +1,4 @@
-package com.example.nutri.repository
+package com.example.nutri.data.api
 
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,5 +11,5 @@ interface EdamamService {
         @Query("app_id") app_id: String,
         @Query("app_key") app_key: String,
         @Query("ingr") ingr: String
-    ): Response<com.example.nutri.domain.dto.Response>
+    ): Response<com.example.nutri.data.dto.RecipeDTO>
 }

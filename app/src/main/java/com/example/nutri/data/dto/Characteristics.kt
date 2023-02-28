@@ -1,4 +1,4 @@
-package com.example.nutri.domain.dto
+package com.example.nutri.data.dto
 
 data class Characteristics (
     val quantity: Double,
