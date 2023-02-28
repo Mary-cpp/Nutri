@@ -5,30 +5,28 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nutri.domain.RecipeUseCaseImp
+import com.example.nutri.domain.ReceiveApiRecipeUseCase
+import com.example.nutri.domain.model.Recipe
 import kotlinx.coroutines.launch
 
 class RecipeAnalyzeViewModel (
-    var useCase: RecipeUseCaseImp = RecipeUseCaseImp()
+    private var useCase: ReceiveApiRecipeUseCase = ReceiveApiRecipeUseCase()
 )
     : ViewModel() {
 
-    private var _recipe: String = "Hello"
-    val recipe : MutableState<String> = mutableStateOf(_recipe)
-    val ingr : MutableState<String> = mutableStateOf("")
+    val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
+    val ingredient : MutableState<String> = mutableStateOf("")
 
 
     init {
-        useCase = RecipeUseCaseImp()
+        useCase = ReceiveApiRecipeUseCase()
         Log.d("VIEW_MODEL", "START")
 
     }
 
-    fun analyze(ingredientParam: String) = viewModelScope.launch{
+    fun onAnalyzeButtonPressed(ingredientParam: String) = viewModelScope.launch{
         Log.d("VIEW_MODEL", "START")
-        _recipe = useCase.retrieveRecipe(ingredientParam).toString()
-        Log.d("USE CASE", _recipe)
-        recipe.value = _recipe
+        recipe.value = useCase.retrieveRecipe(ingredientParam)
         Log.d("VIEW_MODEL", "END")
     }
 }
