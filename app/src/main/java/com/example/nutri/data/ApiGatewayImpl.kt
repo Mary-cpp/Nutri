@@ -14,7 +14,7 @@ class ApiGatewayImpl : ApiGateway {
 
     private val baseUrl = "https://api.edamam.com/api/"
 
-    private val logTag = "RETROFIT"
+    private val logTag = "ApiGatewayImpl"
     private val appId = "c4784311"
     private val appKey = "ea0d71aa81a3a366d9d7cc58783563ef"
 
@@ -28,13 +28,10 @@ class ApiGatewayImpl : ApiGateway {
 
         val request: EdamamService = connect().create(EdamamService::class.java)
 
-        var response: Recipe
-
-        withContext(Dispatchers.IO){
-            // we should response with a sealed class
-            response = request.getNutritionSpecs(appId, appKey, param)
-            Log.d(logTag, "response body: $response")
-        }
+        // we should response with a sealed class
+        val response: Recipe =
+            withContext(Dispatchers.IO) { request.getNutritionSpecs(appId, appKey, param) }
+        Log.d(logTag, "response body: $response")
 
         return response
     }

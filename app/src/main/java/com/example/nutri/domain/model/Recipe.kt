@@ -5,14 +5,15 @@ import com.example.nutri.data.dto.Nutrient
 import com.example.nutri.data.dto.NutrientList
 
 data class Recipe (
-    val uri: String,
-    val calories: Long?,
-    val totalWeight: Double?,
-    val dietLabels: List<String?>?,
-    val healthLabels: List<String?>,
-    val cautions: List<String?>?,
-    val totalNutrients: NutrientList,
-    val totalDaily: Nutrient?,
-    val ingredients: List<Ingredient?>,
-    val totalNutrientsKCal: Nutrient?
-)
+    val uri: String? = "",
+    val calories: Long? = 0L,
+    val totalWeight: Double? = 0.0,
+    val dietLabels: List<String?> = emptyList(),
+    val healthLabels: List<String?>? = null,
+    val cautions: List<String?>? = null,
+    val totalNutrients: NutrientList? = null,
+    val totalDaily: Nutrient? = null,
+    val ingredients: List<Ingredient?>? = null,
+    val totalNutrientsKCal: Nutrient? = null
+    ) {
+}
