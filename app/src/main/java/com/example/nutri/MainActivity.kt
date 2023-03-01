@@ -6,38 +6,41 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.ViewModelProvider
+import com.example.nutri.ui.compose.Analyzer
+import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 import com.example.nutri.ui.theme.NutriTheme
 
 class MainActivity : ComponentActivity() {
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             NutriTheme {
+
+                val vm: RecipeAnalyzeViewModel = ViewModelProvider(this)[RecipeAnalyzeViewModel::class.java]
+                vm.recipe
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    Analyzer(vm)
                 }
             }
         }
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     NutriTheme {
-        Greeting("Android")
+        Analyzer(viewModel = RecipeAnalyzeViewModel())
     }
 }
