@@ -3,9 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 
     id ("kotlin-kapt")
-
-    //hilt
-    id("com.google.dagger.hilt.android") version "2.44" apply false
+    id ("dagger.hilt.android.plugin")
 }
 
 android {
