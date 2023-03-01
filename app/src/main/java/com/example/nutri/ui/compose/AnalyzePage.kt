@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.dp
 import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 
 @Composable
-fun Analyzer(viewModel: RecipeAnalyzeViewModel) {
+fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
 
     val expanded = remember { mutableStateOf(false) }
 
@@ -50,6 +50,7 @@ fun Analyzer(viewModel: RecipeAnalyzeViewModel) {
             Button(
                 onClick =
                 {
+                    viewModel.onSaveButtonPressed()
                     Toast
                         .makeText(context,
                             "Soon you'll be able to save this recipe",

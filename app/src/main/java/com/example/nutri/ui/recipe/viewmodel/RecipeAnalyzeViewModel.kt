@@ -5,35 +5,42 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nutri.domain.ReceiveApiRecipeUseCase
+import com.example.nutri.domain.interactor.RecipeInteractor
+import com.example.nutri.domain.interactor.SaveRecipeInteractor
 import com.example.nutri.domain.model.Recipe
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class RecipeAnalyzeViewModel (
-    private var useCase: ReceiveApiRecipeUseCase = ReceiveApiRecipeUseCase()
-)
-    : ViewModel() {
+private const val TAG = "VIEW_MODEL"
+
+@HiltViewModel
+class RecipeAnalyzeViewModel @Inject constructor (
+    private var useCaseAnalyze: RecipeInteractor,
+    private var useCaseSave: SaveRecipeInteractor
+) : ViewModel() {
 
     val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
     val ingredient : MutableState<String> = mutableStateOf("")
 
-
-    init {
-        useCase = ReceiveApiRecipeUseCase()
-        Log.d("VIEW_MODEL", "START")
-
-    }
-
     fun onAnalyzeButtonPressed(ingredientParam: String) = viewModelScope.launch{
+        Log.d(TAG, "onAnalyzeButtonPressed    START")
 
         if (ingredientParam.isEmpty()){
             throw IllegalArgumentException("Ingredient param is null")
         }
-        else{
-            Log.d("VIEW_MODEL", "START")
-            recipe.value = useCase.retrieveRecipe(ingredientParam)
-            Log.d("VIEW_MODEL", "END")
-        }
+        else { recipe.value = useCaseAnalyze.retrieveRecipe(ingredientParam) }
 
+        Log.d(TAG, "END")
+    }
+
+    fun onSaveButtonPressed() = viewModelScope.launch {
+        Log.d(TAG, "onSaveButtonPressed     START")
+        if (recipe.value.uri!!.isEmpty()){
+            throw IllegalArgumentException("Nothing to save")
+        }
+        else {
+            useCaseSave.saveRecipe(recipe.value)
+        }
     }
 }

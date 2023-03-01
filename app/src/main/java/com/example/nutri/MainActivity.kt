@@ -10,22 +10,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
+import com.example.nutri.data.ApiGatewayImpl
+import com.example.nutri.data.DataBaseGatewayImpl
+import com.example.nutri.domain.interactor.ReceiveRecipeFromApiUseCase
+import com.example.nutri.domain.interactor.SaveRecipeUseCase
 import com.example.nutri.ui.compose.Analyzer
 import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 import com.example.nutri.ui.theme.NutriTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            NutriTheme {
+          NutriTheme {
 
-                val vm: RecipeAnalyzeViewModel = ViewModelProvider(this)[RecipeAnalyzeViewModel::class.java]
-                vm.recipe
+                val vm = ViewModelProvider(this)[RecipeAnalyzeViewModel::class.java]
 
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -41,6 +44,9 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     NutriTheme {
-        Analyzer(viewModel = RecipeAnalyzeViewModel())
+        Analyzer(viewModel = RecipeAnalyzeViewModel(
+            useCaseAnalyze = ReceiveRecipeFromApiUseCase(api = ApiGatewayImpl()),
+            useCaseSave = SaveRecipeUseCase(db = DataBaseGatewayImpl())))
     }
 }
+

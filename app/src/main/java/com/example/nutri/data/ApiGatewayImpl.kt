@@ -8,9 +8,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 
-class ApiGatewayImpl : ApiGateway {
+class ApiGatewayImpl @Inject constructor() : ApiGateway {
 
     private val baseUrl = "https://api.edamam.com/api/"
 
@@ -18,19 +19,18 @@ class ApiGatewayImpl : ApiGateway {
     private val appId = "c4784311"
     private val appKey = "ea0d71aa81a3a366d9d7cc58783563ef"
 
-    private fun connect(): Retrofit =
+    private fun client(): EdamamService =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(EdamamService::class.java)
 
-    override suspend fun recieveRecipeData(param: String): Recipe {
-
-        val request: EdamamService = connect().create(EdamamService::class.java)
+    override suspend fun receiveRecipeData(param: String): Recipe {
 
         // we should response with a sealed class
         val response: Recipe =
-            withContext(Dispatchers.IO) { request.getNutritionSpecs(appId, appKey, param) }
+            withContext(Dispatchers.IO) { client().getNutritionSpecs(appId, appKey, param) }
         Log.d(logTag, "response body: $response")
 
         return response
