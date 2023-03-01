@@ -25,8 +25,15 @@ class RecipeAnalyzeViewModel (
     }
 
     fun onAnalyzeButtonPressed(ingredientParam: String) = viewModelScope.launch{
-        Log.d("VIEW_MODEL", "START")
-        recipe.value = useCase.retrieveRecipe(ingredientParam)
-        Log.d("VIEW_MODEL", "END")
+
+        if (ingredientParam.isEmpty()){
+            throw IllegalArgumentException("Ingredient param is null")
+        }
+        else{
+            Log.d("VIEW_MODEL", "START")
+            recipe.value = useCase.retrieveRecipe(ingredientParam)
+            Log.d("VIEW_MODEL", "END")
+        }
+
     }
 }

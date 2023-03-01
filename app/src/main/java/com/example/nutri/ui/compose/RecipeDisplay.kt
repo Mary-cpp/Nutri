@@ -44,7 +44,7 @@ fun RecipeDisplay(recipe: Recipe) {
                     Text(text = "Weight: ${ingredientsList[it].weight}",
                         modifier = Modifier.padding(top=16.dp))
 
-                    Text(text = "Calories from ingredient:\n" +
+                    Text(text = "Measure:\n" +
                             " ${ingredientsList[it].measure}",
                         modifier = Modifier.padding(top=16.dp, bottom = 8.dp))
                 }
