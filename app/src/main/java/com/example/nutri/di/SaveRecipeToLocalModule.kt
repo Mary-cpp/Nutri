@@ -2,8 +2,8 @@ package com.example.nutri.di
 
 import com.example.nutri.data.DataBaseGatewayImpl
 import com.example.nutri.data.gateway.DataBaseGateway
-import com.example.nutri.domain.interactor.SaveRecipeInteractor
-import com.example.nutri.domain.interactor.SaveRecipeUseCase
+import com.example.nutri.domain.interactor.LocalRecipesInteractor
+import com.example.nutri.domain.interactor.LocalRecipeUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,8 +17,8 @@ object SaveRecipeToLocalModule {
     @Provides
     fun provideUseCase(
         dataBaseGatewayImpl: DataBaseGatewayImpl
-    ) : SaveRecipeInteractor{
-        return SaveRecipeUseCase(db = dataBaseGatewayImpl
+    ) : LocalRecipesInteractor{
+        return LocalRecipeUseCase(db = dataBaseGatewayImpl
         )
     }
 

@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.interactor.RecipeInteractor
-import com.example.nutri.domain.interactor.SaveRecipeInteractor
+import com.example.nutri.domain.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -17,11 +17,14 @@ private const val TAG = "VIEW_MODEL"
 @HiltViewModel
 class RecipeAnalyzeViewModel @Inject constructor (
     private var useCaseAnalyze: RecipeInteractor,
-    private var useCaseSave: SaveRecipeInteractor
+    private var useCaseSave: LocalRecipesInteractor
 ) : ViewModel() {
 
     val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
     val ingredient : MutableState<String> = mutableStateOf("")
+    val recipeList : MutableState<MutableList<Recipe>> = mutableStateOf(arrayListOf())
+
+    val nameField : MutableState<String> = mutableStateOf("")
 
     fun onAnalyzeButtonPressed(ingredientParam: String) = viewModelScope.launch{
         Log.d(TAG, "onAnalyzeButtonPressed    START")
@@ -40,7 +43,7 @@ class RecipeAnalyzeViewModel @Inject constructor (
             throw IllegalArgumentException("Nothing to save")
         }
         else {
-            useCaseSave.saveRecipe(recipe.value)
+            useCaseSave.saveRecipe(recipe.value, nameField.value)
         }
     }
 }

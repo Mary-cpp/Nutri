@@ -13,7 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.nutri.data.ApiGatewayImpl
 import com.example.nutri.data.DataBaseGatewayImpl
 import com.example.nutri.domain.interactor.ReceiveRecipeFromApiUseCase
-import com.example.nutri.domain.interactor.SaveRecipeUseCase
+import com.example.nutri.domain.interactor.LocalRecipeUseCase
 import com.example.nutri.ui.compose.Analyzer
 import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 import com.example.nutri.ui.theme.NutriTheme
@@ -46,7 +46,7 @@ fun DefaultPreview() {
     NutriTheme {
         Analyzer(viewModel = RecipeAnalyzeViewModel(
             useCaseAnalyze = ReceiveRecipeFromApiUseCase(api = ApiGatewayImpl()),
-            useCaseSave = SaveRecipeUseCase(db = DataBaseGatewayImpl())))
+            useCaseSave = LocalRecipeUseCase(db = DataBaseGatewayImpl())))
     }
 }
 
