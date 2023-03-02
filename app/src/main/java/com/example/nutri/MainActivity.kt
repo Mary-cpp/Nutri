@@ -10,8 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
-import com.example.nutri.data.ApiGatewayImpl
-import com.example.nutri.data.DataBaseGatewayImpl
+import com.example.nutri.domain.gateway.ApiGatewayImpl
+import com.example.nutri.domain.gateway.DataBaseGatewayImpl
 import com.example.nutri.domain.interactor.ReceiveRecipeFromApiUseCase
 import com.example.nutri.domain.interactor.LocalRecipeUseCase
 import com.example.nutri.ui.compose.Analyzer

@@ -1,6 +1,6 @@
 package com.example.nutri.domain.interactor
 
-import com.example.nutri.data.DataBaseGatewayImpl
+import com.example.nutri.domain.gateway.DataBaseGatewayImpl
 
 import com.example.nutri.domain.model.Recipe
 

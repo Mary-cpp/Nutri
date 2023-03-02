@@ -1,7 +1,7 @@
 package com.example.nutri.domain.interactor
 
 
-import com.example.nutri.data.gateway.ApiGateway
+import com.example.nutri.domain.gateway.ApiGateway
 import com.example.nutri.domain.model.Recipe
 
 class ReceiveRecipeFromApiUseCase (

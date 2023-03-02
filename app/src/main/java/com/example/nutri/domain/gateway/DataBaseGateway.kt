@@ -1,4 +1,4 @@
-package com.example.nutri.data.gateway
+package com.example.nutri.domain.gateway
 
 import com.example.nutri.domain.model.Recipe
 

@@ -1,7 +1,6 @@
-package com.example.nutri.data
+package com.example.nutri.domain.gateway
 
 import android.util.Log
-import com.example.nutri.data.gateway.ApiGateway
 import com.example.nutri.data.api.EdamamService
 import com.example.nutri.domain.model.Recipe
 import kotlinx.coroutines.Dispatchers

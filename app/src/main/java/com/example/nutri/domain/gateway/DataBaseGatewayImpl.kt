@@ -1,8 +1,6 @@
-package com.example.nutri.data
+package com.example.nutri.domain.gateway
 
 import android.util.Log
-
-import com.example.nutri.data.gateway.DataBaseGateway
 import com.example.nutri.domain.model.Recipe
 import javax.inject.Inject
 
