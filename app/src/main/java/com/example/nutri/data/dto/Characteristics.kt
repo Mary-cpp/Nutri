@@ -8,7 +8,7 @@ data class Characteristics (
     val foodId: String,
     val weight: Double,
     val retainedWeight: Double,
-    val nutrients: Nutrient,
+    val nutrients: TotalNutrients,
     val measureUri: String,
     val status: String
 ) {

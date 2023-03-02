@@ -1,8 +1,8 @@
 package com.example.nutri.domain.model
 
 import com.example.nutri.data.dto.Ingredient
-import com.example.nutri.data.dto.Nutrient
-import com.example.nutri.data.dto.NutrientList
+import com.example.nutri.data.dto.TotalNutrients
+import com.example.nutri.data.dto.nutrients.TotalNutrientsKCal
 
 data class Recipe (
     val uri: String? = "",
@@ -11,9 +11,9 @@ data class Recipe (
     val dietLabels: List<String?> = emptyList(),
     val healthLabels: List<String?>? = null,
     val cautions: List<String?>? = null,
-    val totalNutrients: NutrientList? = null,
-    val totalDaily: Nutrient? = null,
+    val totalNutrients: TotalNutrients? = null,
+    val totalDaily: TotalNutrients? = null,
     val ingredients: List<Ingredient?>? = null,
-    val totalNutrientsKCal: Nutrient? = null
+    val totalNutrientsKCal: TotalNutrientsKCal? = null
     ) {
 }
