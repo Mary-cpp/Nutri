@@ -20,10 +20,18 @@ class RecipeAnalyzeViewModel @Inject constructor (
     private var useCaseSave: LocalRecipesInteractor
 ) : ViewModel() {
 
+    enum class ViewPages { INIT, RECIPE, SAVED, LISTOFRECIPES}
+
+    val viewPage = mutableStateOf(ViewPages.RECIPE)
+
     val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
     val recipeList : MutableState<List<Recipe>> = mutableStateOf(listOf())
 
     val nameField : MutableState<String> = mutableStateOf("")
+
+    init {
+        viewPage.value = ViewPages.INIT
+    }
 
     fun onAnalyzeButtonPressed(ingredientParam: String) = viewModelScope.launch{
         Log.d(TAG, "onAnalyzeButtonPressed    START")
@@ -31,26 +39,45 @@ class RecipeAnalyzeViewModel @Inject constructor (
         if (ingredientParam.isEmpty()){
             throw IllegalArgumentException("Ingredient param is null")
         }
-        else { recipe.value = useCaseAnalyze.retrieveRecipe(ingredientParam) }
+        else { recipe.value = useCaseAnalyze.retrieveRecipe(ingredientParam)
+
+           viewPage.value = ViewPages.RECIPE
+        }
 
         Log.d(TAG, "END")
     }
 
     fun onSaveButtonPressed() = viewModelScope.launch {
         Log.d(TAG, "onSaveButtonPressed     START")
-        if (recipe.value.uri!!.isEmpty()){
-            throw IllegalArgumentException("Nothing to save")
+        if (nameField.value.isEmpty()){
+            Log.d(TAG, "Can't save recipe. Expected recipe name!")
+
+            //Toast.makeText(context, "Enter recipe's name", Toast.LENGTH_LONG).show()
+
+            //return@launch
+
+            nameField.value = "REcipeName"
         }
-        else {
-            useCaseSave.saveRecipe(recipe.value, nameField.value)
-        }
+
+
+        viewPage.value = ViewPages.SAVED
+        useCaseSave.saveRecipe(recipe.value, nameField.value)
     }
 
     fun onMyRecipesButtonPressed() = viewModelScope.launch {
         Log.d(TAG, "onMyRecipesButtonPressed        START")
 
+        viewPage.value = ViewPages.LISTOFRECIPES
         recipeList.value = useCaseSave.receiveRecipes()
 
         Log.d(TAG, "onMyRecipesButtonPressed        END")
+    }
+
+    fun onGoHomeButtonClicked() {
+        Log.d(TAG, "onGoHomeButtonClicked        START")
+
+        viewPage.value = ViewPages.INIT
+
+        Log.d(TAG, "onGoHomeButtonClicked        END")
     }
 }

@@ -14,9 +14,7 @@ import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 
 @Composable
 fun AnalyzerMainInterface(
-    viewModel: RecipeAnalyzeViewModel,
-    expandAnalysis: MutableState<Boolean>,
-    expandSavedRecipes: MutableState<Boolean>)
+    viewModel: RecipeAnalyzeViewModel)
 {
     var text by remember {
         mutableStateOf("")
@@ -28,44 +26,14 @@ fun AnalyzerMainInterface(
 
     Row(modifier = Modifier.padding(16.dp)){
 
-        val context = LocalContext.current
-
         Button(
             onClick =
             {
                 viewModel.onAnalyzeButtonPressed(text)
-                expandAnalysis.value = text.isNotEmpty()
                 }
         )
         {
             Text("Analyze")
-        }
-
-        Button(
-            onClick =
-            {
-                viewModel.onSaveButtonPressed()
-
-                expandSavedRecipes.value = true
-
-                Toast
-                    .makeText(context,
-                        "Analysis was saved to recipe",
-                        Toast.LENGTH_SHORT)
-                    .show()
-            },
-            modifier = Modifier.padding(start = 16.dp)
-        )
-        {
-            Text("Save")
-        }
-
-        Button(onClick = {
-            viewModel.onMyRecipesButtonPressed()
-            expandAnalysis.value = false
-                         },
-            modifier = Modifier.padding(start = 16.dp)) {
-            Text ("My Recipes")
         }
     }
 }

@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class IngredientEntity
-    (@PrimaryKey
+class IngredientEntity(
+    @PrimaryKey()
+    val id: Int,
      val name: String)

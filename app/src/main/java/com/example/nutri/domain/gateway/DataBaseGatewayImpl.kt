@@ -1,65 +1,63 @@
 package com.example.nutri.domain.gateway
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
+import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.entity.RecipeEntity
 import com.example.nutri.domain.model.Recipe
 import javax.inject.Inject
 
-class DataBaseGatewayImpl @Inject constructor() : DataBaseGateway {
+class DataBaseGatewayImpl @Inject constructor(
+    val database: RecipeDatabase
+    ) : DataBaseGateway {
 
     val TAG: String = "DataBaseGatewayImpl"
-    private var listOfRecipes: MutableList<RecipeEntity> = arrayListOf()
+
+
 
     override suspend fun saveToLocal(recipe: Recipe, recipeName: String): String {
+        Log.d(TAG, "saveToLocal         START")
 
-        listOfRecipes.add(mapToRecipeEntity(recipe, recipeName))
+        var recipeEnt = mapToRecipeEntity(recipe)
 
-        Log.d(TAG, "List to save: ${listOfRecipes.toString()}")
+        recipeEnt.name = recipeName
+
+        database.recipeDAO().add(recipeEnt)
+
+        Log.d(TAG, "saveToLocal         END")
 
         return recipeName
     }
 
-    override fun getLocalRecipesList() : List<Recipe> {
+    override suspend fun getLocalRecipesList() : List<Recipe> {
 
-        val listOfDomainRecipes: MutableList<Recipe> = arrayListOf()
+        Log.d(TAG, "getLocalRecipesList         START")
 
-        listOfRecipes.forEach {
-            listOfDomainRecipes.add(mapToDomainRecipe(it))
-        }
+        val entityRecipes = database.recipeDAO().getRecipes()
+        val recipes = mutableListOf<Recipe>()
+        entityRecipes.forEach {
+            recipes.add(mapToRecipe(it)) }
 
-        Log.d(TAG, "List to get: ${listOfDomainRecipes.toString()}")
+        Log.d(TAG, "getLocalRecipesList        ${recipes.size} END")
 
-        return listOfDomainRecipes.toList()
+        return recipes.toList()
     }
 
 
-    private fun mapToDomainRecipe(recipe: RecipeEntity) : Recipe {
+    private fun mapToRecipe(recipe: RecipeEntity) : Recipe {
         return Recipe(
+            id = recipe.id,
             uri = recipe.url,
-            calories = recipe.calories.toLong(),
-            dietLabels = recipe.dietLabels,
-            totalWeight = recipe.totalWeight,
-            healthLabels = recipe.healthLabels,
-            ingredients = recipe.ingredients,
-            cautions = recipe.cautions,
-
-            // need to parse this fields correctly before putting real values
-            totalNutrients = null,
-            totalDaily = null,
-            totalNutrientsKCal = null
+            calories = recipe.calories
        )
     }
 
-    private fun mapToRecipeEntity(recipe: Recipe, recipeName: String) : RecipeEntity {
+    private fun mapToRecipeEntity(recipe: Recipe) : RecipeEntity {
         return RecipeEntity(
+            id = null,
+            name = null,
             url = recipe.uri,
-            name = recipeName,
-            calories = recipe.calories!!.toDouble(),
-            dietLabels = recipe.dietLabels,
-            totalWeight = recipe.totalWeight,
-            healthLabels = recipe.healthLabels,
-            ingredients = recipe.ingredients,
-            cautions = recipe.cautions
+            calories = recipe.calories
        )
    }
 }

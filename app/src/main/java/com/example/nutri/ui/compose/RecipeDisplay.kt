@@ -2,12 +2,14 @@ package com.example.nutri.ui.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.model.Recipe
+import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 
 
 @Composable
@@ -16,6 +18,9 @@ fun RecipeDisplay(recipe: Recipe) {
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
+        
+        Text(text = "URL: ${recipe.uri}", modifier = Modifier.padding(bottom = 8.dp))
+        
         Text(
             text = "Calories: ${recipe.calories}"
         )
@@ -54,7 +59,11 @@ fun RecipeDisplay(recipe: Recipe) {
 }
 
 @Composable
-fun MyRecipesDisplay(recipeList : List<Recipe>){
+fun MyRecipesDisplay(onGoHome: () -> Unit, recipeList : List<Recipe>){
+    Button(onClick = {onGoHome.invoke()}) {
+        Text(text = "Go home")
+    }
+
     recipeList.forEach {
         RecipeDisplay(recipe = it)
     }
