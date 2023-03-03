@@ -21,8 +21,7 @@ class RecipeAnalyzeViewModel @Inject constructor (
 ) : ViewModel() {
 
     val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
-    val ingredient : MutableState<String> = mutableStateOf("")
-    val recipeList : MutableState<MutableList<Recipe>> = mutableStateOf(arrayListOf())
+    val recipeList : MutableState<List<Recipe>> = mutableStateOf(listOf())
 
     val nameField : MutableState<String> = mutableStateOf("")
 

@@ -32,9 +32,9 @@ fun AnalyzerMainInterface(
         Button(
             onClick =
             {
-                viewModel.ingredient.value = text
-                viewModel.onAnalyzeButtonPressed(viewModel.ingredient.value)
-                expanded.value = !expanded.value}
+                viewModel.onAnalyzeButtonPressed(text)
+                expanded.value = text.isNotEmpty()
+                }
         )
         {
             Text("Analyze")
