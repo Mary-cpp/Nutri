@@ -52,3 +52,10 @@ fun RecipeDisplay(recipe: Recipe) {
         }
     }
 }
+
+@Composable
+fun MyRecipesDisplay(recipeList : List<Recipe>, modifier: Modifier){
+    recipeList.forEach {
+        RecipeDisplay(recipe = it)
+    }
+}

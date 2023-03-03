@@ -45,4 +45,12 @@ class RecipeAnalyzeViewModel @Inject constructor (
             useCaseSave.saveRecipe(recipe.value, nameField.value)
         }
     }
+
+    fun onMyRecipesButtonPressed() = viewModelScope.launch {
+        Log.d(TAG, "onMyRecipesButtonPressed        START")
+
+        recipeList.value = useCaseSave.receiveRecipes()
+
+        Log.d(TAG, "onMyRecipesButtonPressed        END")
+    }
 }

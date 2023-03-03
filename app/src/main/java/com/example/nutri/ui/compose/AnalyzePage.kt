@@ -1,7 +1,9 @@
 package com.example.nutri.ui.compose
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -13,7 +15,9 @@ import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 @Composable
 fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
 
-    val expanded = remember { mutableStateOf(false) }
+    val isExpanded = remember { mutableStateOf(false) }
+    val isSomethingSaved = remember { mutableStateOf(false) }
+
 
     val recipe by remember {
         viewModel.recipe
@@ -21,9 +25,13 @@ fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
 
     Column(modifier = Modifier.padding(20.dp)) {
 
-        AnalyzerMainInterface(viewModel = viewModel, expanded = expanded)
+        AnalyzerMainInterface(viewModel = viewModel, expandAnalysis = isExpanded, expandSavedRecipes = isSomethingSaved)
 
-        if (expanded.value) RecipeDisplay(recipe = recipe)
+        if (isExpanded.value) RecipeDisplay(recipe = recipe)
+
+        if (isSomethingSaved.value) MyRecipesDisplay(recipeList = viewModel.recipeList.value, modifier = Modifier.verticalScroll(
+            ScrollState(0)
+        ))
 
     }
 }
