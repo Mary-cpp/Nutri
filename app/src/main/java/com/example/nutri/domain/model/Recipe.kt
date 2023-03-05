@@ -17,4 +17,19 @@ data class Recipe (
     val ingredients: List<Ingredient?>? = null,
     val totalNutrientsKCal: TotalNutrientsKCal? = null
     ) {
+
+    companion object{
+        fun makeRecipe() : Recipe{
+            return Recipe(
+                id = null,
+                uri = "some uri",
+                calories = 0,
+                totalWeight = 0.0,
+                dietLabels = listOf("label1", "label2", "label3"),
+                healthLabels = listOf("label1", "label2", "label3"),
+                cautions = listOf("caution1", "caution2", "caution3"),
+                ingredients = listOf(Ingredient("list of parsed ingredients", null))
+            )
+        }
+    }
 }

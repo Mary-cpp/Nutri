@@ -12,6 +12,8 @@ val Pink40 = Color(0xFF7D5260)
 
 val LightGreen = Color(0xFFBAFFF5)
 val Turquoise = Color(0xFF71E3A9)
+val Green2 = Color(0xFF88E897)
 val MainGreen = Color(0xFFB8F98F)
 val Green = Color(0xFFA3E371)
 val Yellow = Color(0xFFF6FB7D)
+val DarkGreen = Color(0xFF23883C)
