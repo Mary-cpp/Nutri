@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.interactor.RecipeInteractor
-import com.example.nutri.domain.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,8 +15,7 @@ private const val TAG = "VIEW_MODEL"
 
 @HiltViewModel
 class RecipeAnalyzeViewModel @Inject constructor (
-    private var useCaseAnalyze: RecipeInteractor,
-    private var useCaseSave: LocalRecipesInteractor
+    private var recipeInteractor: RecipeInteractor
 ) : ViewModel() {
 
     enum class ViewPages { INIT, RECIPE, SAVED, LISTOFRECIPES}
@@ -39,7 +37,7 @@ class RecipeAnalyzeViewModel @Inject constructor (
         if (ingredientParam.isEmpty()){
             throw IllegalArgumentException("Ingredient param is null")
         }
-        else { recipe.value = useCaseAnalyze.retrieveRecipe(ingredientParam)
+        else { recipe.value = recipeInteractor.retrieveAnalysis(ingredientParam)
 
            viewPage.value = ViewPages.RECIPE
         }
@@ -61,14 +59,14 @@ class RecipeAnalyzeViewModel @Inject constructor (
 
 
         viewPage.value = ViewPages.SAVED
-        useCaseSave.saveRecipe(recipe.value, nameField.value)
+        recipeInteractor.saveRecipe(recipe.value, nameField.value)
     }
 
     fun onMyRecipesButtonPressed() = viewModelScope.launch {
         Log.d(TAG, "onMyRecipesButtonPressed        START")
 
         viewPage.value = ViewPages.LISTOFRECIPES
-        recipeList.value = useCaseSave.receiveRecipes()
+        recipeList.value = recipeInteractor.receiveRecipes()
 
         Log.d(TAG, "onMyRecipesButtonPressed        END")
     }

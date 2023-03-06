@@ -4,5 +4,8 @@ import com.example.nutri.domain.model.Recipe
 
 interface RecipeInteractor {
 
-    suspend fun retrieveRecipe (param: String): Recipe
+    suspend fun retrieveAnalysis (param: String): Recipe
+
+    suspend fun saveRecipe(recipe: Recipe , recipeName: String): String
+    suspend fun receiveRecipes(): List<Recipe>
 }

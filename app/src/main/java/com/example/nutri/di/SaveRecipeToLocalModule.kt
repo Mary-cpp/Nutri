@@ -4,8 +4,6 @@ import android.content.Context
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.domain.gateway.DataBaseGateway
 import com.example.nutri.domain.gateway.DataBaseGatewayImpl
-import com.example.nutri.domain.interactor.LocalRecipeUseCase
-import com.example.nutri.domain.interactor.LocalRecipesInteractor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,14 +15,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 object SaveRecipeToLocalModule {
-
-    @Provides
-    fun provideUseCase(
-        dataBaseGatewayImpl: DataBaseGatewayImpl
-    ) : LocalRecipesInteractor{
-        return LocalRecipeUseCase(db = dataBaseGatewayImpl
-        )
-    }
 
     @Provides
     fun provideDbGateway(
