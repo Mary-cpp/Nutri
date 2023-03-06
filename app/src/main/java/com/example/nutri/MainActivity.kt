@@ -15,7 +15,7 @@ import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.domain.gateway.ApiGatewayImpl
 import com.example.nutri.domain.gateway.DataBaseGatewayImpl
 import com.example.nutri.domain.interactor.LocalRecipeUseCase
-import com.example.nutri.domain.interactor.ReceiveRecipeFromApiUseCase
+import com.example.nutri.domain.interactor.RecipeInteractorImpl
 import com.example.nutri.ui.compose.Analyzer
 import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 import com.example.nutri.ui.theme.NutriTheme
@@ -47,8 +47,10 @@ class MainActivity : ComponentActivity() {
 fun DefaultPreview() {
     NutriTheme {
         Analyzer(viewModel = RecipeAnalyzeViewModel(
-            useCaseAnalyze = ReceiveRecipeFromApiUseCase(api = ApiGatewayImpl()),
-            useCaseSave = LocalRecipeUseCase(db = DataBaseGatewayImpl(database = RecipeDatabase.getDatabase(context = LocalContext.current)))))
-    }
+            recipeInteractor = RecipeInteractorImpl(api = ApiGatewayImpl(),
+                db = DataBaseGatewayImpl(
+                    database = RecipeDatabase.getDatabase(
+                        context = LocalContext.current)))))
+             }
 }
 
