@@ -11,8 +11,8 @@ interface RecipeDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
         fun add(recipe: RecipeEntity)
 
-/*    @Query("DELETE * FROM recipes")
-        fun clear()*/
+    @Query("DELETE FROM recipes")
+        fun clear()
 
     @Delete
         fun delete(model: RecipeEntity)

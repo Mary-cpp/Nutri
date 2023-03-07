@@ -6,4 +6,6 @@ interface DataBaseGateway {
 
     suspend fun saveToLocal(recipe: Recipe, recipeName: String): String
     suspend fun getLocalRecipesList(): List<Recipe>
+
+    suspend fun deleteSavedRecipes() : String
 }

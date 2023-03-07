@@ -25,7 +25,7 @@ fun RecipeCard(recipe: Recipe){
         colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary)
     ){
 
-        Text(text = recipe.ingredients!![0]!!.text,
+        Text(text = recipe.ingredients!![0]?.text ?: recipe.uri!!,
             modifier = Modifier.padding(top=24.dp, start = 12.dp, bottom = 24.dp),
             fontSize = 20.sp)
 
@@ -48,10 +48,14 @@ fun RecipeDisplay(recipe: Recipe) {
         modifier = Modifier.padding(16.dp)
     ) {
 
-        Text(text = "URL: ${recipe.uri}", modifier = Modifier.padding(bottom = 8.dp))
+        Text(text = "URL: ${recipe.uri}",
+            modifier = Modifier.padding(bottom = 8.dp),
+            color = MaterialTheme.colorScheme.primary
+        )
 
         Text(
-            text = "Calories: ${recipe.calories}"
+            text = "Calories: ${recipe.calories}",
+            color = MaterialTheme.colorScheme.primary
         )
 
         if(recipe.ingredients!= null){
@@ -62,24 +66,31 @@ fun RecipeDisplay(recipe: Recipe) {
 
             Text(
                 text = "Ingredients:",
-                modifier = Modifier.padding(top = 16.dp)
+                modifier = Modifier.padding(top = 16.dp),
+                color = MaterialTheme.colorScheme.primary
             )
 
             Text(text = "Name: ${recipe.ingredients[0]!!.text}",
-            modifier = Modifier.padding(top=16.dp))
+            modifier = Modifier.padding(top=16.dp),
+            color = MaterialTheme.colorScheme.primary)
 
             repeat(ingredientsList!!.size){
 
                 Column(modifier = Modifier.padding(start = 32.dp)) {
                     Text(text = "Info: ${ingredientsList[it].food}",
                         modifier = Modifier.padding(top=16.dp),
+                        color = MaterialTheme.colorScheme.primary,
                     textDecoration = TextDecoration.Underline)
 
                     Text(text = "Weight: ${ingredientsList[it].weight}",
+
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(top=16.dp))
 
                     Text(text = "Measure:\n" +
                             " ${ingredientsList[it].measure}",
+
+                        color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(top=16.dp, bottom = 8.dp))
                 }
             }
@@ -94,7 +105,7 @@ fun MyRecipesDisplay(onGoHome: () -> Unit, recipeList : List<Recipe>){
     }
 
     recipeList.forEach {
-        RecipeCard(recipe = it)
+        RecipeDisplay(recipe = it)
     }
 }
 
@@ -102,6 +113,6 @@ fun MyRecipesDisplay(onGoHome: () -> Unit, recipeList : List<Recipe>){
 @Composable
 fun RecipePreview(){
     NutriTheme {
-        RecipeCard(recipe = Recipe.makeRecipe())
+        RecipeDisplay(recipe = Recipe.makeRecipe())
     }
 }

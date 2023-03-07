@@ -10,7 +10,7 @@ class RecipeInteractorImpl (
     private val db: DataBaseGateway
     ) : RecipeInteractor {
 
-    override suspend fun retrieveAnalysis(param: String): Recipe {
+    override suspend fun analyzeRecipe(param: String): Recipe {
         return api.receiveRecipeData(param)
     }
 
@@ -20,5 +20,9 @@ class RecipeInteractorImpl (
 
     override suspend fun receiveRecipes() : List<Recipe>{
         return db.getLocalRecipesList()
+    }
+
+    override suspend fun deleteMyRecipes() : String{
+        return db.deleteSavedRecipes()
     }
 }

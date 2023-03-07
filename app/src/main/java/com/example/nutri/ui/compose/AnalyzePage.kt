@@ -63,7 +63,7 @@ fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
         }
 
         if (ViewPages.LISTOFRECIPES == viewModel.viewPage.value) {
-            MyRecipesDisplay(onGoHome = viewModel::onGoHomeButtonClicked, recipeList = viewModel.recipeList.value)
+            MyRecipesDisplay(onGoHome = viewModel::onGoHomeButtonPressed, recipeList = viewModel.recipeList.value)
 
 
 

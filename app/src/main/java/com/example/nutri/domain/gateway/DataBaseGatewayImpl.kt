@@ -1,7 +1,6 @@
 package com.example.nutri.domain.gateway
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.entity.RecipeEntity
 import com.example.nutri.domain.model.Recipe
@@ -41,6 +40,12 @@ class DataBaseGatewayImpl @Inject constructor(
         Log.d(TAG, "getLocalRecipesList        ${recipes.size} END")
 
         return recipes.toList()
+    }
+
+    override suspend fun deleteSavedRecipes () : String{
+
+        database.recipeDAO().clear()
+        return "All saved recipes deleted"
     }
 
 

@@ -6,6 +6,7 @@ import com.example.nutri.data.dto.nutrients.TotalNutrientsKCal
 
 data class Recipe (
     var id: Int? = null,
+    val name: String = "",
     val uri: String? = "",
     val calories: Long? = 0L,
     val totalWeight: Double? = 0.0,

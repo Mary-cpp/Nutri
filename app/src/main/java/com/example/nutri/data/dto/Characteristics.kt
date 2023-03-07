@@ -11,5 +11,4 @@ data class Characteristics (
     val nutrients: TotalNutrients,
     val measureUri: String,
     val status: String
-) {
-}
+)

@@ -37,7 +37,7 @@ class RecipeAnalyzeViewModel @Inject constructor (
         if (ingredientParam.isEmpty()){
             throw IllegalArgumentException("Ingredient param is null")
         }
-        else { recipe.value = recipeInteractor.retrieveAnalysis(ingredientParam)
+        else { recipe.value = recipeInteractor.analyzeRecipe(ingredientParam)
 
            viewPage.value = ViewPages.RECIPE
         }
@@ -54,7 +54,7 @@ class RecipeAnalyzeViewModel @Inject constructor (
 
             //return@launch
 
-            nameField.value = "REcipeName"
+            nameField.value = recipe.value.ingredients?.get(0)?.text ?: "Recipe name"
         }
 
 
@@ -71,7 +71,7 @@ class RecipeAnalyzeViewModel @Inject constructor (
         Log.d(TAG, "onMyRecipesButtonPressed        END")
     }
 
-    fun onGoHomeButtonClicked() {
+    fun onGoHomeButtonPressed() {
         Log.d(TAG, "onGoHomeButtonClicked        START")
 
         viewPage.value = ViewPages.INIT
