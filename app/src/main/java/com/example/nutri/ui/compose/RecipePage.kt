@@ -25,32 +25,42 @@ fun RecipePage(){
 
     var recipe = Recipe.makeRecipe()
 
-    Surface(Modifier.fillMaxSize(),
-    color = MaterialTheme.colors.background) {
-        Column {
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        topBar = { RecipeTopBar(topBarText = recipe.name!!)},
+        floatingActionButton = {FAB()},
+        content = {
+            Surface(Modifier.fillMaxSize().padding(it),
+                color = MaterialTheme.colors.background) {
+                Column {
 
-            Row (Modifier.padding(bottom = 16.dp)){
-
-                TopAppBar(title = { Text(text = recipe.name!!)},
-                    backgroundColor = MaterialTheme.colors.background,
-                    navigationIcon = {IconButton(onClick = { /*TODO("Navigate back to list")*/ },
-                    modifier = Modifier.padding(end = 8.dp)) {
-                    Icon(imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back48px),
-                        contentDescription = "BackToListOfRecipes")
-                }})
+                    ReecipeCard(recipe)
+                }
             }
+        })
 
-            ReecipeCard(recipe)
-        }
-    }
+}
+
+@Composable
+
+fun RecipeTopBar(topBarText: String){
+    TopAppBar(title = { Text(text = topBarText, color = Color.Black)},
+        backgroundColor = MaterialTheme.colors.background,
+        elevation = 0.dp,
+        navigationIcon = {IconButton(onClick = { /*TODO("Navigate back to list")*/ },
+            modifier = Modifier.padding(end = 6.dp)) {
+            Icon(imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back48px),
+                contentDescription = "BackToListOfRecipes",
+                modifier = Modifier.size(40.dp),
+                tint = Color.Black)
+        }})
 }
 
 
 @Composable
 fun ReecipeCard(recipe: Recipe){
     Surface( modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp),
+        .fillMaxWidth()
+        .padding(start = 16.dp, top = 24.dp, end = 16.dp),
         color = MaterialTheme.colors.surface,
         shape = RoundedCornerShape(24.dp),
         elevation = 4.dp,
@@ -85,11 +95,10 @@ fun ReecipeCard(recipe: Recipe){
             Labels(MaterialTheme.colors.secondary, 16, recipe.healthLabels!!)
 
             if (recipe.cautions != null){
-                Labels(MaterialTheme.colors.secondary, 6, recipe.cautions)
+                Labels(MaterialTheme.colors.secondaryVariant, 6, recipe.cautions)
             }
 
             Ingredients()
-            TODO("must be tertiary")
     }} )
 }
 
@@ -121,8 +130,8 @@ fun Labels(
 fun Ingredients(){
 
     Surface(modifier = Modifier
-            .fillMaxWidth(1f)
-            .padding(top = 10.dp),
+        .fillMaxWidth(1f)
+        .padding(top = 10.dp),
         color = MaterialTheme.colors.background,
         shape = RoundedCornerShape(24.dp),
         elevation = 4.dp) {
@@ -143,17 +152,21 @@ fun Ingredients(){
 
 @Composable
 fun Ingredient(){
-    Card(modifier = Modifier.fillMaxWidth(1f),
+    Card(modifier = Modifier.fillMaxWidth(),
     backgroundColor = MaterialTheme.colors.primary,
-    shape = RoundedCornerShape(6.dp)
-    ) {
+    shape = RoundedCornerShape(8.dp),
+        content = {
 
-        Text(text = "Ingredient",
-        modifier = Modifier.padding(start = 16.dp, top = 10.dp, bottom = 10.dp))
+            Column{
+                Text(text = "Ingredient",
+                    modifier = Modifier.padding(start = 16.dp, bottom = 10.dp, top = 16.dp))
 
-        Text(text = "Amount",
-        modifier = Modifier.padding(start = 16.dp, bottom = 10.dp))
-    }
+                Text(text = "Amount",
+                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp))
+            }
+
+        }
+    )
 }
 
 
