@@ -1,12 +1,12 @@
 package com.example.nutri.ui.compose
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -26,7 +26,6 @@ import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 import com.example.nutri.ui.theme.NutriTheme
 
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
 
@@ -36,15 +35,20 @@ fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
 
 
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { TopAppBar(title = { Text(text = "MyRecipesPage")},
-        backgroundColor = MaterialTheme.colors.background) },
+        topBar = { TopAppBar(title = { Text(text = "MyRecipesPage", color = Color.Black)},
+        backgroundColor = MaterialTheme.colors.background, elevation = 0.dp) },
         floatingActionButton = {FAB()},
         content = {
-            Surface(modifier = Modifier.fillMaxSize().padding(it)){
+            Surface(modifier = Modifier
+                .fillMaxSize()
+                .padding(it), color = MaterialTheme.colors.background){
 
-                Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp)){
+                Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally){
                     OutlinedTextField(modifier = Modifier.size(width = 304.dp, height = 64.dp),
                         value = searchParameter,
+                        shape = RoundedCornerShape(16.dp),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
                         onValueChange = { searchParameter = it },
                         trailingIcon = {
                             Icon(imageVector = ImageVector.vectorResource(id = R.drawable.search48px),
@@ -55,6 +59,8 @@ fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
                     SortAndFilter()
 
                     RecipesList(listOfRecipes = vm.recipeList.value)
+
+                    Text(text = "Keep exploring :)", color = MaterialTheme.colors.secondaryVariant)
                 }
             }
         }
@@ -86,7 +92,7 @@ fun SortAndFilter(){
     horizontalArrangement = Arrangement.SpaceEvenly){
         Button(onClick = { /*TODO(Sort)*/ },
             colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondaryVariant),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(24.dp),
             elevation = ButtonDefaults.elevation((-4).dp)
         ) {
 
@@ -95,13 +101,14 @@ fun SortAndFilter(){
                 contentDescription = "SortIcon",
                 modifier = Modifier
                     .size(24.dp)
-                    .padding(end = 8.dp))
+                    .padding(start = 16.dp, end = 8.dp))
 
-            Text(text = "Sort", color = Color.Black)
+            Text(text = "Sort", color = Color.Black, modifier = Modifier.padding(end = 16.dp))
         }
 
         Button(onClick = { /*TODO(Filter)*/ },
             colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary),
+            shape = RoundedCornerShape(24.dp),
             elevation = ButtonDefaults.elevation((-4).dp)
         ) {
 
@@ -110,7 +117,7 @@ fun SortAndFilter(){
                 contentDescription = "SortIcon",
                 modifier = Modifier
                     .size(24.dp)
-                    .padding(end = 8.dp))
+                    .padding(start = 16.dp, end = 8.dp))
 
             Text(text = "Filter", color = Color.Black)
         }
