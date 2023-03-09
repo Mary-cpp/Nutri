@@ -37,7 +37,7 @@ fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(text = "MyRecipesPage")},
-        modifier = Modifier.padding(10.dp)) },
+        backgroundColor = MaterialTheme.colors.background) },
         floatingActionButton = {FAB()},
         content = {
             Surface(modifier = Modifier.fillMaxSize().padding(it)){
@@ -85,7 +85,8 @@ fun SortAndFilter(){
         .padding(16.dp),
     horizontalArrangement = Arrangement.SpaceEvenly){
         Button(onClick = { /*TODO(Sort)*/ },
-            colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary),
+            colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondaryVariant),
+            shape = RoundedCornerShape(16.dp),
             elevation = ButtonDefaults.elevation((-4).dp)
         ) {
 
