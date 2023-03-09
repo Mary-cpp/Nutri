@@ -1,160 +1,126 @@
 package com.example.nutri.ui.compose
 
-import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nutri.R
+import com.example.nutri.data.database.RecipeDatabase
+import com.example.nutri.domain.gateway.ApiGatewayImpl
+import com.example.nutri.domain.gateway.DataBaseGatewayImpl
+import com.example.nutri.domain.interactor.LocalRecipeUseCase
+import com.example.nutri.domain.interactor.ReceiveRecipeFromApiUseCase
 import com.example.nutri.domain.model.Recipe
+import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 import com.example.nutri.ui.theme.NutriTheme
 
 @Composable
-fun MyRecipesPage(){
+fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
 
     var recipe = Recipe.makeRecipe()
 
-    Surface(Modifier.fillMaxSize(),
-    color = MaterialTheme.colorScheme.background) {
-        Column {
+    var searchParameter by remember { mutableStateOf("") }
 
-            Row (Modifier.padding(bottom = 16.dp)){
-                
-                IconButton(onClick = { /*TODO("Navigate back to list")*/ },
-                    modifier = Modifier.padding(end = 8.dp)) {
-                    Icon(imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back48px),
-                        contentDescription = "BackToListOfRecipes")
-                }
+    Column {
+        SmallTopAppBar(title = { Text(text = "MyRecipesPage")})
 
-                Text(text = recipe.name!!,
-                    modifier = Modifier.padding(top = 8.dp),
-                    fontSize = 24.sp)
+        Surface(modifier = Modifier.fillMaxSize()){
+
+            Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp)){
+                OutlinedTextField(modifier = Modifier.size(width = 304.dp, height = 64.dp),
+                    value = searchParameter,
+                    onValueChange = { searchParameter = it },
+                    trailingIcon = {
+                        Icon(imageVector = ImageVector.vectorResource(id = R.drawable.search48px),
+                            contentDescription = "SearchIcon",
+                            modifier = Modifier.size(32.dp)) },
+                    label = { Text("Search for recipes") })
+
+                SortAndFilter()
+
+                RecipesList(listOfRecipes = vm.recipeList.value)
             }
-            ReecipeCard(recipe)
         }
     }
+
+
+
+
+
 }
 
 
 @Composable
-fun ReecipeCard(recipe: Recipe){
-    Surface(
-        Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp),
-        color = MaterialTheme.colorScheme.surface,
-        shape = RoundedCornerShape(24.dp),
-        shadowElevation = 4.dp) {
-        Column (Modifier.padding(24.dp)) {
-            
-            Row {
-                Text(text = "${recipe.calories.toString()} Kcal",
-                    modifier = Modifier.padding(bottom = 18.dp),
-                    fontSize = 24.sp)
-                
-                Spacer(modifier = Modifier.fillMaxWidth(0f))
-                
-                IconButton(onClick = { /*TODO ("Edit Recipe")*/ },
+fun SortAndFilter(){
+    Row (modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+    horizontalArrangement = Arrangement.SpaceEvenly){
+        Button(onClick = { /*TODO(Sort)*/ },
+            colors = ButtonDefaults.elevatedButtonColors(MaterialTheme.colorScheme.tertiary),
+            elevation = ButtonDefaults.buttonElevation((-4).dp)
+        ) {
+
+            Icon(imageVector = ImageVector.vectorResource(id = R.drawable.sort48px),
+                tint = Color.Black,
+                contentDescription = "SortIcon",
                 modifier = Modifier
-                    .align(Alignment.Bottom)
-                    .background(Color.Transparent)) {
-                    Icon(imageVector = ImageVector.vectorResource(id = R.drawable.edit_square48px),
-                        contentDescription = "EditRecipe")
-                    
-                }
-            }
+                    .size(24.dp)
+                    .padding(end = 8.dp))
 
-            Text(text = "Total weight: ${recipe.totalWeight.toString()}",
-                modifier = Modifier.padding(bottom = 18.dp),
-                fontSize = 16.sp)
-
-            Labels(MaterialTheme.colorScheme.secondary, 16, recipe.healthLabels!!)
-
-            if (recipe.cautions != null){
-                Labels(MaterialTheme.colorScheme.tertiary, 6, recipe.cautions)
-            }
-
-            Ingredients()
+            Text(text = "Sort", color = Color.Black)
         }
 
+        Button(onClick = { /*TODO(Filter)*/ },
+            colors = ButtonDefaults.elevatedButtonColors(MaterialTheme.colorScheme.secondary),
+            elevation = ButtonDefaults.buttonElevation((-4).dp)
+        ) {
+
+            Icon(imageVector = ImageVector.vectorResource(id = R.drawable.filter_alt48px),
+                tint = Color.Black,
+                contentDescription = "SortIcon",
+                modifier = Modifier
+                    .size(24.dp)
+                    .padding(end = 8.dp))
+
+            Text(text = "Filter", color = Color.Black)
+        }
+    }
+}
+
+@Composable
+fun RecipesList(listOfRecipes: List<Recipe>){
+    LazyColumn{
+        items(listOfRecipes){
+            RecipeListItem(recipe = it)
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Labels(
-    backgroundColor: Color,
-    cornerRadius: Int,
-    labels : List<String>
-){
-    Row (
-        Modifier
-            .padding(bottom = 8.dp)
-            .horizontalScroll(ScrollState(0))){
-        labels.forEach {
-
-            Card(modifier = Modifier.padding(end = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = backgroundColor),
-            elevation = CardDefaults.elevatedCardElevation(6.dp),
-            shape = RoundedCornerShape(cornerRadius.dp)
-            ){
-                Text(text = it, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp))
-            }
-        }
-    }
-}
-
-@Composable
-fun Ingredients(){
-
-    Surface(
-        Modifier
-            .fillMaxWidth(1f)
-            .padding(top = 10.dp),
-        color = MaterialTheme.colorScheme.background,
-        shape = RoundedCornerShape(24.dp),
-        shadowElevation = 4.dp) {
-
-        Column(Modifier.padding(24.dp)) {
-
-            Text(text = "Ingredients",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 24.dp),
-                textAlign = TextAlign.Center,
-            fontSize = 24.sp)
-
-            Ingredient()
-        }
-    }
-}
-
-@Composable
-fun Ingredient(){
-    Surface(Modifier.fillMaxWidth(1f),
-    color = MaterialTheme.colorScheme.primary,
-    shape = RoundedCornerShape(6.dp)
+fun RecipeListItem(recipe: Recipe){
+    Card(modifier = Modifier.fillMaxWidth(1f),
+        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary),
+        shape = RoundedCornerShape(6.dp)
     ) {
-        Column(Modifier.padding(start = 24.dp,
-            top = 16.dp,
-            bottom = 16.dp)) {
 
-            Text(text = "Ingredient",
-            modifier = Modifier.padding(bottom = 10.dp))
+        Text(text = recipe.name!!,
+            modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 10.dp),
+        fontSize = 22.sp)
 
-            Text(text = "Amount")
-        }
+        Text(text = "Calories: ${recipe.calories}",
+            modifier = Modifier.padding(start = 16.dp, bottom = 24.dp))
     }
 }
 
@@ -163,6 +129,10 @@ fun Ingredient(){
 @Composable
 fun MyRecipesPagePreview(){
     NutriTheme {
-        MyRecipesPage()
+        MyRecipesPage(vm = RecipeAnalyzeViewModel(
+            useCaseAnalyze = ReceiveRecipeFromApiUseCase(api = ApiGatewayImpl()),
+            useCaseSave = LocalRecipeUseCase(db = DataBaseGatewayImpl(database = RecipeDatabase.getDatabase(context = LocalContext.current)))
+        )
+        )
     }
 }
