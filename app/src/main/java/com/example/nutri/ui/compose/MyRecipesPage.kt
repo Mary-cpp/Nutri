@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,7 +25,7 @@ import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 import com.example.nutri.ui.theme.NutriTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
@@ -40,7 +40,7 @@ fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
         modifier = Modifier.padding(10.dp)) },
         floatingActionButton = {FAB()},
         content = {
-            Surface(modifier = Modifier.fillMaxSize()){
+            Surface(modifier = Modifier.fillMaxSize().padding(it)){
 
                 Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp)){
                     OutlinedTextField(modifier = Modifier.size(width = 304.dp, height = 64.dp),
@@ -65,7 +65,8 @@ fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
 fun FAB(){
     FloatingActionButton(onClick = { /*TODO(Add recipe)*/},
         modifier = Modifier.size(48.dp),
-        containerColor = MaterialTheme.colorScheme.primary,
+
+        backgroundColor = MaterialTheme.colors.primary,
         elevation = FloatingActionButtonDefaults.elevation(4.dp)) {
 
         Icon(ImageVector.vectorResource(id = R.drawable.add48px),
@@ -84,8 +85,8 @@ fun SortAndFilter(){
         .padding(16.dp),
     horizontalArrangement = Arrangement.SpaceEvenly){
         Button(onClick = { /*TODO(Sort)*/ },
-            colors = ButtonDefaults.elevatedButtonColors(MaterialTheme.colorScheme.tertiary),
-            elevation = ButtonDefaults.buttonElevation((-4).dp)
+            colors = ButtonDefaults.buttonColors(MaterialTheme.colors.primary),
+            elevation = ButtonDefaults.elevation((-4).dp)
         ) {
 
             Icon(imageVector = ImageVector.vectorResource(id = R.drawable.sort48px),
@@ -99,8 +100,8 @@ fun SortAndFilter(){
         }
 
         Button(onClick = { /*TODO(Filter)*/ },
-            colors = ButtonDefaults.elevatedButtonColors(MaterialTheme.colorScheme.secondary),
-            elevation = ButtonDefaults.buttonElevation((-4).dp)
+            colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary),
+            elevation = ButtonDefaults.elevation((-4).dp)
         ) {
 
             Icon(imageVector = ImageVector.vectorResource(id = R.drawable.filter_alt48px),
@@ -124,11 +125,10 @@ fun RecipesList(listOfRecipes: List<Recipe>){
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeListItem(recipe: Recipe){
     Card(modifier = Modifier.fillMaxWidth(1f),
-        colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary),
+        backgroundColor = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(6.dp)
     ) {
 

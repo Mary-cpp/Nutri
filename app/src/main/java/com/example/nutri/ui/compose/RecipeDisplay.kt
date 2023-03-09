@@ -4,7 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextDecoration
@@ -15,8 +16,7 @@ import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.theme.NutriTheme
 
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
+/*@Composable
 fun OldRecipeCard(recipe: Recipe){
     Card(modifier = Modifier
         .padding(8.dp)
@@ -39,7 +39,7 @@ fun OldRecipeCard(recipe: Recipe){
         modifier = Modifier.padding(start = 24.dp, bottom = 12.dp)
         )
     }
-}
+}*/
 
 @Composable
 fun RecipeDisplay(recipe: Recipe) {
@@ -94,7 +94,7 @@ fun MyRecipesDisplay(onGoHome: () -> Unit, recipeList : List<Recipe>){
     }
 
     recipeList.forEach {
-        OldRecipeCard(recipe = it)
+        RecipeDisplay(recipe = it)
     }
 }
 
@@ -102,6 +102,6 @@ fun MyRecipesDisplay(onGoHome: () -> Unit, recipeList : List<Recipe>){
 @Composable
 fun RecipePreview(){
     NutriTheme {
-        OldRecipeCard(recipe = Recipe.makeRecipe())
+        RecipeDisplay(recipe = Recipe.makeRecipe())
     }
 }

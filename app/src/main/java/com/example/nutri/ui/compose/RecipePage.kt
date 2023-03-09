@@ -5,7 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,20 +20,19 @@ import com.example.nutri.R
 import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.theme.NutriTheme
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipePage(){
 
     var recipe = Recipe.makeRecipe()
 
     Surface(Modifier.fillMaxSize(),
-    color = MaterialTheme.colorScheme.background) {
+    color = MaterialTheme.colors.background) {
         Column {
 
             Row (Modifier.padding(bottom = 16.dp)){
 
                 TopAppBar(title = { Text(text = recipe.name!!)},
-                    colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.background),
+                    backgroundColor = MaterialTheme.colors.background,
                     navigationIcon = {IconButton(onClick = { /*TODO("Navigate back to list")*/ },
                     modifier = Modifier.padding(end = 8.dp)) {
                     Icon(imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back48px),
@@ -49,33 +48,33 @@ fun RecipePage(){
 
 @Composable
 fun ReecipeCard(recipe: Recipe){
-    Surface(
-        Modifier
+    Surface( modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp),
-        color = MaterialTheme.colorScheme.surface,
+        color = MaterialTheme.colors.surface,
         shape = RoundedCornerShape(24.dp),
-        shadowElevation = 4.dp) {
+        elevation = 4.dp,
+    content = {
         Column (Modifier.padding(24.dp)) {
-            
+
             Row(modifier = Modifier
                 .fillMaxWidth()
                 .padding(0.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
-                ) {
+            ) {
                 Text(text = "${recipe.calories.toString()} Kcal",
                     modifier = Modifier.padding(bottom = 18.dp),
                     fontSize = 24.sp)
-                
+
 
                 IconButton(onClick = { /*TODO ("Edit Recipe")*/ },
-                modifier = Modifier
-                    .align(Alignment.Bottom)
-                    .background(Color.Transparent)) {
+                    modifier = Modifier
+                        .align(Alignment.Bottom)
+                        .background(Color.Transparent)) {
                     Icon(imageVector = ImageVector.vectorResource(id = R.drawable.edit_square48px),
                         contentDescription = "EditRecipe")
-                    
+
                 }
             }
 
@@ -83,19 +82,18 @@ fun ReecipeCard(recipe: Recipe){
                 modifier = Modifier.padding(bottom = 18.dp),
                 fontSize = 16.sp)
 
-            Labels(MaterialTheme.colorScheme.secondary, 16, recipe.healthLabels!!)
+            Labels(MaterialTheme.colors.secondary, 16, recipe.healthLabels!!)
 
             if (recipe.cautions != null){
-                Labels(MaterialTheme.colorScheme.tertiary, 6, recipe.cautions)
+                Labels(MaterialTheme.colors.secondary, 6, recipe.cautions)
             }
 
             Ingredients()
-        }
-
-    }
+            TODO("must be tertiary")
+    }} )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun Labels(
     backgroundColor: Color,
@@ -109,8 +107,8 @@ fun Labels(
         labels.forEach {
 
             Card(modifier = Modifier.padding(end = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = backgroundColor),
-            elevation = CardDefaults.elevatedCardElevation(6.dp),
+            backgroundColor = backgroundColor,
+            elevation = 6.dp,
             shape = RoundedCornerShape(cornerRadius.dp)
             ){
                 Text(text = it, modifier = Modifier.padding(top = 8.dp, bottom = 8.dp, start = 16.dp, end = 16.dp))
@@ -122,13 +120,12 @@ fun Labels(
 @Composable
 fun Ingredients(){
 
-    Surface(
-        Modifier
+    Surface(modifier = Modifier
             .fillMaxWidth(1f)
             .padding(top = 10.dp),
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colors.background,
         shape = RoundedCornerShape(24.dp),
-        shadowElevation = 4.dp) {
+        elevation = 4.dp) {
 
         Column(Modifier.padding(24.dp)) {
 
@@ -147,7 +144,7 @@ fun Ingredients(){
 @Composable
 fun Ingredient(){
     Card(modifier = Modifier.fillMaxWidth(1f),
-    colors = CardDefaults.cardColors(MaterialTheme.colorScheme.primary),
+    backgroundColor = MaterialTheme.colors.primary,
     shape = RoundedCornerShape(6.dp)
     ) {
 
