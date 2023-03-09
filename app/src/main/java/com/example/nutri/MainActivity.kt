@@ -30,7 +30,6 @@ class MainActivity : ComponentActivity() {
           NutriTheme {
 
                 val vm = ViewModelProvider(this)[RecipeAnalyzeViewModel::class.java]
-
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

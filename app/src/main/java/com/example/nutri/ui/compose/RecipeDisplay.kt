@@ -17,7 +17,7 @@ import com.example.nutri.ui.theme.NutriTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecipeCard(recipe: Recipe){
+fun OldRecipeCard(recipe: Recipe){
     Card(modifier = Modifier
         .padding(8.dp)
         .fillMaxWidth(1f),
@@ -94,7 +94,7 @@ fun MyRecipesDisplay(onGoHome: () -> Unit, recipeList : List<Recipe>){
     }
 
     recipeList.forEach {
-        RecipeCard(recipe = it)
+        OldRecipeCard(recipe = it)
     }
 }
 
@@ -102,6 +102,6 @@ fun MyRecipesDisplay(onGoHome: () -> Unit, recipeList : List<Recipe>){
 @Composable
 fun RecipePreview(){
     NutriTheme {
-        RecipeCard(recipe = Recipe.makeRecipe())
+        OldRecipeCard(recipe = Recipe.makeRecipe())
     }
 }

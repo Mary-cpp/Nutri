@@ -1,5 +1,6 @@
 package com.example.nutri.ui.compose
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,8 @@ import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
 import com.example.nutri.ui.theme.NutriTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
 
@@ -31,32 +34,46 @@ fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
 
     var searchParameter by remember { mutableStateOf("") }
 
-    Column {
-        SmallTopAppBar(title = { Text(text = "MyRecipesPage")})
 
-        Surface(modifier = Modifier.fillMaxSize()){
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        topBar = { TopAppBar(title = { Text(text = "MyRecipesPage")},
+        modifier = Modifier.padding(10.dp)) },
+        floatingActionButton = {FAB()},
+        content = {
+            Surface(modifier = Modifier.fillMaxSize()){
 
-            Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp)){
-                OutlinedTextField(modifier = Modifier.size(width = 304.dp, height = 64.dp),
-                    value = searchParameter,
-                    onValueChange = { searchParameter = it },
-                    trailingIcon = {
-                        Icon(imageVector = ImageVector.vectorResource(id = R.drawable.search48px),
-                            contentDescription = "SearchIcon",
-                            modifier = Modifier.size(32.dp)) },
-                    label = { Text("Search for recipes") })
+                Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp)){
+                    OutlinedTextField(modifier = Modifier.size(width = 304.dp, height = 64.dp),
+                        value = searchParameter,
+                        onValueChange = { searchParameter = it },
+                        trailingIcon = {
+                            Icon(imageVector = ImageVector.vectorResource(id = R.drawable.search48px),
+                                contentDescription = "SearchIcon",
+                                modifier = Modifier.size(32.dp)) },
+                        label = { Text("Search for recipes") })
 
-                SortAndFilter()
+                    SortAndFilter()
 
-                RecipesList(listOfRecipes = vm.recipeList.value)
+                    RecipesList(listOfRecipes = vm.recipeList.value)
+                }
             }
         }
+    )
+}
+
+@Composable
+fun FAB(){
+    FloatingActionButton(onClick = { /*TODO(Add recipe)*/},
+        modifier = Modifier.size(48.dp),
+        containerColor = MaterialTheme.colorScheme.primary,
+        elevation = FloatingActionButtonDefaults.elevation(4.dp)) {
+
+        Icon(ImageVector.vectorResource(id = R.drawable.add48px),
+            contentDescription = "AddFAB",
+            modifier = Modifier.size(24.dp),
+            tint = Color.White)
+
     }
-
-
-
-
-
 }
 
 

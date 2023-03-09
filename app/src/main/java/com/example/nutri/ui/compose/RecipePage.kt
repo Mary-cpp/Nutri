@@ -20,6 +20,7 @@ import com.example.nutri.R
 import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.theme.NutriTheme
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipePage(){
 
@@ -31,8 +32,8 @@ fun RecipePage(){
 
             Row (Modifier.padding(bottom = 16.dp)){
 
-                SmallTopAppBar(title = { Text(text = recipe.name!!)},
-                    colors = TopAppBarDefaults.smallTopAppBarColors(MaterialTheme.colorScheme.background),
+                TopAppBar(title = { Text(text = recipe.name!!)},
+                    colors = TopAppBarDefaults.topAppBarColors(MaterialTheme.colorScheme.background),
                     navigationIcon = {IconButton(onClick = { /*TODO("Navigate back to list")*/ },
                     modifier = Modifier.padding(end = 8.dp)) {
                     Icon(imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back48px),
@@ -143,7 +144,6 @@ fun Ingredients(){
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Ingredient(){
     Card(modifier = Modifier.fillMaxWidth(1f),
