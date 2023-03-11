@@ -1,5 +1,6 @@
 package com.example.nutri.domain.model
 
+import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.data.dto.Ingredient
 import com.example.nutri.data.dto.TotalNutrients
 import com.example.nutri.data.dto.nutrients.TotalNutrientsKCal
@@ -30,7 +31,7 @@ data class Recipe (
                 dietLabels = listOf("label1", "label2", "label3"),
                 healthLabels = listOf("label1", "label2", "label3"),
                 cautions = listOf("caution1", "caution2", "caution3"),
-                ingredients = listOf(Ingredient("list of parsed ingredients", null))
+                ingredients = listOf(Ingredient("list of parsed ingredients", listOf(Characteristics.makeCharacteristics(), Characteristics.makeCharacteristics())))
             )
         }
     }

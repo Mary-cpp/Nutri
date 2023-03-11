@@ -1,9 +1,12 @@
 package com.example.nutri.ui.compose
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -17,95 +20,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nutri.R
+import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.theme.NutriTheme
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 
-@OptIn(ExperimentalMaterialApi::class)
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun RecipeScreen() {
-
-    val scope = rememberCoroutineScope()
-    val bottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden,
-            confirmStateChange = {
-                it != ModalBottomSheetValue.Expanded
-            })
-
-    val ingredientName: MutableState<String> = remember { mutableStateOf("") }
-
-    ModalBottomSheetLayout(
-        sheetContent = {
-            RecipeBottomSheetContent(ingredientName = ingredientName)
-        },
-        sheetState = bottomSheetState,
-        sheetBackgroundColor = MaterialTheme.colors.background,
-        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-        sheetElevation = 8.dp,
-    ) {
-        RecipePage(scope, bottomSheetState)
-    }
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun RecipePage(scope: CoroutineScope, modalBottomSheetState: ModalBottomSheetState) {
+fun RecipeScreenContent() {
 
     val recipe = Recipe.makeRecipe()
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { RecipeTopBar(topBarText = recipe.name!!) },
-        floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
         content = {
-            RecipePageMainContent(
-                Modifier
-                    .fillMaxSize()
-                    .padding(it), recipe
-            )
+            RecipeCard(recipe = recipe)
         })
 }
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun IngredientFAB(scope: CoroutineScope, bottomSheetState: ModalBottomSheetState) {
-    FloatingActionButton(
-        onClick = {
-            scope.launch {
-                bottomSheetState.show()
-            }
-        },
-        modifier = Modifier.size(48.dp),
-
-        backgroundColor = MaterialTheme.colors.primary,
-        elevation = FloatingActionButtonDefaults.elevation(4.dp)
-    ) {
-
-        Icon(
-            ImageVector.vectorResource(id = R.drawable.add48px),
-            contentDescription = "AddFAB",
-            modifier = Modifier.size(24.dp),
-            tint = Color.White
-        )
-
-    }
-}
-
-@Composable
-fun RecipePageMainContent(modifier: Modifier, recipe: Recipe) {
-
-    Surface(
-        modifier = modifier,
-        color = MaterialTheme.colors.background
-    ) {
-        Column {
-
-            RecipeCard(recipe)
-        }
-    }
-}
-
 
 @Composable
 fun RecipeTopBar(topBarText: String) {
@@ -127,7 +58,6 @@ fun RecipeTopBar(topBarText: String) {
         })
 }
 
-
 @Composable
 fun RecipeCard(recipe: Recipe) {
     Surface(modifier = Modifier
@@ -146,23 +76,28 @@ fun RecipeCard(recipe: Recipe) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
+
                     Text(
                         text = "${recipe.calories.toString()} Kcal",
-                        modifier = Modifier.padding(bottom = 18.dp),
+                        modifier = Modifier
+                            .padding(bottom = 18.dp)
+                            .align(Alignment.CenterVertically),
                         fontSize = 24.sp
                     )
 
-                    IconButton(
-                        onClick = { /*TODO ("Edit Recipe")*/ },
-                        modifier = Modifier
-                            .align(Alignment.Bottom)
-                            .background(Color.Transparent)
-                    ) {
-                        Icon(
-                            imageVector = ImageVector.vectorResource(id = R.drawable.edit_square48px),
-                            modifier = Modifier.size(32.dp),
-                            contentDescription = "EditRecipe"
-                        )
+                    Column {
+                        IconButton(
+                            onClick = { /*TODO ("Edit Recipe")*/ },
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .background(Color.Transparent)
+                        ) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.edit_square48px),
+                                modifier = Modifier.size(32.dp),
+                                contentDescription = "EditRecipe"
+                            )
+                        }
                     }
                 }
 
@@ -177,7 +112,7 @@ fun RecipeCard(recipe: Recipe) {
                 if (recipe.cautions != null) {
                     Labels(MaterialTheme.colors.secondaryVariant, 6, recipe.cautions)
                 }
-                Ingredients()
+                Ingredients(recipe.ingredients?.get(0)?.parsed!!)
             }
         })
 }
@@ -217,7 +152,7 @@ fun Labels(
 }
 
 @Composable
-fun Ingredients() {
+fun Ingredients(ingredients : List<Characteristics>) {
 
     Surface(
         modifier = Modifier
@@ -239,66 +174,48 @@ fun Ingredients() {
                 fontSize = 24.sp
             )
 
-            IngredientCard()
+            LazyColumn{
+                items(items = ingredients){ ingredient ->
+                    IngredientCard(ingredient)
+                }
+            }
         }
     }
 }
 
 @Composable
-fun IngredientCard() {
-    Card(modifier = Modifier.fillMaxWidth(),
+fun IngredientCard(ingredient: Characteristics) {
+    Card(modifier = Modifier.fillMaxWidth()
+        .padding(bottom = 4.dp),
         backgroundColor = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(8.dp),
         content = {
             Column {
                 Text(
-                    text = "Ingredient",
+                    text = ingredient.foodMatch,
                     modifier = Modifier.padding(start = 16.dp, bottom = 10.dp, top = 16.dp)
                 )
 
-                Text(
-                    text = "Amount",
-                    modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
-                )
+                Row {
+                    Text(
+                        text = ingredient.quantity.toString(),
+                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
+                    )
+
+                    Text (
+                        text = ingredient.measure,
+                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
+                    )
+                }
             }
         }
     )
-}
-
-
-@Composable
-fun RecipeBottomSheetContent(ingredientName: MutableState<String>) {
-    Surface(
-        Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.background)
-    ) {
-        Column(modifier = Modifier.padding(20.dp)) {
-            Text(text = "Add new ingredient", modifier = Modifier.padding(16.dp), fontSize = 22.sp)
-
-            OutlinedTextField(modifier = Modifier
-                .padding(start = 16.dp, bottom = 16.dp),
-                value = ingredientName.value,
-                shape = RoundedCornerShape(16.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
-                onValueChange = { ingredientName.value = it },
-                label = { Text("Ingredient name") })
-
-            OutlinedTextField(modifier = Modifier
-                .padding(start = 16.dp, bottom = 16.dp),
-                value = ingredientName.value,
-                shape = RoundedCornerShape(16.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
-                onValueChange = { ingredientName.value = it },
-                label = { Text("Amount") })
-        }
-    }
 }
 
 @Preview
 @Composable
 fun RecipePagePreview() {
     NutriTheme {
-        RecipeScreen()
+        RecipeScreenContent()
     }
 }
