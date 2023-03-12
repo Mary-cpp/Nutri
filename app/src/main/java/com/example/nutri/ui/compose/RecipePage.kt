@@ -19,33 +19,37 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.domain.model.Recipe
+import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriTheme
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun RecipeScreenContent() {
+fun RecipePage(navController: NavController) {
 
     val recipe = Recipe.makeRecipe()
 
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { RecipeTopBar(topBarText = recipe.name!!) },
+        topBar = { TopBar(topBarText = recipe.name!!, navController) },
         content = {
-            RecipeCard(recipe = recipe)
+            RecipeCard(recipe = recipe, navController)
         })
 }
 
 @Composable
-fun RecipeTopBar(topBarText: String) {
+fun TopBar(topBarText: String, navController: NavController) {
     TopAppBar(title = { Text(text = topBarText, color = Color.Black) },
         backgroundColor = MaterialTheme.colors.background,
         elevation = 0.dp,
         navigationIcon = {
+
             IconButton(
-                onClick = { /*TODO("Navigate back to list")*/ },
+                onClick = { navController.popBackStack() },
                 modifier = Modifier.padding(end = 6.dp)
             ) {
                 Icon(
@@ -59,7 +63,14 @@ fun RecipeTopBar(topBarText: String) {
 }
 
 @Composable
-fun RecipeCard(recipe: Recipe) {
+fun TopBar(topBarText: String) {
+    TopAppBar(title = { Text(text = topBarText, color = Color.Black) },
+        backgroundColor = MaterialTheme.colors.background,
+        elevation = 0.dp)
+}
+
+@Composable
+fun RecipeCard(recipe: Recipe, navController: NavController) {
     Surface(modifier = Modifier
         .fillMaxWidth()
         .padding(start = 16.dp, top = 24.dp, end = 16.dp),
@@ -87,7 +98,7 @@ fun RecipeCard(recipe: Recipe) {
 
                     Column {
                         IconButton(
-                            onClick = { /*TODO ("Edit Recipe")*/ },
+                            onClick = { navController.navigate(Screen.EditRecipe.screenRoute) },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .background(Color.Transparent)
@@ -185,7 +196,8 @@ fun Ingredients(ingredients : List<Characteristics>) {
 
 @Composable
 fun IngredientCard(ingredient: Characteristics) {
-    Card(modifier = Modifier.fillMaxWidth()
+    Card(modifier = Modifier
+        .fillMaxWidth()
         .padding(bottom = 4.dp),
         backgroundColor = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(8.dp),
@@ -216,6 +228,6 @@ fun IngredientCard(ingredient: Characteristics) {
 @Composable
 fun RecipePagePreview() {
     NutriTheme {
-        RecipeScreenContent()
+        RecipePage(rememberNavController())
     }
 }

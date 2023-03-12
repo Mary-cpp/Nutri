@@ -11,8 +11,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
-import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel.ViewPages
+import com.example.nutri.ui.viewmodel.RecipeAnalyzeViewModel
 
 @Composable
 fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
@@ -28,11 +27,11 @@ fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
 
         val context = LocalContext.current
 
-        if (ViewPages.LISTOFRECIPES != viewModel.viewPage.value){
+        if (RecipeAnalyzeViewModel.ViewPages.LISTOFRECIPES != viewModel.viewPage.value){
             AnalyzerMainInterface(viewModel = viewModel)
         }
 
-        if (ViewPages.RECIPE == viewModel.viewPage.value) {
+        if (RecipeAnalyzeViewModel.ViewPages.RECIPE == viewModel.viewPage.value) {
             RecipeDisplay(recipe = recipe)
 
             Button(
@@ -52,21 +51,6 @@ fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
             {
                 Text("Save")
             }
-        }
-
-        if(ViewPages.SAVED == viewModel.viewPage.value){
-            Button(onClick = {
-                viewModel.onMyRecipesButtonPressed() },
-                modifier = Modifier.padding(start = 16.dp)) {
-                Text ("My Recipes")
-            }
-        }
-
-        if (ViewPages.LISTOFRECIPES == viewModel.viewPage.value) {
-            MyRecipesDisplay(onGoHome = viewModel::onGoHomeButtonClicked, recipeList = viewModel.recipeList.value)
-
-
-
         }
     }
 }

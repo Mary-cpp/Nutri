@@ -1,4 +1,4 @@
-package com.example.nutri.ui.recipe.viewmodel
+package com.example.nutri.ui.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
@@ -21,11 +21,10 @@ class RecipeAnalyzeViewModel @Inject constructor (
 ) : ViewModel() {
 
     enum class ViewPages { INIT, RECIPE, SAVED, LISTOFRECIPES}
-
     val viewPage = mutableStateOf(ViewPages.RECIPE)
 
     val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
-    val recipeList : MutableState<List<Recipe>> = mutableStateOf(listOf())
+
 
     val nameField : MutableState<String> = mutableStateOf("")
 
@@ -62,15 +61,6 @@ class RecipeAnalyzeViewModel @Inject constructor (
 
         viewPage.value = ViewPages.SAVED
         useCaseSave.saveRecipe(recipe.value, nameField.value)
-    }
-
-    fun onMyRecipesButtonPressed() = viewModelScope.launch {
-        Log.d(TAG, "onMyRecipesButtonPressed        START")
-
-        viewPage.value = ViewPages.LISTOFRECIPES
-        recipeList.value = useCaseSave.receiveRecipes()
-
-        Log.d(TAG, "onMyRecipesButtonPressed        END")
     }
 
     fun onGoHomeButtonClicked() {

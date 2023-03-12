@@ -15,19 +15,20 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.domain.gateway.ApiGatewayImpl
 import com.example.nutri.domain.gateway.DataBaseGatewayImpl
 import com.example.nutri.domain.interactor.LocalRecipeUseCase
-import com.example.nutri.domain.interactor.ReceiveRecipeFromApiUseCase
 import com.example.nutri.domain.model.Recipe
-import com.example.nutri.ui.recipe.viewmodel.RecipeAnalyzeViewModel
+import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriTheme
+import com.example.nutri.ui.viewmodel.MyRecipesViewModel
 
 
 @Composable
-fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
+fun MyRecipesPage(vm: MyRecipesViewModel, navController: NavController){
 
     var recipe = Recipe.makeRecipe()
 
@@ -37,8 +38,8 @@ fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(text = "MyRecipesPage", color = Color.Black)},
         backgroundColor = MaterialTheme.colors.background, elevation = 0.dp) },
-        floatingActionButton = {RecipeFAB()},
-        content = { paddingValues ->
+        floatingActionButton = {RecipeFAB(navController)})
+        { paddingValues ->
             Surface(modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues), color = MaterialTheme.colors.background){
@@ -64,12 +65,11 @@ fun MyRecipesPage(vm: RecipeAnalyzeViewModel){
                 }
             }
         }
-    )
-}
+    }
 
 @Composable
-fun RecipeFAB(){
-    FloatingActionButton(onClick = { /*TODO(Add recipe)*/},
+fun RecipeFAB(navController: NavController){
+    FloatingActionButton(onClick = { navController.navigate(Screen.Recipe.screenRoute)},
         modifier = Modifier.size(48.dp),
 
         backgroundColor = MaterialTheme.colors.primary,
@@ -154,10 +154,13 @@ fun RecipeListItem(recipe: Recipe){
 @Composable
 fun MyRecipesPagePreview(){
     NutriTheme {
-        MyRecipesPage(vm = RecipeAnalyzeViewModel(
-            useCaseAnalyze = ReceiveRecipeFromApiUseCase(api = ApiGatewayImpl()),
-            useCaseSave = LocalRecipeUseCase(db = DataBaseGatewayImpl(database = RecipeDatabase.getDatabase(context = LocalContext.current)))
-        )
+        MyRecipesPage(
+            vm = MyRecipesViewModel(
+                useCase = LocalRecipeUseCase(
+                    db = DataBaseGatewayImpl(database = RecipeDatabase.getDatabase(context = LocalContext.current))
+                )
+            ),
+            rememberNavController()
         )
     }
 }

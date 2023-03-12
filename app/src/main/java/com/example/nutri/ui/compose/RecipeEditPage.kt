@@ -19,6 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.domain.model.Recipe
@@ -28,7 +30,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RecipeScreen() {
+fun RecipeEditPage(navController: NavController) {
 
     val scope = rememberCoroutineScope()
     val bottomSheetState =
@@ -53,14 +55,16 @@ fun RecipeScreen() {
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetElevation = 8.dp,
     ) {
-        EditRecipeScreenContent(scope, bottomSheetState)
+        EditRecipeScreenContent(scope, bottomSheetState, navController)
     }
 }
 
 @Composable
-fun RecipeBottomSheetContent(ingredientName: MutableState<String>,
-                             ingredientAmount : MutableState<Int>,
-                             ingredientUnits: MutableState<String>) {
+fun RecipeBottomSheetContent(
+    ingredientName: MutableState<String>,
+    ingredientAmount: MutableState<Int>,
+    ingredientUnits: MutableState<String>
+) {
 
     val isExpanded = remember { mutableStateOf(false) }
 
@@ -120,14 +124,14 @@ fun RecipeBottomSheetContent(ingredientName: MutableState<String>,
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun EditRecipeScreenContent(scope: CoroutineScope, modalBottomSheetState: ModalBottomSheetState) {
+fun EditRecipeScreenContent(scope: CoroutineScope, modalBottomSheetState: ModalBottomSheetState, navController: NavController) {
 
     val recipe = Recipe.makeRecipe()
 
     val recipeName: MutableState<String> = remember { mutableStateOf("") }
 
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { RecipeTopBar("Edit") },
+        topBar = { TopBar("Edit", navController) },
         floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
         content = {
             RecipeEditCard(recipe = recipe, recipeName)
@@ -188,7 +192,7 @@ fun RecipeEditCard(recipe: Recipe, recipeName: MutableState<String>) {
 
                     Column{
                         IconButton(
-                            onClick = { /*TODO ("Edit Recipe")*/ },
+                            onClick = { /*TODO ("Save Recipe")*/ },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .background(Color.Transparent)
@@ -296,6 +300,6 @@ fun IngredientEditCard(ingredient: Characteristics) {
 @Composable
 fun RecipeEditPagePreview(){
     NutriTheme {
-        RecipeScreen()
+        RecipeEditPage(rememberNavController())
     }
 }
