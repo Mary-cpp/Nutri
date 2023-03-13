@@ -1,12 +1,12 @@
 package com.example.nutri.ui.compose
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -14,23 +14,27 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
-import com.example.nutri.data.dto.Characteristics
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.model.Ingredient
+import com.example.nutri.ui.screens.RecipeBottomSheetContent
+import com.example.nutri.ui.screens.TopBar
 import com.example.nutri.ui.theme.NutriTheme
+import com.example.nutri.ui.viewmodel.CreateRecipeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun RecipeEditPage(navController: NavController) {
+fun RecipeEditPage(
+    vm: CreateRecipeViewModel = hiltViewModel(),
+    navController: NavController) {
 
     val scope = rememberCoroutineScope()
     val bottomSheetState =
@@ -40,8 +44,25 @@ fun RecipeEditPage(navController: NavController) {
             })
 
     val ingredientName: MutableState<String> = remember { mutableStateOf("") }
-    val ingredientAmount: MutableState<Int> = remember { mutableStateOf(0) }
+    val ingredientAmount: MutableState<Double> = remember { mutableStateOf(0.0) }
     val ingredientUnits: MutableState<String> = remember { mutableStateOf("g") }
+
+    if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden){
+        DisposableEffect(Unit) {
+            onDispose {
+
+                val ingredient = Ingredient(ingredientName = ingredientName.value,
+                    ingredientAmount = ingredientAmount.value,
+                    ingredientUnits = ingredientUnits.value)
+
+                vm.listOfIngredients.add(
+                    ingredient
+                )
+
+                Log.d("BOTTOM SHEET", "${ingredient.ingredientName} ${ingredient.ingredientAmount.toString()} ${ingredient.ingredientUnits}")
+            }
+        }
+    }
 
     ModalBottomSheetLayout(
         sheetContent = {
@@ -55,78 +76,19 @@ fun RecipeEditPage(navController: NavController) {
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetElevation = 8.dp,
     ) {
-        EditRecipeScreenContent(scope, bottomSheetState, navController)
-    }
-}
-
-@Composable
-fun RecipeBottomSheetContent(
-    ingredientName: MutableState<String>,
-    ingredientAmount: MutableState<Int>,
-    ingredientUnits: MutableState<String>
-) {
-
-    val isExpanded = remember { mutableStateOf(false) }
-
-    Surface(
-        Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colors.background)
-    ) {
-        Column(modifier = Modifier.padding(20.dp)) {
-            Text(text = "Add new ingredient",
-                modifier = Modifier.padding(16.dp),
-                fontSize = MaterialTheme.typography.h5.fontSize)
-
-            OutlinedTextField(modifier = Modifier
-                .padding(start = 16.dp, bottom = 16.dp),
-                value = ingredientName.value,
-                shape = RoundedCornerShape(16.dp),
-                colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
-                onValueChange = { ingredientName.value = it },
-                label = { Text("Ingredient name") })
-
-            Row(modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
-            verticalAlignment = Alignment.CenterVertically){
-                OutlinedTextField(modifier = Modifier
-                    .padding(end = 8.dp)
-                    .size(width = 150.dp, height = 64.dp),
-                    value = ingredientAmount.value.toString(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    shape = RoundedCornerShape(16.dp),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
-                    onValueChange = { ingredientUnits.value = it },
-                    label = { Text("Amount") })
-
-                Box (modifier = Modifier.padding(top = 8.dp),
-                    contentAlignment = Alignment.Center) {
-                    Button(onClick = { isExpanded.value = true },
-                        modifier = Modifier
-                            .padding(8.dp)
-                            .size(48.dp),
-                        colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.secondaryVariant),
-                        shape = RoundedCornerShape(16.dp)
-                    ) {
-                        Text(text = ingredientUnits.value, fontSize = MaterialTheme.typography.caption.fontSize)
-                    }
-
-                    DropdownMenu(expanded = isExpanded.value,
-                        onDismissRequest = { isExpanded.value = false }) {
-                        DropdownMenuItem(onClick = { ingredientUnits.value = "g" }) {Text(text = "g") }
-                        DropdownMenuItem(onClick = { ingredientUnits.value = "ml"  }) {Text(text = "ml")}
-                    }
-                }
-            }
-        }
+        EditRecipeScreenContent(vm, scope, bottomSheetState, navController)
     }
 }
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun EditRecipeScreenContent(scope: CoroutineScope, modalBottomSheetState: ModalBottomSheetState, navController: NavController) {
-
-    val recipe = Recipe.makeRecipe()
+fun EditRecipeScreenContent(
+    vm: CreateRecipeViewModel,
+    scope: CoroutineScope,
+    modalBottomSheetState: ModalBottomSheetState,
+    navController: NavController
+) {
 
     val recipeName: MutableState<String> = remember { mutableStateOf("") }
 
@@ -134,7 +96,7 @@ fun EditRecipeScreenContent(scope: CoroutineScope, modalBottomSheetState: ModalB
         topBar = { TopBar("Edit", navController) },
         floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
         content = {
-            RecipeEditCard(recipe = recipe, recipeName)
+            RecipeEditCard( vm = vm)
         })
 }
 
@@ -147,7 +109,7 @@ fun IngredientFAB(scope: CoroutineScope, bottomSheetState: ModalBottomSheetState
                 bottomSheetState.show()
             }
         },
-        modifier = Modifier.size(64.dp),
+        modifier = Modifier.size(56.dp),
 
         backgroundColor = MaterialTheme.colors.primary,
         elevation = FloatingActionButtonDefaults.elevation(4.dp)
@@ -163,7 +125,9 @@ fun IngredientFAB(scope: CoroutineScope, bottomSheetState: ModalBottomSheetState
 }
 
 @Composable
-fun RecipeEditCard(recipe: Recipe, recipeName: MutableState<String>) {
+fun RecipeEditCard(
+    vm: CreateRecipeViewModel
+){
 
     Surface(modifier = Modifier
         .fillMaxWidth()
@@ -181,13 +145,13 @@ fun RecipeEditCard(recipe: Recipe, recipeName: MutableState<String>) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 
-                    TextField(modifier = Modifier
+                    OutlinedTextField(modifier = Modifier
                         .padding(start = 24.dp, bottom = 16.dp)
                         .size(208.dp, 56.dp),
-                        value = recipeName.value,
+                        value = vm.recipeName.value,
                         shape = RoundedCornerShape(16.dp),
                         colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
-                        onValueChange = { recipeName.value = it },
+                        onValueChange = { vm.recipeName.value = it },
                         label = { Text("Title") })
 
                     Column{
@@ -206,13 +170,18 @@ fun RecipeEditCard(recipe: Recipe, recipeName: MutableState<String>) {
                     }
                 }
 
-                IngredientsToEdit(recipe.ingredients?.get(0)?.parsed!!)
+                if (vm.listOfIngredients.isEmpty()) {
+                    EmptyIngredients()
+                } else {
+                    IngredientsToEdit(vm = vm)
+                }
+
             }
         })
 }
 
 @Composable
-fun IngredientsToEdit(ingredients : List<Characteristics>) {
+fun IngredientsToEdit(vm: CreateRecipeViewModel) {
 
     Surface(
         modifier = Modifier
@@ -223,23 +192,20 @@ fun IngredientsToEdit(ingredients : List<Characteristics>) {
         elevation = 4.dp
     ) {
 
-        Row {
+        Column(Modifier.padding(24.dp)) {
 
-            Column(Modifier.padding(24.dp)) {
+            Text(
+                text = "Ingredients",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                textAlign = TextAlign.Center,
+                fontSize = 24.sp
+            )
 
-                Text(
-                    text = "Ingredients",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = 24.dp),
-                    textAlign = TextAlign.Center,
-                    fontSize = 24.sp
-                )
-
-                LazyColumn{
-                    items(items = ingredients){ ingredient ->
-                        IngredientEditCard(ingredient)
-                    }
+            LazyColumn {
+                items(items = vm.listOfIngredients) { ingredient ->
+                    IngredientEditCard(ingredient,) { vm.removeIngredient(ingredient) }
                 }
             }
         }
@@ -247,7 +213,40 @@ fun IngredientsToEdit(ingredients : List<Characteristics>) {
 }
 
 @Composable
-fun IngredientEditCard(ingredient: Characteristics) {
+fun EmptyIngredients(){
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth(1f)
+            .padding(top = 10.dp),
+        color = MaterialTheme.colors.background,
+        shape = RoundedCornerShape(24.dp),
+        elevation = 4.dp
+    ) {
+
+        Column(Modifier.padding(24.dp)) {
+
+            Text(
+                text = "Ingredients",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                textAlign = TextAlign.Center,
+                fontSize = MaterialTheme.typography.h5.fontSize
+            )
+
+            Text(text = "No ingredients added",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 24.dp),
+                textAlign = TextAlign.Center,
+                fontSize = MaterialTheme.typography.subtitle1.fontSize
+            )
+        }
+    }
+}
+
+@Composable
+fun IngredientEditCard(ingredient: Ingredient, deleteItem: () -> Unit) {
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(bottom = 4.dp),
@@ -259,18 +258,18 @@ fun IngredientEditCard(ingredient: Characteristics) {
             verticalAlignment = Alignment.CenterVertically){
                 Column {
                     Text(
-                        text = ingredient.foodMatch,
+                        text = ingredient.ingredientName,
                         modifier = Modifier.padding(start = 16.dp, bottom = 10.dp, top = 16.dp)
                     )
 
                     Row {
                         Text(
-                            text = ingredient.quantity.toString(),
+                            text = ingredient.ingredientAmount.toString(),
                             modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
                         )
 
                         Text (
-                            text = ingredient.measure,
+                            text = ingredient.ingredientUnits,
                             modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
                         )
                     }
@@ -278,7 +277,7 @@ fun IngredientEditCard(ingredient: Characteristics) {
 
                 Column (Modifier.padding(end = 16.dp)){
                     IconButton(
-                        onClick = { /*TODO ("Remove ingredient")*/ },
+                        onClick = { deleteItem() },
                         modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .background(Color.Transparent)
@@ -300,6 +299,8 @@ fun IngredientEditCard(ingredient: Characteristics) {
 @Composable
 fun RecipeEditPagePreview(){
     NutriTheme {
-        RecipeEditPage(rememberNavController())
+        RecipeEditPage(
+            CreateRecipeViewModel(hiltViewModel()),
+            rememberNavController())
     }
 }

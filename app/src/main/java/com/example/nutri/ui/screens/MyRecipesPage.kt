@@ -1,4 +1,4 @@
-package com.example.nutri.ui.compose
+package com.example.nutri.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,36 +10,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
-import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.domain.gateway.DataBaseGatewayImpl
-import com.example.nutri.domain.interactor.LocalRecipeUseCase
 import com.example.nutri.domain.model.Recipe
+import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.viewmodel.MyRecipesViewModel
 
 
 @Composable
-fun MyRecipesPage(vm: MyRecipesViewModel, navController: NavController){
-
-    var recipe = Recipe.makeRecipe()
+fun MyRecipesPage(
+    vm: MyRecipesViewModel = hiltViewModel(),
+    navController: NavController
+){
 
     var searchParameter by remember { mutableStateOf("") }
 
 
     Scaffold(modifier = Modifier.fillMaxSize(),
-        bottomBar = { BottomNavigationBar(navController = navController)},
+        bottomBar = { BottomNavigationBar(navController = navController) },
         topBar = { TopAppBar(title = { Text(text = "MyRecipesPage", color = Color.Black)},
         backgroundColor = MaterialTheme.colors.background, elevation = 0.dp) },
-        floatingActionButton = {RecipeFAB(navController)})
+        floatingActionButton = { RecipeFAB(navController) })
         { paddingValues ->
             Surface(modifier = Modifier
                 .fillMaxSize()
@@ -78,8 +77,8 @@ fun MyRecipesPage(vm: MyRecipesViewModel, navController: NavController){
 
 @Composable
 fun RecipeFAB(navController: NavController){
-    FloatingActionButton(onClick = { navController.navigate(Screen.Recipe.screenRoute)},
-        modifier = Modifier.size(48.dp),
+    FloatingActionButton(onClick = { navController.navigate(Screen.EditRecipe.screenRoute)},
+        modifier = Modifier.size(56.dp),
 
         backgroundColor = MaterialTheme.colors.primary,
         elevation = FloatingActionButtonDefaults.elevation(4.dp)) {
@@ -164,11 +163,7 @@ fun RecipeListItem(recipe: Recipe){
 fun MyRecipesPagePreview(){
     NutriTheme {
         MyRecipesPage(
-            vm = MyRecipesViewModel(
-                useCase = LocalRecipeUseCase(
-                    db = DataBaseGatewayImpl(database = RecipeDatabase.getDatabase(context = LocalContext.current))
-                )
-            ),
+            vm = MyRecipesViewModel(hiltViewModel()),
             rememberNavController()
         )
     }

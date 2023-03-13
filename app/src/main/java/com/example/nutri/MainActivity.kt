@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModelProvider
-import com.example.nutri.ui.compose.HostScreen
+import com.example.nutri.ui.navigation.HostScreen
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.viewmodel.MyRecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint

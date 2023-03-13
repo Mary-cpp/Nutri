@@ -26,8 +26,6 @@ class RecipeAnalyzeViewModel @Inject constructor (
     val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
 
 
-    val nameField : MutableState<String> = mutableStateOf("")
-
     init {
         viewPage.value = ViewPages.INIT
     }
@@ -44,23 +42,6 @@ class RecipeAnalyzeViewModel @Inject constructor (
         }
 
         Log.d(TAG, "END")
-    }
-
-    fun onSaveButtonPressed() = viewModelScope.launch {
-        Log.d(TAG, "onSaveButtonPressed     START")
-        if (nameField.value.isEmpty()){
-            Log.d(TAG, "Can't save recipe. Expected recipe name!")
-
-            //Toast.makeText(context, "Enter recipe's name", Toast.LENGTH_LONG).show()
-
-            //return@launch
-
-            nameField.value = "REcipeName"
-        }
-
-
-        viewPage.value = ViewPages.SAVED
-        useCaseSave.saveRecipe(recipe.value, nameField.value)
     }
 
     fun onGoHomeButtonClicked() {
