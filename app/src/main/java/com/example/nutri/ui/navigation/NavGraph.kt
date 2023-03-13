@@ -14,7 +14,7 @@ import com.example.nutri.ui.viewmodel.MyRecipesViewModel
 @Composable
 fun NavigationGraph(navController: NavHostController){
     NavHost(navController = navController, startDestination = Screen.Home.screenRoute){
-        composable(Screen.Home.screenRoute) { HomePage()}
+        composable(Screen.Home.screenRoute) { HomePage(navController)}
         composable(Screen.MyRecipes.screenRoute) {
             MyRecipesPage(
                 vm = MyRecipesViewModel(
@@ -25,7 +25,7 @@ fun NavigationGraph(navController: NavHostController){
                 navController
             )
         }
-        composable(Screen.BMI.screenRoute){ BmiPage()}
+        composable(Screen.BMI.screenRoute){ BmiPage(navController = navController)}
         composable(Screen.EditRecipe.screenRoute) { RecipeEditPage(navController = navController)}
         composable(Screen.Recipe.screenRoute) { RecipePage(navController = navController) }
     }

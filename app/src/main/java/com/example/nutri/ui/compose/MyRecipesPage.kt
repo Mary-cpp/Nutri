@@ -36,13 +36,22 @@ fun MyRecipesPage(vm: MyRecipesViewModel, navController: NavController){
 
 
     Scaffold(modifier = Modifier.fillMaxSize(),
+        bottomBar = { BottomNavigationBar(navController = navController)},
         topBar = { TopAppBar(title = { Text(text = "MyRecipesPage", color = Color.Black)},
         backgroundColor = MaterialTheme.colors.background, elevation = 0.dp) },
         floatingActionButton = {RecipeFAB(navController)})
         { paddingValues ->
             Surface(modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues), color = MaterialTheme.colors.background){
+                .padding(
+                    PaddingValues(
+                        start = 0.dp,
+                        top = 0.dp,
+                        end = 0.dp,
+                        bottom = paddingValues.calculateBottomPadding()
+                    )
+                ),
+                color = MaterialTheme.colors.background){
 
                 Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally){

@@ -20,9 +20,7 @@ import com.example.nutri.ui.navigation.NavigationGraph
 fun HostScreen(){
     val navController = rememberNavController()
 
-    Scaffold(bottomBar = {
-        BottomNavigationBar(navController = navController)
-    }){
+    Scaffold(){
         NavigationGraph(navController = navController)
     }
 }
