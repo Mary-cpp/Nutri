@@ -37,7 +37,6 @@ fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
             Button(
                 onClick =
                 {
-                    viewModel.onSaveButtonPressed()
 
                     Toast
                         .makeText(
