@@ -1,4 +1,4 @@
-package com.example.nutri.ui.compose
+package com.example.nutri.ui.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.ScrollState

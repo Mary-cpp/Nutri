@@ -3,8 +3,9 @@ package com.example.nutri.domain.interactor
 
 import com.example.nutri.domain.gateway.ApiGateway
 import com.example.nutri.domain.model.Recipe
+import javax.inject.Inject
 
-class ReceiveRecipeFromApiUseCase (
+class ReceiveRecipeFromApiUseCase @Inject constructor(
     private val api: ApiGateway
     ) : RecipeInteractor {
 

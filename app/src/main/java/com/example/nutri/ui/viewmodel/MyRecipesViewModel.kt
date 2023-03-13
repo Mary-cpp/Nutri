@@ -25,10 +25,10 @@ class MyRecipesViewModel @Inject constructor(
     }
 
     private fun getSavedRecipes() = viewModelScope.launch{
-        Log.d(tag, "onMyRecipesButtonPressed        START")
+        Log.d(tag, "MyRecipes Screen Loaded        START")
 
         recipeList.value = useCase.receiveRecipes()
 
-        Log.d(tag, "onMyRecipesButtonPressed        END")
+        Log.d(tag, "MyRecipes Screen Loaded         END")
     }
 }

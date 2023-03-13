@@ -1,4 +1,4 @@
-package com.example.nutri.ui.compose
+package com.example.nutri.ui.navigation
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.padding
@@ -13,7 +13,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.nutri.ui.navigation.NavigationGraph
+import com.example.nutri.ui.screens.menuItems
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
