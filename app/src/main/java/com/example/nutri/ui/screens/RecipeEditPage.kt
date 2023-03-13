@@ -44,7 +44,7 @@ fun RecipeEditPage(
             })
 
     val ingredientName: MutableState<String> = remember { mutableStateOf("") }
-    val ingredientAmount: MutableState<Double> = remember { mutableStateOf(0.0) }
+    val ingredientAmount: MutableState<Int> = remember { mutableStateOf(0) }
     val ingredientUnits: MutableState<String> = remember { mutableStateOf("g") }
 
     if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden){
@@ -59,7 +59,9 @@ fun RecipeEditPage(
                     ingredient
                 )
 
-                Log.d("BOTTOM SHEET", "${ingredient.ingredientName} ${ingredient.ingredientAmount.toString()} ${ingredient.ingredientUnits}")
+                Log.d("BOTTOM SHEET", "${ingredient.ingredientName} " +
+                        "${ingredient.ingredientAmount.toString()} " +
+                        "${ingredient.ingredientUnits}")
             }
         }
     }
@@ -175,7 +177,6 @@ fun RecipeEditCard(
                 } else {
                     IngredientsToEdit(vm = vm)
                 }
-
             }
         })
 }
@@ -205,7 +206,7 @@ fun IngredientsToEdit(vm: CreateRecipeViewModel) {
 
             LazyColumn {
                 items(items = vm.listOfIngredients) { ingredient ->
-                    IngredientEditCard(ingredient,) { vm.removeIngredient(ingredient) }
+                    IngredientEditCard(ingredient) { vm.removeIngredient(ingredient) }
                 }
             }
         }

@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun RecipeBottomSheetContent(
     ingredientName: MutableState<String>,
-    ingredientAmount: MutableState<Double>,
+    ingredientAmount: MutableState<Int>,
     ingredientUnits: MutableState<String>
 ) {
 
@@ -51,7 +51,7 @@ fun RecipeBottomSheetContent(
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     shape = RoundedCornerShape(16.dp),
                     colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
-                    onValueChange = { ingredientAmount.value = it.toDouble() },
+                    onValueChange = { ingredientAmount.value = it.toInt() },
                     label = { Text("Amount") })
 
                 Box (modifier = Modifier.padding(top = 8.dp),

@@ -2,6 +2,7 @@ package com.example.nutri.ui.viewmodel
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,14 +20,13 @@ class CreateRecipeViewModel @Inject constructor(
 
     private val tag = "CreateRecipeViewModel"
 
-    var listOfIngredients : MutableList<Ingredient> = mutableListOf()
+    var listOfIngredients = mutableStateListOf<Ingredient>()
 
     val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
     val recipeName : MutableState<String> = mutableStateOf("")
 
     fun removeIngredient(ingredient: Ingredient){
         listOfIngredients.remove(ingredient)
-        listOfIngredients = listOfIngredients.filter { it != ingredient }.toMutableList()
     }
 
     fun onSaveButtonPressed() = viewModelScope.launch {
