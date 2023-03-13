@@ -1,4 +1,4 @@
-package com.example.nutri.ui.compose
+package com.example.nutri.ui.screens
 
 import android.annotation.SuppressLint
 import android.util.Log
@@ -23,10 +23,9 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.domain.model.Ingredient
-import com.example.nutri.ui.screens.RecipeBottomSheetContent
-import com.example.nutri.ui.screens.TopBar
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.viewmodel.CreateRecipeViewModel
+import com.example.nutri.ui.viewmodel.RecipeAnalyzeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -59,9 +58,7 @@ fun RecipeEditPage(
                     ingredient
                 )
 
-                Log.d("BOTTOM SHEET", "${ingredient.ingredientName} " +
-                        "${ingredient.ingredientAmount.toString()} " +
-                        "${ingredient.ingredientUnits}")
+                Log.d("BOTTOM SHEET", ingredient.toString())
             }
         }
     }
@@ -71,7 +68,8 @@ fun RecipeEditPage(
             RecipeBottomSheetContent(
                 ingredientName = ingredientName,
                 ingredientAmount = ingredientAmount,
-                ingredientUnits = ingredientUnits)
+                ingredientUnits = ingredientUnits
+            )
         },
         sheetState = bottomSheetState,
         sheetBackgroundColor = MaterialTheme.colors.background,
@@ -128,7 +126,8 @@ fun IngredientFAB(scope: CoroutineScope, bottomSheetState: ModalBottomSheetState
 
 @Composable
 fun RecipeEditCard(
-    vm: CreateRecipeViewModel
+    vm: CreateRecipeViewModel,
+    analyzeVm : RecipeAnalyzeViewModel = hiltViewModel()
 ){
 
     Surface(modifier = Modifier
@@ -157,6 +156,7 @@ fun RecipeEditCard(
                         label = { Text("Title") })
 
                     Column{
+
                         IconButton(
                             onClick = { /*TODO ("Save Recipe")*/ },
                             modifier = Modifier
@@ -169,6 +169,22 @@ fun RecipeEditCard(
                                 contentDescription = "EditRecipe"
                             )
                         }
+
+                        IconButton(
+                            onClick = {
+                                analyzeVm.onAnalyzeButtonPressed(
+                                    vm.ingredientsToString(vm.listOfIngredients
+                                    ))
+                            },
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .background(Color.Transparent)
+                        ) {
+                        Icon(
+                            imageVector = ImageVector.vectorResource(id = R.drawable.search48px),
+                            modifier = Modifier.size(32.dp),
+                            contentDescription = "EditRecipe"
+                        ) }
                     }
                 }
 
@@ -206,7 +222,7 @@ fun IngredientsToEdit(vm: CreateRecipeViewModel) {
 
             LazyColumn {
                 items(items = vm.listOfIngredients) { ingredient ->
-                    IngredientEditCard(ingredient) { vm.removeIngredient(ingredient) }
+                    IngredientEditCard(ingredient) { vm.onRemoveButtonPressed(ingredient) }
                 }
             }
         }

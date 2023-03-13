@@ -6,11 +6,7 @@ class Ingredient (
     val ingredientUnits: String
 ){
 
-    companion object{
-        fun emptyIngredient() = Ingredient(
-            ingredientName = "",
-            ingredientAmount = 0,
-            ingredientUnits = "g"
-        )
+    override fun toString(): String {
+        return "$ingredientName ${ingredientAmount}${ingredientUnits}"
     }
 }

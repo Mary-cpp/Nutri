@@ -8,11 +8,7 @@ import androidx.navigation.compose.composable
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.domain.gateway.DataBaseGatewayImpl
 import com.example.nutri.domain.interactor.LocalRecipeUseCase
-import com.example.nutri.ui.compose.*
-import com.example.nutri.ui.screens.BmiPage
-import com.example.nutri.ui.screens.HomePage
-import com.example.nutri.ui.screens.MyRecipesPage
-import com.example.nutri.ui.screens.RecipePage
+import com.example.nutri.ui.screens.*
 import com.example.nutri.ui.viewmodel.MyRecipesViewModel
 
 @Composable
@@ -30,7 +26,7 @@ fun NavigationGraph(navController: NavHostController){
             )
         }
         composable(Screen.BMI.screenRoute){ BmiPage(navController = navController) }
-        composable(Screen.EditRecipe.screenRoute) { RecipeEditPage(navController = navController)}
+        composable(Screen.EditRecipe.screenRoute) { RecipeEditPage(navController = navController) }
         composable(Screen.Recipe.screenRoute) { RecipePage(navController = navController) }
     }
 }

@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.interactor.RecipeInteractor
-import com.example.nutri.domain.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,11 +15,10 @@ private const val TAG = "VIEW_MODEL"
 
 @HiltViewModel
 class RecipeAnalyzeViewModel @Inject constructor (
-    private var useCaseAnalyze: RecipeInteractor,
-    private var useCaseSave: LocalRecipesInteractor
+    private var useCaseAnalyze: RecipeInteractor
 ) : ViewModel() {
 
-    enum class ViewPages { INIT, RECIPE, SAVED, LISTOFRECIPES}
+    enum class ViewPages { INIT, RECIPE, LISTOFRECIPES}
     val viewPage = mutableStateOf(ViewPages.RECIPE)
 
     val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
@@ -42,13 +40,5 @@ class RecipeAnalyzeViewModel @Inject constructor (
         }
 
         Log.d(TAG, "END")
-    }
-
-    fun onGoHomeButtonClicked() {
-        Log.d(TAG, "onGoHomeButtonClicked        START")
-
-        viewPage.value = ViewPages.INIT
-
-        Log.d(TAG, "onGoHomeButtonClicked        END")
     }
 }
