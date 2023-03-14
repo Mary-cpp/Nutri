@@ -17,4 +17,8 @@ object NutriShape {
     val largeRoundedCornerShape : RoundedCornerShape
         @Composable
         get() = RoundedCornerShape(24.dp)
+
+    val smallRoundCornerShape : RoundedCornerShape
+        @Composable
+        get() = RoundedCornerShape(32.dp)
 }
