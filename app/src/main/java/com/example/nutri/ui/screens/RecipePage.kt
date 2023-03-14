@@ -25,6 +25,7 @@ import com.example.nutri.R
 import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.navigation.Screen
+import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 
 
@@ -75,7 +76,7 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
         .fillMaxWidth()
         .padding(start = 16.dp, top = 24.dp, end = 16.dp),
         color = MaterialTheme.colors.surface,
-        shape = RoundedCornerShape(24.dp),
+        shape = NutriShape.largeRoundedCornerShape,
         elevation = 4.dp,
         content = {
             Column(Modifier.padding(24.dp)) {
@@ -118,10 +119,10 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
                     fontSize = 16.sp
                 )
 
-                Labels(MaterialTheme.colors.secondary, 16, recipe.healthLabels!!)
+                Labels(MaterialTheme.colors.secondary, NutriShape.mediumRoundedCornerShape, recipe.healthLabels!!)
 
                 if (recipe.cautions != null) {
-                    Labels(MaterialTheme.colors.secondaryVariant, 6, recipe.cautions)
+                    Labels(MaterialTheme.colors.secondaryVariant, NutriShape.smallRoundedCornerShape, recipe.cautions)
                 }
                 Ingredients(recipe.ingredients?.get(0)?.parsed!!)
             }
@@ -132,7 +133,7 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
 @Composable
 fun Labels(
     backgroundColor: Color,
-    cornerRadius: Int,
+    cornerShape: RoundedCornerShape,
     labels: List<String>
 ) {
     Row(
@@ -146,7 +147,7 @@ fun Labels(
                 modifier = Modifier.padding(end = 8.dp),
                 backgroundColor = backgroundColor,
                 elevation = 6.dp,
-                shape = RoundedCornerShape(cornerRadius.dp)
+                shape = cornerShape
             ) {
                 Text(
                     text = it,
@@ -170,7 +171,7 @@ fun Ingredients(ingredients : List<Characteristics>) {
             .fillMaxWidth(1f)
             .padding(top = 10.dp),
         color = MaterialTheme.colors.background,
-        shape = RoundedCornerShape(24.dp),
+        shape = NutriShape.largeRoundedCornerShape,
         elevation = 4.dp
     ) {
 
@@ -200,7 +201,7 @@ fun IngredientCard(ingredient: Characteristics) {
         .fillMaxWidth()
         .padding(bottom = 4.dp),
         backgroundColor = MaterialTheme.colors.primary,
-        shape = RoundedCornerShape(8.dp),
+        shape = NutriShape.smallRoundedCornerShape,
         content = {
             Column {
                 Text(
