@@ -30,7 +30,7 @@ class ApiGatewayImpl @Inject constructor() : ApiGateway {
         // we should response with a sealed class
         val response: Recipe =
             withContext(Dispatchers.IO) { client().getNutritionSpecs(appId, appKey, param) }
-        Log.d(logTag, "response body: $response")
+        //Log.d(logTag, "response body: $response")
 
         return response
     }
