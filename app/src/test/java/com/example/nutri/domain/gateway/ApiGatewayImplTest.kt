@@ -41,7 +41,7 @@ class ApiGatewayImplTest {
   }
 
   @Test
-  fun convertFromJsonMapcheck(){
+  fun convertFromJsonMapCheck(){
 
     val empMapType = object : TypeToken<Map<String?, ENERC_KCAL?>?>() {}.type
       val expected = makeEnerKcalMap()
