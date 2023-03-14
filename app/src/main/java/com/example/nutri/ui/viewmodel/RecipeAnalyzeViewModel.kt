@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.interactor.RecipeInteractor
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.model.Recipe2
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class RecipeAnalyzeViewModel @Inject constructor (
     enum class ViewPages { INIT, RECIPE, LISTOFRECIPES}
     val viewPage = mutableStateOf(ViewPages.RECIPE)
 
-    val recipe : MutableState<Recipe> = mutableStateOf(Recipe())
+    val recipe : MutableState<Recipe2> = mutableStateOf(Recipe2())
 
 
     init {

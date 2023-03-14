@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.model.Ingredient
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.model.Recipe2
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,7 +23,7 @@ class CreateRecipeViewModel @Inject constructor(
 
     var listOfIngredients = mutableStateListOf<Ingredient>()
 
-    val recipe: MutableState<Recipe> = mutableStateOf(Recipe())
+    val recipe: MutableState<Recipe2> = mutableStateOf(Recipe2())
     val recipeName: MutableState<String> = mutableStateOf("")
 
     fun onRemoveButtonPressed(
@@ -53,7 +53,7 @@ class CreateRecipeViewModel @Inject constructor(
             Log.d(tag, "Can't save recipe. Expected recipe name!")
 
             //Toast.makeText(context, "Enter recipe's name", Toast.LENGTH_LONG).show()
-            recipeName.value = recipe.value.ingredients!![0].text
+            recipeName.value = recipe.value.name.toString()
 
             return@launch
         }

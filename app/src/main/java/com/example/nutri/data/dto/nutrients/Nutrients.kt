@@ -1,172 +1,171 @@
 package com.example.nutri.data.dto.nutrients
 
 data class FAMS (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class ENERC_KCAL (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class FAPU (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
-
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class FASAT (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class FIBTG (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+     override val label : String,
+     override val quantity : Double,
+     override val unit : String ): Nutrient(label, quantity, unit)
 
 data class SUGAR (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+     override val label : String,
+     override val quantity : Double,
+     override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class PROCNT (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class CHOCDF (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class CHOLE (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class NA (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class CA (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class MG (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class K (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class FAT (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ) : Nutrient(label, quantity, unit)
 
 data class FE (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class ZN (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class P (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class VITA_RAE (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class VITC (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class THIA (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class RIBF (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class NIA (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class VITB6A (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class FOLDFE (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class FOLFD (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class FOLAC (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class VITB12 (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class VITD (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class TOCPHA (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class VITK1 (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class WATER (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class PROCNT_KCAL (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class FAT_KCAL (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)
 
 data class CHOCDF_KCAL (
-    val label : String,
-    val quantity : Double,
-    val unit : String )
+    override val label : String,
+    override val quantity : Double,
+    override val unit : String ): Nutrient(label, quantity, unit)

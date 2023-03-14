@@ -23,7 +23,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.data.dto.Characteristics
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.model.Recipe2
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriTheme
 
@@ -32,7 +32,7 @@ import com.example.nutri.ui.theme.NutriTheme
 @Composable
 fun RecipePage(navController: NavController) {
 
-    val recipe = Recipe.makeRecipe()
+    val recipe = Recipe2.makeRecipe()
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { TopBar(topBarText = recipe.name!!, navController) },
@@ -70,7 +70,7 @@ fun TopBar(topBarText: String) {
 }
 
 @Composable
-fun RecipeCard(recipe: Recipe, navController: NavController) {
+fun RecipeCard(recipe: Recipe2, navController: NavController) {
     Surface(modifier = Modifier
         .fillMaxWidth()
         .padding(start = 16.dp, top = 24.dp, end = 16.dp),
@@ -118,12 +118,12 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
                     fontSize = 16.sp
                 )
 
-                Labels(MaterialTheme.colors.secondary, 16, recipe.healthLabels!!)
+                Labels(MaterialTheme.colors.secondary, 16, recipe.healthLabels)
 
                 if (recipe.cautions != null) {
                     Labels(MaterialTheme.colors.secondaryVariant, 6, recipe.cautions)
                 }
-                Ingredients(recipe.ingredients?.get(0)?.parsed!!)
+                recipe.ingredients?.let { Ingredients(it) }
             }
         })
 }
