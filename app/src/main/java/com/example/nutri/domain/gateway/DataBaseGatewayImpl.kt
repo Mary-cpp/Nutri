@@ -1,10 +1,9 @@
 package com.example.nutri.domain.gateway
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.entity.RecipeEntity
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.model.Recipe2
 import javax.inject.Inject
 
 class DataBaseGatewayImpl @Inject constructor(
@@ -15,7 +14,7 @@ class DataBaseGatewayImpl @Inject constructor(
 
 
 
-    override suspend fun saveToLocal(recipe: Recipe, recipeName: String): String {
+    override suspend fun saveToLocal(recipe: Recipe2, recipeName: String): String {
         Log.d(TAG, "saveToLocal         START")
 
         var recipeEnt = mapToRecipeEntity(recipe)
@@ -29,12 +28,12 @@ class DataBaseGatewayImpl @Inject constructor(
         return recipeName
     }
 
-    override suspend fun getLocalRecipesList() : List<Recipe> {
+    override suspend fun getLocalRecipesList() : List<Recipe2> {
 
         Log.d(TAG, "getLocalRecipesList         START")
 
         val entityRecipes = database.recipeDAO().getRecipes()
-        val recipes = mutableListOf<Recipe>()
+        val recipes = mutableListOf<Recipe2>()
         entityRecipes.forEach {
             recipes.add(mapToRecipe(it)) }
 
@@ -44,19 +43,18 @@ class DataBaseGatewayImpl @Inject constructor(
     }
 
 
-    private fun mapToRecipe(recipe: RecipeEntity) : Recipe {
-        return Recipe(
+    private fun mapToRecipe(recipe: RecipeEntity) : Recipe2 {
+        return Recipe2(
             id = recipe.id,
-            uri = recipe.url,
             calories = recipe.calories
        )
     }
 
-    private fun mapToRecipeEntity(recipe: Recipe) : RecipeEntity {
+    private fun mapToRecipeEntity(recipe: Recipe2) : RecipeEntity {
         return RecipeEntity(
             id = null,
-            name = null,
-            url = recipe.uri,
+            name = recipe.name,
+            url = null,
             calories = recipe.calories
        )
    }

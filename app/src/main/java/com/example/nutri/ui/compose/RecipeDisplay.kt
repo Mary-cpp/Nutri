@@ -12,48 +12,47 @@ import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.theme.NutriTheme
 
-
+@Deprecated("This composable was used for a test presentation")
 @Composable
-fun RecipeDisplay(recipe: Recipe) {
+fun RecipeDisplay(recipe: Recipe?) {
 
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
 
-        Text(text = "URL: ${recipe.uri}", modifier = Modifier.padding(bottom = 8.dp))
+        if (recipe != null) {
+            Text(
+                text = "Calories: ${recipe.calories}"
+            )
+        }
+
+        val ingredients = recipe?.ingredients?.get(0)
+
+        val ingredientsList = ingredients?.parsed
 
         Text(
-            text = "Calories: ${recipe.calories}"
+            text = "Ingredients:",
+            modifier = Modifier.padding(top = 16.dp)
         )
 
-        if(recipe.ingredients!= null){
+        if (recipe != null) {
+            Text(text = "Name: ${recipe.ingredients?.get(0)?.text}",
+                modifier = Modifier.padding(top=16.dp))
+        }
 
-            val ingredients = recipe.ingredients[0]
+        repeat(ingredientsList!!.size){
 
-            val ingredientsList = ingredients?.parsed
+            Column(modifier = Modifier.padding(start = 32.dp)) {
+                Text(text = "Info: ${ingredientsList[it].food}",
+                    modifier = Modifier.padding(top=16.dp),
+                textDecoration = TextDecoration.Underline)
 
-            Text(
-                text = "Ingredients:",
-                modifier = Modifier.padding(top = 16.dp)
-            )
+                Text(text = "Weight: ${ingredientsList[it].weight}",
+                    modifier = Modifier.padding(top=16.dp))
 
-            Text(text = "Name: ${recipe.ingredients[0]!!.text}",
-            modifier = Modifier.padding(top=16.dp))
-
-            repeat(ingredientsList!!.size){
-
-                Column(modifier = Modifier.padding(start = 32.dp)) {
-                    Text(text = "Info: ${ingredientsList[it].food}",
-                        modifier = Modifier.padding(top=16.dp),
-                    textDecoration = TextDecoration.Underline)
-
-                    Text(text = "Weight: ${ingredientsList[it].weight}",
-                        modifier = Modifier.padding(top=16.dp))
-
-                    Text(text = "Measure:\n" +
-                            " ${ingredientsList[it].measure}",
-                        modifier = Modifier.padding(top=16.dp, bottom = 8.dp))
-                }
+                Text(text = "Measure:\n" +
+                        " ${ingredientsList[it].measure}",
+                    modifier = Modifier.padding(top=16.dp, bottom = 8.dp))
             }
         }
     }

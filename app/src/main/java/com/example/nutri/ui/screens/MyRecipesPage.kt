@@ -18,7 +18,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.model.Recipe2
 import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriTheme
@@ -133,7 +133,7 @@ fun SortAndFilter(){
 }
 
 @Composable
-fun RecipesList(listOfRecipes: List<Recipe>){
+fun RecipesList(listOfRecipes: List<Recipe2>){
     LazyColumn{
         items(listOfRecipes){
             RecipeListItem(recipe = it)
@@ -142,7 +142,7 @@ fun RecipesList(listOfRecipes: List<Recipe>){
 }
 
 @Composable
-fun RecipeListItem(recipe: Recipe){
+fun RecipeListItem(recipe: Recipe2){
     Card(modifier = Modifier.fillMaxWidth(1f),
         backgroundColor = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(6.dp)

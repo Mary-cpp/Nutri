@@ -2,6 +2,7 @@ package com.example.nutri
 
 import com.example.nutri.domain.model.Ingredient
 import org.junit.Assert.assertArrayEquals
+import org.junit.Assert.assertEquals
 import org.junit.Test
 
 class CreateRecipeUnitTest {
@@ -11,10 +12,13 @@ class CreateRecipeUnitTest {
 
         val ingredient = Ingredient(ingredientName = "milk", ingredientAmount = 200, ingredientUnits = "g")
 
-        assertArrayEquals(
-            "Ingredient.ToString is not working properly",
-            "milk 200g".toCharArray(),
-            ingredient.toString().toCharArray()
-        )
+        val message = "Ingredient.ToString() result does not match a template "
+        val expected = "milk 200g"
+        val actual = ingredient.toString()
+
+        assertEquals(
+            message,
+            expected,
+            actual)
     }
 }

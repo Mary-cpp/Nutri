@@ -13,15 +13,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.nutri.ui.viewmodel.RecipeAnalyzeViewModel
 
+@Deprecated("This composable was used for a test presentation")
 @Composable
 fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
 
     val recipe by remember {
         viewModel.recipe
     }
-
-   // Log.w()
-
 
     Column(modifier = Modifier.padding(20.dp)) {
 
@@ -32,7 +30,7 @@ fun Analyzer (viewModel: RecipeAnalyzeViewModel) {
         }
 
         if (RecipeAnalyzeViewModel.ViewPages.RECIPE == viewModel.viewPage.value) {
-            RecipeDisplay(recipe = recipe)
+            RecipeDisplay(recipe = null)
 
             Button(
                 onClick =
