@@ -7,4 +7,4 @@ import androidx.room.PrimaryKey
 class IngredientEntity(
     @PrimaryKey()
     val id: Int,
-     val name: String)
+    val name: String)
