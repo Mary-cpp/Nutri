@@ -3,7 +3,6 @@ package com.example.nutri.data.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
 
 @Entity(
     foreignKeys = [
@@ -16,14 +15,17 @@ import androidx.room.PrimaryKey
         entity = IngredientEntity::class,
         parentColumns = ["id"],
         childColumns = ["id_ingredient"]
-    )]
+    )],
+    primaryKeys = ["id_recipe", "id_ingredient"]
 )
-class IngredientsInRecipe(
-    @PrimaryKey
-    @ColumnInfo(name = "id_recipe")
+class IngredientInRecipe(
+
+    @ColumnInfo(name = "id_recipe", index = true)
     val idRecipe: Int,
-    @ColumnInfo(name = "id_ingredient")
+
+    @ColumnInfo(name = "id_ingredient", index = true)
     val idIngredient: Int,
+
     val amount: Double,
     val units: String,
     val calories: Long

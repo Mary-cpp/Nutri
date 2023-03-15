@@ -6,10 +6,19 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.nutri.data.database.dao.RecipeDAO
 import com.example.nutri.data.entity.IngredientEntity
+import com.example.nutri.data.entity.IngredientInRecipe
+import com.example.nutri.data.entity.Label
 import com.example.nutri.data.entity.RecipeEntity
 
-@Database(entities = [RecipeEntity::class, IngredientEntity::class],
-    version = 2,
+@Database(
+    entities =
+    [
+        RecipeEntity::class,
+        IngredientEntity::class,
+        Label::class,
+        IngredientInRecipe::class
+    ],
+    version = 3,
     exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {
 
