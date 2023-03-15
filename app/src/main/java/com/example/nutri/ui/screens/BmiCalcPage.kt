@@ -1,6 +1,5 @@
 package com.example.nutri.ui.screens
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -28,19 +27,21 @@ fun BmiPage(navController : NavController){
         bottomBar = { BottomNavigationBar(navController = navController) },
         topBar = { TopBar(topBarText = "BMI Calculator") },
         content = {
-
-            Column(Modifier.background(Color.White)) {
-
-                Card(modifier = Modifier.padding(it)) {
-                    BottomSheetContent()
-                }
+            Surface(
+                Modifier
+                    .fillMaxSize()
+                    .padding(it),
+                color = MaterialTheme.colors.background
+            ){
+                BmiCalcCard()
             }
         }
     )
 }
 
 @Composable
-fun BottomSheetContent(){
+fun BmiCalcCard(){
+
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -67,7 +68,7 @@ fun BottomSheetContent(){
                     .padding(top = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly){
 
-                Button(onClick = {},
+                Button(onClick = { },
                     modifier = Modifier.size(width = 136.dp, height = 176.dp),
                     elevation = ButtonDefaults.elevation(6.dp),
                     shape = RoundedCornerShape(24.dp),
