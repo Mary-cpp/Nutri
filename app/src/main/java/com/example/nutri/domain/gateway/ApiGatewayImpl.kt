@@ -1,6 +1,5 @@
 package com.example.nutri.domain.gateway
 
-import android.util.Log
 import com.example.nutri.data.api.EdamamService
 import com.example.nutri.domain.model.Recipe
 import kotlinx.coroutines.Dispatchers
@@ -28,10 +27,8 @@ class ApiGatewayImpl @Inject constructor() : ApiGateway {
     override suspend fun receiveRecipeData(param: String): Recipe {
 
         // we should response with a sealed class
-        val response: Recipe =
-            withContext(Dispatchers.IO) { client().getNutritionSpecs(appId, appKey, param) }
         //Log.d(logTag, "response body: $response")
 
-        return response
+        return withContext(Dispatchers.IO) { client().getNutritionSpecs(appId, appKey, param) }
     }
 }

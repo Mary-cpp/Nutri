@@ -9,10 +9,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
-import org.junit.Ignore
 import org.junit.Test
 
-class ApiGatewayImplTest {
+class SerializationTest {
 
     //private var recipe: Recipe
     val apiGatewayImpl: ApiGatewayImpl= ApiGatewayImpl()
@@ -21,14 +20,14 @@ class ApiGatewayImplTest {
     val jsonStringENERC_KCAL = """{"label":"Energy","quantity":122.0,"unit":"kcal"}"""
     val jsonMapENERC_KCAL = """{"ENERC_KCAL":{"label":"Energy","quantity":122.0,"unit":"kcal"}}"""
 
-    @Ignore
     @Test
-    fun receiveRecipeData() = runBlocking {
+    fun recipeSerializationCheck() = runBlocking {
         val param = "milk 200g"
         val actual = apiGatewayImpl.receiveRecipeData(param)
         val expected = makeRecipe(actual.uri)
 
-        assertEquals("SERIALIZATION ERROR. Serialized object does not match template or API has changed",
+        assertEquals("SERIALIZATION ERROR. " +
+                "Serialized object does not match template or API has changed",
             expected, actual)
     }
 
@@ -56,7 +55,7 @@ class ApiGatewayImplTest {
     val expected = jsonStringENERC_KCAL
     val actual = gson.toJson(makeEnerKcal())
 
-    assertEquals("CAN NOT CONVERT DATA CLASS TO JSON PROPERLY",
+    assertEquals(
       expected,
       actual)
   }
@@ -142,7 +141,7 @@ class ApiGatewayImplTest {
       P = P("Phosphorus, P", 168.0,"mg"),
       NA = NA( "Sodium, Na", 86.0,"mg"),
       ZN = ZN("Zinc, Zn",0.74, "mg"),
-      SUGAR = SUGAR("Zinc, Zn", 0.74,"mg"),
+      SUGAR = SUGAR("Sugars, total", 10.1,"g"),
       CA = CA("Calcium, Ca",226.0,"mg"),
       MG = MG( "Magnesium, Mg",20.0,"mg"),
       FE = FE("Iron, Fe", 0.06,"mg"),
@@ -153,7 +152,7 @@ class ApiGatewayImplTest {
       totalDaily = TotalNutrients(
       VITD = VITD( "Vitamin D", 17.333333333333332,"%"),
       ENERCKCAL = ENERC_KCAL("Energy",6.1,"%"),
-      FAT = FAT("Total lipid (fat)", 10.0, "%"),
+      FAT = FAT("Fat", 10.0, "%"),
       FASAT = FASAT("Saturated", 18.65, "%"),
       VITARAE = VITA_RAE("Vitamin A", 10.222222222222221,"%"),
       PROCNT = PROCNT("Protein", 12.6, "%"),
@@ -163,24 +162,24 @@ class ApiGatewayImplTest {
       FIBTG = FIBTG("Fiber",0.0,"%"),
       RIBF = RIBF("Riboflavin (B2)", 26.000000000000004,"%"),
       THIA = THIA( "Thiamin (B1)",7.666666666666666,"%"),
-      FAPU = FAPU( "Fatty acids, total polyunsaturated",0.39,"%"),
+      FAPU = null,
       NIA = NIA("Niacin (B3)", 1.1125,"%"),
       VITC = VITC("Vitamin C", 0.0,"%"),
-      FAMS = FAMS( "Fatty acids, total monounsaturated", 1.624,"%"),
-      VITB6A = VITB6A("Vitamin B-6", 5.538461538461537, "%"),
+      FAMS = null,
+      VITB6A = VITB6A("Vitamin B6", 5.538461538461537, "%"),
       VITB12 = VITB12("Vitamin B12", 37.5,"%"),
-      WATER = WATER("Water", 176.26, "%"),
+      WATER = null,
       K = K("Potassium",5.617021276595745,"%"),
-      P = P("Phosphorus, P", 24.0,"%"),
+      P = P("Phosphorus", 24.0,"%"),
       NA = NA( "Sodium", 3.5833333333333335,"%"),
       ZN = ZN("Zinc",6.7272727272727275, "%"),
-      SUGAR = SUGAR("Zinc, Zn", 0.74,"%"),
+      SUGAR = null,
       CA = CA("Calcium",22.6,"%"),
       MG = MG( "Magnesium",4.761904761904762,"%"),
       FE = FE("Iron", 0.3333333333333333,"%"),
       VITK1 = VITK1("Vitamin K", 0.5,"%"),
-      FOLFD = FOLFD("Folate, food", 10.0,"%"),
-      FOLAC = FOLAC("Folic acid", 0.0, "%"),
+      FOLFD = null,
+      FOLAC = null,
       FOLDFE = FOLDFE( "Folate equivalent (total)", 2.5, "%")
       ),
       ingredients = listOf(Ingredient(
@@ -194,7 +193,7 @@ class ApiGatewayImplTest {
       weight = 200.0,
       retainedWeight = 200.0,
       nutrients = TotalNutrients(
-      VITD = VITD( "Vitamin D (D2 + D3)",102.0,"IU"),
+      VITD = VITD( "Vitamin D",102.0,"IU"),
       ENERCKCAL = ENERC_KCAL("Energy",122.0,"kcal"),
       FAT = FAT("Total lipid (fat)", 6.5, "g"),
       FASAT = FASAT("Fatty acids, total saturated", 3.73, "g"),
@@ -207,7 +206,7 @@ class ApiGatewayImplTest {
       RIBF = RIBF("Riboflavin", 0.338,"mg"),
       THIA = THIA( "Thiamin",0.092,"mg"),
       FAPU = FAPU( "Fatty acids, total polyunsaturated",0.39,"g"),
-      NIA = NIA("Niacin", 0.178,"mg"),
+      NIA = NIA("Niacin", 0.17800000000000002,"mg"),
       VITC = VITC("Vitamin C, total ascorbic acid", 0.0,"mg"),
       FAMS = FAMS( "Fatty acids, total monounsaturated", 1.624,"g"),
       VITB6A = VITB6A("Vitamin B-6", 0.072, "mg"),
@@ -217,7 +216,7 @@ class ApiGatewayImplTest {
       P = P("Phosphorus, P", 168.0,"mg"),
       NA = NA( "Sodium, Na", 86.0,"mg"),
       ZN = ZN("Zinc, Zn",0.74, "mg"),
-      SUGAR = SUGAR("Zinc, Zn", 0.74,"mg"),
+      SUGAR = SUGAR("Sugars, total", 10.1,"g"),
       CA = CA("Calcium, Ca",226.0,"mg"),
       MG = MG( "Magnesium, Mg",20.0,"mg"),
       FE = FE("Iron, Fe", 0.06,"mg"),
@@ -225,7 +224,7 @@ class ApiGatewayImplTest {
       FOLFD = FOLFD("Folate, food", 10.0,"µg"),
       FOLAC = FOLAC("Folic acid", 0.0, "µg"),
       FOLDFE = FOLDFE( "Folate, DFE", 10.0, "µg")),
-      measureUri = "http://www.edamam.com/ontologies/edamam.owl#Measure_gram",
+      measureUri = null,
       status = "OK"
       )))),
       totalNutrientsKCal = TotalNutrientsKCal(

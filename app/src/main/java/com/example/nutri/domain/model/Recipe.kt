@@ -4,6 +4,7 @@ import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.data.dto.Ingredient
 import com.example.nutri.data.dto.TotalNutrients
 import com.example.nutri.data.dto.nutrients.TotalNutrientsKCal
+import com.google.gson.annotations.SerializedName
 
 data class Recipe (
     var id: Int? = null,
@@ -17,6 +18,7 @@ data class Recipe (
     val totalNutrients: TotalNutrients? = null,
     val totalDaily: TotalNutrients? = null,
     val ingredients: List<Ingredient>? = null,
+    @SerializedName("totalNutrientsKCal")
     val totalNutrientsKCal: TotalNutrientsKCal? = null
     ) {
 

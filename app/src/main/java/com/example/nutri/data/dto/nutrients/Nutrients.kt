@@ -1,5 +1,7 @@
 package com.example.nutri.data.dto.nutrients
 
+import com.google.gson.annotations.SerializedName
+
 data class FAMS (
     val label : String,
     val quantity : Double,
@@ -153,8 +155,11 @@ data class VITK1 (
     val unit : String )
 
 data class WATER (
+    @SerializedName("label")
     val label : String,
+    @SerializedName("quantity")
     val quantity : Double,
+    @SerializedName("unit")
     val unit : String )
 
 data class PROCNT_KCAL (

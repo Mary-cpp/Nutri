@@ -36,7 +36,7 @@ class RecipeAnalyzeViewModel @Inject constructor (
         }
         else { recipe.value = useCaseAnalyze.retrieveRecipe(ingredientParam)
 
-           viewPage.value = ViewPages.RECIPE
+           Log.d("Recipe: ", "\n ${recipe.value}")
         }
 
         Log.d(TAG, "END")
