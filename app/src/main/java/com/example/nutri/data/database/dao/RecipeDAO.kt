@@ -7,37 +7,41 @@ import com.example.nutri.data.entity.*
 interface RecipeDAO {
 
     @Query("SELECT * FROM recipes")
-        fun getRecipes(): List<RecipeEntity>
+        suspend fun getRecipes(): List<RecipeEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-        fun add(recipe: RecipeEntity)
+        suspend fun add(recipe: RecipeEntity)
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-        fun addIngredients(ingredients: List<IngredientEntity>)
+        suspend fun addIngredients(ingredients: List<IngredientEntity>)
 
     @Query("SELECT id FROM recipes WHERE name =:recipeName LIMIT 1")
-        fun getRecipeId(recipeName : String) : Int
+        suspend fun getRecipeId(recipeName : String) : Int
 
     @Query("SELECT id FROM ingredients WHERE name =:ingredientName LIMIT 1")
-        fun getIngredientId(ingredientName: String) : Int
+        suspend fun getIngredientId(ingredientName: String) : Int
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-        fun addLabels(labels: List<Label>)
+        suspend fun addLabels(labels: List<Label>)
 
     @Query("DELETE FROM recipes")
-        fun clear()
+        suspend fun clear()
 
     @Transaction
     @Query("SELECT * FROM recipes")
-        fun getFullRecipes(): List<RecipeEntityCommon>
+        suspend fun getFullRecipes(): List<RecipeEntityCommon>
+
+    @Transaction
+    @Query("SELECT * FROM recipes WHERE id = :recipeId LIMIT 1")
+        suspend fun getRecipeById(recipeId: Int) : RecipeEntityCommon
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-        fun addIngredientsOfRecipe(ingredients: List<IngredientInRecipe>)
+        suspend fun addIngredientsOfRecipe(ingredients: List<IngredientInRecipe>)
 
     @Query("SELECT * FROM recipe_ingredients WHERE id_recipe LIKE :recipeId")
-        fun getRecipeIngredients(recipeId: Int) : List<IngredientInRecipe>
+        suspend fun getRecipeIngredients(recipeId: Int) : List<IngredientInRecipe>
 
     @Delete
-        fun delete(model: RecipeEntity)
+        suspend fun delete(model: RecipeEntity)
 }

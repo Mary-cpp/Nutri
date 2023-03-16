@@ -4,6 +4,7 @@ import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.database.dao.RecipeDAO
 import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.domain.model.Recipe
+import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -16,16 +17,12 @@ internal class DataBaseGatewayImplTest {
 
     private val database = Mockito.mock(RecipeDatabase::class.java)
     private val dao = Mockito.mock(RecipeDAO::class.java)
-    private var name = ""
 
 
     @BeforeEach
     internal fun setUp() {
 
         Mockito.`when`(database.recipeDAO()).thenReturn(dao)
-
-        Mockito.`when`(dao.getRecipeId(name)).thenReturn(Random().nextInt(100))
-        Mockito.`when`(dao.getIngredientId(name)).thenReturn(Random().nextInt(100))
     }
 
     @AfterEach
@@ -35,7 +32,7 @@ internal class DataBaseGatewayImplTest {
 
     @ParameterizedTest
     @ValueSource(ints = [0, 1, 24, 5])
-    fun saveSpecifiedIngredients(argument: Int) {
+    fun saveSpecifiedIngredients(argument: Int) = runBlocking {
 
         Mockito.`when`(dao.addIngredientsOfRecipe(emptyList())).thenReturn(Unit)
 
@@ -51,7 +48,7 @@ internal class DataBaseGatewayImplTest {
 
     @ParameterizedTest
     @ValueSource(ints = [1, 4, 50, 100])
-    fun saveLabels(argument: Int) {
+    fun saveLabels(argument: Int) = runBlocking {
         Mockito.`when`(dao.addLabels(listOf())).thenReturn(Unit)
 
         val expected = argument*3

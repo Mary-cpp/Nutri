@@ -3,10 +3,7 @@ package com.example.nutri.domain.gateway
 import android.util.Log
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.dto.Characteristics
-import com.example.nutri.data.entity.IngredientEntity
-import com.example.nutri.data.entity.IngredientInRecipe
-import com.example.nutri.data.entity.Label
-import com.example.nutri.data.entity.RecipeEntity
+import com.example.nutri.data.entity.*
 import com.example.nutri.domain.model.Recipe
 import javax.inject.Inject
 
@@ -57,7 +54,17 @@ class DataBaseGatewayImpl @Inject constructor(
         return recipes.toList()
     }
 
-    fun saveSpecifiedIngredients(recipeId: Int,
+    override suspend fun getRecipe(recipeId: Int): RecipeEntityCommon {
+        Log.d(TAG, "getLocalRecipesList         START")
+
+        val recipe = database.recipeDAO().getRecipeById(recipeId)
+
+        Log.d(TAG, "getLocalRecipesList        ${recipe.recipeEntity.name} END")
+
+        return recipe
+    }
+
+    suspend fun saveSpecifiedIngredients(recipeId: Int,
     ingredients : List<Characteristics>) : Int{
 
         val listOfSpecifiedIngredients: MutableList<IngredientInRecipe> = mutableListOf()
@@ -71,7 +78,7 @@ class DataBaseGatewayImpl @Inject constructor(
         return listOfSpecifiedIngredients.size
     }
 
-    fun createSpecifiedIngredient(
+    suspend fun createSpecifiedIngredient(
         recipeId: Int,
         ingredient: Characteristics)
     = IngredientInRecipe(
@@ -82,10 +89,10 @@ class DataBaseGatewayImpl @Inject constructor(
             calories = ingredient.nutrients!!.ENERCKCAL!!.quantity
     )
 
-    fun saveLabels(
+    suspend fun saveLabels(
         recipe: Recipe,
         id: Int
-    ) : List<Int>{
+    ) : Int{
         Log.d(TAG, "Inserting recipe labels         START")
 
         val dietLabels = mapLabelsToEntity(recipe.dietLabels, id, "dietLabels")
@@ -98,7 +105,7 @@ class DataBaseGatewayImpl @Inject constructor(
 
         Log.d(TAG, "Inserting recipe labels         END")
 
-        return listOf(dietLabels.size, healthLabels.size, cautions.size)
+        return dietLabels.size + healthLabels.size + cautions.size
     }
 
     private fun mapToRecipe(recipe: RecipeEntity) : Recipe {

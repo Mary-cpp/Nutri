@@ -18,7 +18,7 @@ import com.example.nutri.data.entity.RecipeEntity
         Label::class,
         IngredientInRecipe::class
     ],
-    version = 4,
+    version = 5,
     exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {
 
@@ -36,7 +36,6 @@ abstract class RecipeDatabase : RoomDatabase() {
                     RecipeDatabase :: class.java,
                     "recipe_database"
                 )
-                    .allowMainThreadQueries()
                     .fallbackToDestructiveMigration()
                     .build()
                 INSTANCE = instance
