@@ -5,16 +5,19 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 
 @Entity(
+    tableName = "recipe_ingredients",
     foreignKeys = [
         ForeignKey(
         entity = RecipeEntity::class,
         parentColumns = ["id"],
-        childColumns = ["id_recipe"]
+        childColumns = ["id_recipe"],
+            onDelete = ForeignKey.CASCADE
     ),
         ForeignKey(
         entity = IngredientEntity::class,
         parentColumns = ["id"],
-        childColumns = ["id_ingredient"]
+        childColumns = ["id_ingredient"],
+            onDelete = ForeignKey.CASCADE
     )],
     primaryKeys = ["id_recipe", "id_ingredient"]
 )
@@ -28,5 +31,5 @@ class IngredientInRecipe(
 
     val amount: Double,
     val units: String,
-    val calories: Long
+    val calories: Double
 )

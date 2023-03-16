@@ -18,7 +18,7 @@ import com.example.nutri.data.entity.RecipeEntity
         Label::class,
         IngredientInRecipe::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {
 
