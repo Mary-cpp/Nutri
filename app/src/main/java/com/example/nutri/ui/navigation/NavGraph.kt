@@ -33,7 +33,7 @@ fun NavigationGraph(navController: NavHostController){
             arguments = listOf(navArgument("recipe_id"){type = NavType.IntType})
         ) { backStackEntry ->
             RecipePage(navController = navController,
-                backStackEntry.arguments?.getInt("recipe_id") as Int
+                recipeId = backStackEntry.arguments?.getInt("recipe_id") as Int
             ) }
     }
 }

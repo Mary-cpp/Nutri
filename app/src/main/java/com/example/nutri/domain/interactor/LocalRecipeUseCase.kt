@@ -1,8 +1,6 @@
 package com.example.nutri.domain.interactor
 
-import com.example.nutri.data.entity.RecipeEntityCommon
 import com.example.nutri.data.repository.DataBaseGatewayImpl
-
 import com.example.nutri.domain.model.Recipe
 import javax.inject.Inject
 
@@ -18,7 +16,7 @@ class LocalRecipeUseCase @Inject constructor(
         return db.getLocalRecipesList()
     }
 
-    override suspend fun getCommonRecipe(recipeId: Int): RecipeEntityCommon {
+    override suspend fun getCommonRecipe(recipeId: Int): Recipe {
         return db.getRecipe(recipeId = recipeId)
     }
 

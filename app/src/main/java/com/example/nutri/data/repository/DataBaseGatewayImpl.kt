@@ -56,7 +56,7 @@ class DataBaseGatewayImpl @Inject constructor(
         return recipes.toList()
     }
 
-    override suspend fun getRecipe(recipeId: Int): RecipeEntityCommon {
+    override suspend fun getRecipe(recipeId: Int): Recipe {
         Log.d(TAG, "getLocalRecipesList         START")
 
         val recipe = database.recipeDAO().getRecipeById(recipeId)
@@ -65,7 +65,7 @@ class DataBaseGatewayImpl @Inject constructor(
 
         Log.d(TAG, "getLocalRecipesList        ${recipe.recipeEntity.name} END")
 
-        return recipe
+        return mapCommonEntityToRecipe(recipe)
     }
 
     suspend fun saveSpecifiedIngredients(recipeId: Int,
@@ -131,6 +131,17 @@ class DataBaseGatewayImpl @Inject constructor(
             calories = recipe.calories
        )
    }
+
+    private fun mapCommonEntityToRecipe(
+        recipe: RecipeEntityCommon
+    ) : Recipe{
+        return Recipe(
+            id = recipe.recipeEntity.id,
+            uri = recipe.recipeEntity.url,
+            name = recipe.recipeEntity.name,
+            calories = recipe.recipeEntity.calories
+        )
+    }
 
     private fun mapToIngredientEntity(
         list: List<Characteristics>

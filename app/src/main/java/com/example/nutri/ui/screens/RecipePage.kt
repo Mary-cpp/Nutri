@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
@@ -27,15 +28,19 @@ import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
+import com.example.nutri.ui.viewmodel.RecipeViewModel
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RecipePage(
+    vm: RecipeViewModel = hiltViewModel(),
     navController: NavController,
     recipeId: Int) {
 
-    val recipe = Recipe.makeRecipe()
+    vm.recipeId.value = recipeId
+
+    val recipe = vm.recipe.value
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { TopBar(topBarText = recipe.name!!, navController) },
@@ -231,6 +236,8 @@ fun IngredientCard(ingredient: Characteristics) {
 @Composable
 fun RecipePagePreview() {
     NutriTheme {
-        RecipePage(rememberNavController(), 1)
+        RecipePage(hiltViewModel(),
+            rememberNavController(),
+            1)
     }
 }
