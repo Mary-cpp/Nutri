@@ -8,6 +8,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.interactor.LocalRecipesInteractor
+import com.example.nutri.domain.interactor.RecipeInteractor
 import com.example.nutri.domain.model.Ingredient
 import com.example.nutri.domain.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,7 +17,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CreateRecipeViewModel @Inject constructor(
-    var useCase : LocalRecipesInteractor
+    var useCase : LocalRecipesInteractor,
+    private var useCaseAnalyze: RecipeInteractor
 ) : ViewModel(){
 
     private val tag = "CreateRecipeViewModel"
@@ -55,10 +57,25 @@ class CreateRecipeViewModel @Inject constructor(
             //Toast.makeText(context, "Enter recipe's name", Toast.LENGTH_LONG).show()
             recipeName.value = recipe.value.ingredients!![0].text
 
-            return@launch
+            //return@launch
         }
 
 
-        useCase.saveRecipe(recipe.value, recipeName.value)
+        val id = useCase.saveRecipe(recipe.value, recipeName.value)
+        Log.d(tag, "${useCase.getCommonRecipe(id)}")
+    }
+
+    fun onAnalyzeButtonPressed(ingredientParam: String) = viewModelScope.launch{
+        Log.d(tag, "onAnalyzeButtonPressed    START")
+
+        if (ingredientParam.isEmpty()){
+            throw IllegalArgumentException("Ingredient param is null")
+        }
+        else { recipe.value = useCaseAnalyze.retrieveRecipe(ingredientParam)
+
+            Log.d("Recipe: ", "\n ${recipe.value}")
+        }
+
+        Log.d(tag, "END")
     }
 }

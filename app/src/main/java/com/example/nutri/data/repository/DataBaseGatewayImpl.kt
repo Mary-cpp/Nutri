@@ -14,7 +14,7 @@ class DataBaseGatewayImpl @Inject constructor(
     val TAG: String = "DataBaseGatewayImpl"
 
 
-    override suspend fun saveToLocal(recipe: Recipe, recipeName: String): String {
+    override suspend fun saveToLocal(recipe: Recipe, recipeName: String): Int {
         Log.d(TAG, "saveToLocal         START")
 
         // saving RecipeEntity
@@ -37,7 +37,7 @@ class DataBaseGatewayImpl @Inject constructor(
 
         Log.d(TAG, "saveToLocal         END")
 
-        return recipeName
+        return savedRecipeId
     }
 
     override suspend fun getLocalRecipesList() : List<Recipe> {
@@ -49,6 +49,8 @@ class DataBaseGatewayImpl @Inject constructor(
         entityRecipes.forEach {
             recipes.add(mapToRecipe(it)) }
 
+
+
         Log.d(TAG, "getLocalRecipesList        ${recipes.size} END")
 
         return recipes.toList()
@@ -58,6 +60,8 @@ class DataBaseGatewayImpl @Inject constructor(
         Log.d(TAG, "getLocalRecipesList         START")
 
         val recipe = database.recipeDAO().getRecipeById(recipeId)
+
+        Log.d(TAG, " Recipe : $recipe")
 
         Log.d(TAG, "getLocalRecipesList        ${recipe.recipeEntity.name} END")
 
