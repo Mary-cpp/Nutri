@@ -21,6 +21,7 @@ import com.example.nutri.R
 import com.example.nutri.domain.model.Recipe
 import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.navigation.Screen
+import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.viewmodel.MyRecipesViewModel
 
@@ -69,7 +70,10 @@ fun MyRecipesPage(
 
                     RecipesList(listOfRecipes = vm.recipeList.value)
 
-                    Text(text = "Keep exploring :)", color = MaterialTheme.colors.secondaryVariant)
+                    Text(
+                        modifier = Modifier.padding(top = 24.dp),
+                        text = "Keep exploring :)",
+                        color = MaterialTheme.colors.secondaryVariant)
                 }
             }
         }
@@ -145,15 +149,16 @@ fun RecipesList(listOfRecipes: List<Recipe>){
 fun RecipeListItem(recipe: Recipe){
     Card(modifier = Modifier.fillMaxWidth(1f),
         backgroundColor = MaterialTheme.colors.primary,
-        shape = RoundedCornerShape(6.dp)
+        shape = NutriShape.smallRoundCornerShape
     ) {
+        Column() {
+            Text(text = recipe.name!!,
+                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 16.dp, bottom = 10.dp, end = 16.dp),
+                fontSize = 22.sp)
 
-        Text(text = recipe.name!!,
-            modifier = Modifier.padding(start = 16.dp, top = 24.dp, bottom = 10.dp),
-        fontSize = 22.sp)
-
-        Text(text = "Calories: ${recipe.calories}",
-            modifier = Modifier.padding(start = 16.dp, bottom = 24.dp))
+            Text(text = "Calories: ${recipe.calories}",
+                modifier = Modifier.padding(start = 16.dp, bottom = 24.dp))
+        }
     }
 }
 
@@ -166,5 +171,13 @@ fun MyRecipesPagePreview(){
             vm = MyRecipesViewModel(hiltViewModel()),
             rememberNavController()
         )
+    }
+}
+
+@Preview
+@Composable
+fun RecipeListItemPreview(){
+    NutriTheme {
+        RecipeListItem(recipe = Recipe.makeRecipe())
     }
 }

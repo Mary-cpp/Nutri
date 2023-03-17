@@ -115,6 +115,7 @@ class DataBaseGatewayImpl @Inject constructor(
     private fun mapToRecipe(recipe: RecipeEntity) : Recipe {
         return Recipe(
             uri = recipe.url,
+            name = recipe.name,
             calories = recipe.calories
        )
     }

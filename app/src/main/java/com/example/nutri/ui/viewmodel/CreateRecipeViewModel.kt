@@ -41,7 +41,8 @@ class CreateRecipeViewModel @Inject constructor(
         var stringOfIngredients = ""
 
         list.forEach {
-            stringOfIngredients += "$it and"
+            if (it == list[list.size-1]){ stringOfIngredients += it}
+            else stringOfIngredients += "$it and"
         }
 
         Log.d("STRING PARAM", stringOfIngredients)

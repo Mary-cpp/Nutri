@@ -86,8 +86,6 @@ fun EditRecipeScreenContent(
     navController: NavController
 ) {
 
-    val recipeName: MutableState<String> = remember { mutableStateOf("") }
-
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { TopBar("Edit", navController) },
         floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
