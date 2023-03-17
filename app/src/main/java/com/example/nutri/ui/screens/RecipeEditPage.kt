@@ -15,17 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.domain.model.Ingredient
-import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.viewmodel.CreateRecipeViewModel
-import com.example.nutri.ui.viewmodel.RecipeAnalyzeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -126,8 +122,7 @@ fun IngredientFAB(scope: CoroutineScope, bottomSheetState: ModalBottomSheetState
 
 @Composable
 fun RecipeEditCard(
-    vm: CreateRecipeViewModel,
-    analyzeVm : RecipeAnalyzeViewModel = hiltViewModel()
+    vm: CreateRecipeViewModel
 ){
 
     Surface(modifier = Modifier
@@ -158,7 +153,7 @@ fun RecipeEditCard(
                     Column{
 
                         IconButton(
-                            onClick = { /*TODO ("Save Recipe")*/ },
+                            onClick = { vm.onSaveButtonPressed() },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .background(Color.Transparent)
@@ -172,7 +167,7 @@ fun RecipeEditCard(
 
                         IconButton(
                             onClick = {
-                                analyzeVm.onAnalyzeButtonPressed(
+                                vm.onAnalyzeButtonPressed(
                                     vm.ingredientsToString(vm.listOfIngredients
                                     ))
                             },
@@ -310,14 +305,4 @@ fun IngredientEditCard(ingredient: Ingredient, deleteItem: () -> Unit) {
             }
         }
     )
-}
-
-@Preview
-@Composable
-fun RecipeEditPagePreview(){
-    NutriTheme {
-        RecipeEditPage(
-            CreateRecipeViewModel(hiltViewModel()),
-            rememberNavController())
-    }
 }
