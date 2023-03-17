@@ -31,7 +31,9 @@ import com.example.nutri.ui.theme.NutriTheme
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun RecipePage(navController: NavController) {
+fun RecipePage(
+    navController: NavController,
+    recipeId: Int) {
 
     val recipe = Recipe.makeRecipe()
 
@@ -229,6 +231,6 @@ fun IngredientCard(ingredient: Characteristics) {
 @Composable
 fun RecipePagePreview() {
     NutriTheme {
-        RecipePage(rememberNavController())
+        RecipePage(rememberNavController(), 1)
     }
 }

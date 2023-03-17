@@ -1,5 +1,6 @@
 package com.example.nutri.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -34,7 +35,6 @@ fun MyRecipesPage(
 
     var searchParameter by remember { mutableStateOf("") }
 
-
     Scaffold(modifier = Modifier.fillMaxSize(),
         bottomBar = { BottomNavigationBar(navController = navController) },
         topBar = { TopAppBar(title = { Text(text = "MyRecipesPage", color = Color.Black)},
@@ -61,14 +61,15 @@ fun MyRecipesPage(
                         colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
                         onValueChange = { searchParameter = it },
                         trailingIcon = {
-                            Icon(imageVector = ImageVector.vectorResource(id = R.drawable.search48px),
+                            Icon(imageVector = ImageVector
+                                .vectorResource(id = R.drawable.search48px),
                                 contentDescription = "SearchIcon",
                                 modifier = Modifier.size(32.dp)) },
                         label = { Text("Search for recipes") })
 
                     SortAndFilter()
 
-                    RecipesList(listOfRecipes = vm.recipeList.value)
+                    RecipesList(listOfRecipes = vm.recipeList.value, navController)
 
                     Text(
                         modifier = Modifier.padding(top = 24.dp),
@@ -137,27 +138,44 @@ fun SortAndFilter(){
 }
 
 @Composable
-fun RecipesList(listOfRecipes: List<Recipe>){
+fun RecipesList(
+    listOfRecipes: List<Recipe>,
+    navController: NavController
+){
     LazyColumn{
         items(listOfRecipes){
-            RecipeListItem(recipe = it)
+            RecipeListItem(recipe = it, navController)
         }
     }
 }
 
 @Composable
-fun RecipeListItem(recipe: Recipe){
-    Card(modifier = Modifier.fillMaxWidth(1f),
+fun RecipeListItem(
+    recipe: Recipe,
+    navController: NavController
+){
+    Card(modifier = Modifier
+        .fillMaxWidth(1f)
+        .clickable {
+            navController.navigate(
+                Screen
+                .Recipe
+                .screenRoute
+                .replace("{recipe_id}", "${recipe.id}"))
+        },
         backgroundColor = MaterialTheme.colors.primary,
         shape = NutriShape.smallRoundCornerShape
     ) {
         Column() {
             Text(text = recipe.name!!,
-                modifier = Modifier.fillMaxWidth().padding(start = 16.dp, top = 16.dp, bottom = 10.dp, end = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 16.dp, bottom = 10.dp, end = 16.dp),
                 fontSize = 22.sp)
 
             Text(text = "Calories: ${recipe.calories}",
-                modifier = Modifier.padding(start = 16.dp, bottom = 24.dp))
+                modifier = Modifier
+                    .padding(start = 16.dp, bottom = 24.dp))
         }
     }
 }
@@ -178,6 +196,6 @@ fun MyRecipesPagePreview(){
 @Composable
 fun RecipeListItemPreview(){
     NutriTheme {
-        RecipeListItem(recipe = Recipe.makeRecipe())
+        RecipeListItem(recipe = Recipe.makeRecipe(), rememberNavController())
     }
 }

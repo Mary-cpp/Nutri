@@ -3,8 +3,10 @@ package com.example.nutri.ui.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.interactor.LocalRecipeUseCase
@@ -27,6 +29,11 @@ fun NavigationGraph(navController: NavHostController){
         }
         composable(Screen.BMI.screenRoute){ BmiPage(navController = navController) }
         composable(Screen.EditRecipe.screenRoute) { RecipeEditPage(navController = navController) }
-        composable(Screen.Recipe.screenRoute) { RecipePage(navController = navController) }
+        composable(Screen.Recipe.screenRoute,
+            arguments = listOf(navArgument("recipe_id"){type = NavType.IntType})
+        ) { backStackEntry ->
+            RecipePage(navController = navController,
+                backStackEntry.arguments?.getInt("recipe_id") as Int
+            ) }
     }
 }
