@@ -1,4 +1,4 @@
-package com.example.nutri.domain.gateway
+package com.example.nutri.data.repository
 
 import com.example.nutri.data.entity.RecipeEntityCommon
 import com.example.nutri.domain.model.Recipe

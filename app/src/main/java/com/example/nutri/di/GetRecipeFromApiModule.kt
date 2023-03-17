@@ -1,7 +1,7 @@
 package com.example.nutri.di
 
-import com.example.nutri.domain.gateway.ApiGatewayImpl
-import com.example.nutri.domain.gateway.ApiGateway
+import com.example.nutri.data.repository.ApiGatewayImpl
+import com.example.nutri.data.repository.ApiGateway
 import com.example.nutri.domain.interactor.ReceiveRecipeFromApiUseCase
 import com.example.nutri.domain.interactor.RecipeInteractor
 import dagger.Module

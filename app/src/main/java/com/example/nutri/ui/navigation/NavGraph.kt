@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.domain.gateway.DataBaseGatewayImpl
+import com.example.nutri.data.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.interactor.LocalRecipeUseCase
 import com.example.nutri.ui.screens.*
 import com.example.nutri.ui.viewmodel.MyRecipesViewModel

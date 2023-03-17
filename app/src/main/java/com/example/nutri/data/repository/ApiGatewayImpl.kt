@@ -1,4 +1,4 @@
-package com.example.nutri.domain.gateway
+package com.example.nutri.data.repository
 
 import com.example.nutri.data.api.EdamamService
 import com.example.nutri.domain.model.Recipe
@@ -12,8 +12,6 @@ import javax.inject.Inject
 class ApiGatewayImpl @Inject constructor() : ApiGateway {
 
     private val baseUrl = "https://api.edamam.com/api/"
-
-    private val logTag = "ApiGatewayImpl"
     private val appId = "c4784311"
     private val appKey = "ea0d71aa81a3a366d9d7cc58783563ef"
 
@@ -27,7 +25,6 @@ class ApiGatewayImpl @Inject constructor() : ApiGateway {
     override suspend fun receiveRecipeData(param: String): Recipe {
 
         // we should response with a sealed class
-        //Log.d(logTag, "response body: $response")
 
         return withContext(Dispatchers.IO) { client().getNutritionSpecs(appId, appKey, param) }
     }

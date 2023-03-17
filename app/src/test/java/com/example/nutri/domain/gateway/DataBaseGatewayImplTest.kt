@@ -3,6 +3,7 @@ package com.example.nutri.domain.gateway
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.database.dao.RecipeDAO
 import com.example.nutri.data.dto.Characteristics
+import com.example.nutri.data.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.model.Recipe
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach

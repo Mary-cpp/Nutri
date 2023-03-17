@@ -1,4 +1,4 @@
-package com.example.nutri.domain.gateway
+package com.example.nutri.data.repository
 
 import android.util.Log
 import com.example.nutri.data.database.RecipeDatabase

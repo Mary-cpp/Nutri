@@ -4,6 +4,7 @@ import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.data.dto.Ingredient
 import com.example.nutri.data.dto.TotalNutrients
 import com.example.nutri.data.dto.nutrients.*
+import com.example.nutri.data.repository.ApiGatewayImpl
 import com.example.nutri.domain.model.Recipe
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -14,7 +15,7 @@ import org.junit.Test
 class SerializationTest {
 
     //private var recipe: Recipe
-    val apiGatewayImpl: ApiGatewayImpl= ApiGatewayImpl()
+    val apiGatewayImpl: ApiGatewayImpl = ApiGatewayImpl()
     val gson = Gson()
 
     val jsonStringENERC_KCAL = """{"label":"Energy","quantity":122.0,"unit":"kcal"}"""
