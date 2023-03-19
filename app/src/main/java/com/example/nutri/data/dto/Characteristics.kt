@@ -4,13 +4,13 @@ data class Characteristics (
     val quantity: Double,
     val measure: String,
     val foodMatch: String,
-    val food: String,
-    val foodId: String,
-    val weight: Double,
-    val retainedWeight: Double,
-    val nutrients: TotalNutrients?,
-    val measureUri: String?,
-    val status: String
+    val food: String? = null,
+    val foodId: String? = null,
+    val weight: Double? = null,
+    val retainedWeight: Double? = null,
+    val nutrients: TotalNutrients? = null,
+    val measureUri: String? = null,
+    val status: String? = null
 ) {
 
     companion object{

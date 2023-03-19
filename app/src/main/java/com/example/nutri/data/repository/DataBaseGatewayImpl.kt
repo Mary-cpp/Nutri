@@ -3,8 +3,10 @@ package com.example.nutri.data.repository
 import android.util.Log
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.dto.Characteristics
+import com.example.nutri.data.dto.Ingredient
 import com.example.nutri.data.entity.*
 import com.example.nutri.domain.model.Recipe
+import java.lang.StringBuilder
 import javax.inject.Inject
 
 class DataBaseGatewayImpl @Inject constructor(
@@ -132,15 +134,55 @@ class DataBaseGatewayImpl @Inject constructor(
        )
    }
 
-    private fun mapCommonEntityToRecipe(
+    private suspend fun mapCommonEntityToRecipe(
         recipe: RecipeEntityCommon
     ) : Recipe{
+
+        val labels = mapLabelsEntityToLabels(recipe.labels)
+
         return Recipe(
             id = recipe.recipeEntity.id,
             uri = recipe.recipeEntity.url,
             name = recipe.recipeEntity.name,
-            calories = recipe.recipeEntity.calories
+            calories = recipe.recipeEntity.calories,
+            healthLabels = labels[0],
+            cautions = labels[1],
+            dietLabels = labels[2],
+            ingredients = mapLocalIngredients(recipe.ingredientsInRecipe)
         )
+    }
+
+    private suspend fun mapLocalIngredients( ingredients: List<IngredientInRecipe>) : List<Ingredient>{
+
+        val listOfIngredients : MutableList<Characteristics> = mutableListOf()
+        val text = StringBuilder()
+        ingredients.forEach {
+
+            val ingredientName = database.recipeDAO().getIngredientById(it.idIngredient).name
+            text.append("$ingredientName ${it.amount}${it.units}")
+
+            listOfIngredients.add(
+                Characteristics(
+                    foodMatch = ingredientName,
+                    quantity = it.amount,
+                    measure = it.units,
+                )
+            )
+        }
+        return listOf(Ingredient(text = text.toString(), parsed = listOfIngredients))
+    }
+
+    private fun mapLabelsEntityToLabels(labels : List<Label>) : List<List<String>>{
+        val healthLabels: MutableList<String> = mutableListOf()
+        val cautions: MutableList<String> = mutableListOf()
+        val dietLabels: MutableList<String> = mutableListOf()
+
+        labels.forEach{
+            if (it.category == "dietLabels"){ dietLabels.add(it.text)}
+            if (it.category == "healthLabels"){ healthLabels.add(it.text)}
+            if (it.category == "cautions"){ cautions.add(it.text)}
+        }
+        return listOf(healthLabels.toList(), cautions.toList(), dietLabels.toList())
     }
 
     private fun mapToIngredientEntity(

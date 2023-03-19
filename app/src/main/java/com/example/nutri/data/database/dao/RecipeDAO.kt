@@ -39,6 +39,9 @@ interface RecipeDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
         suspend fun addIngredientsOfRecipe(ingredients: List<IngredientInRecipe>)
 
+    @Query("SELECT * FROM ingredients WHERE id = :idIngredient LIMIT 1")
+        suspend fun getIngredientById(idIngredient: Int) : IngredientEntity
+
     @Query("SELECT * FROM recipe_ingredients WHERE id_recipe LIKE :recipeId")
         suspend fun getRecipeIngredients(recipeId: Int) : List<IngredientInRecipe>
 
