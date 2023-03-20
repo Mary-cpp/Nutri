@@ -52,18 +52,20 @@ class CreateRecipeViewModel @Inject constructor(
 
     fun onSaveButtonPressed() = viewModelScope.launch {
         Log.d(tag, "onSaveButtonPressed     START")
-        if (recipeName.value.isEmpty()){
-            Log.d(tag, "Can't save recipe. Expected recipe name!")
 
-            //Toast.makeText(context, "Enter recipe's name", Toast.LENGTH_LONG).show()
-            recipeName.value = recipe.value.ingredients!![0].text
+        if (recipe.value.ingredients != null){
+            if (recipeName.value.isEmpty()){
+                Log.d(tag, "Can't save recipe. Expected recipe name!")
 
-            //return@launch
+                //Toast.makeText(context, "Enter recipe's name", Toast.LENGTH_LONG).show()
+                recipeName.value = recipe.value.ingredients!![0].text
+            }
+
+            val id = useCase.saveRecipe(recipe.value, recipeName.value)
+            Log.d(tag, "${useCase.getCommonRecipe(id)}")
         }
 
-
-        val id = useCase.saveRecipe(recipe.value, recipeName.value)
-        Log.d(tag, "${useCase.getCommonRecipe(id)}")
+        Log.w(tag, "Can't save empty recipe!!")
     }
 
     fun onAnalyzeButtonPressed(ingredientParam: String) = viewModelScope.launch{

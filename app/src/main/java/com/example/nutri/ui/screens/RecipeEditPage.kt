@@ -46,15 +46,19 @@ fun RecipeEditPage(
         DisposableEffect(Unit) {
             onDispose {
 
-                val ingredient = Ingredient(ingredientName = ingredientName.value,
+                if(ingredientName.value.isNotEmpty() || ingredientAmount.value != 0){
+                    val ingredient = Ingredient(ingredientName = ingredientName.value.trim(),
                     ingredientAmount = ingredientAmount.value,
                     ingredientUnits = ingredientUnits.value)
 
-                vm.listOfIngredients.add(
-                    ingredient
-                )
+                    vm.listOfIngredients.add(
+                        ingredient
+                    )
 
-                Log.d("BOTTOM SHEET", ingredient.toString())
+                    ingredientName.value = ""; ingredientAmount.value = 0
+
+                    Log.d("BOTTOM SHEET", ingredient.toString())
+                }
             }
         }
     }
@@ -139,9 +143,9 @@ fun RecipeEditCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 
-                    OutlinedTextField(modifier = Modifier
+                    TextField(modifier = Modifier
                         .padding(start = 24.dp, bottom = 16.dp)
-                        .size(208.dp, 56.dp),
+                        .size(208.dp, 64.dp),
                         value = vm.recipeName.value,
                         shape = RoundedCornerShape(16.dp),
                         colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),

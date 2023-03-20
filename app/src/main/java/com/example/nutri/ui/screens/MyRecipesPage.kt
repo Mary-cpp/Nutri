@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
@@ -27,7 +26,7 @@ import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.viewmodel.MyRecipesViewModel
 
-val TAG = "MyRecipesPage"
+const val TAG = "MyRecipesPage"
 @Composable
 fun MyRecipesPage(
     vm: MyRecipesViewModel = hiltViewModel(),
@@ -157,12 +156,14 @@ fun RecipeListItem(
 ){
     Card(modifier = Modifier
         .fillMaxWidth(1f)
+        .padding(2.dp)
         .clickable {
             navController.navigate(
                 Screen
-                .Recipe
-                .screenRoute
-                .replace("{recipe_id}", "${recipe.id}"))
+                    .Recipe
+                    .screenRoute
+                    .replace("{recipe_id}", "${recipe.id}")
+            )
             Log.d(TAG, "NAVIGATE TO RECIPE WITH ID ${recipe.id.toString()}")
         },
         backgroundColor = MaterialTheme.colors.primary,
@@ -172,12 +173,14 @@ fun RecipeListItem(
             Text(text = recipe.name!!,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(start = 16.dp, top = 16.dp, bottom = 10.dp, end = 16.dp),
-                fontSize = 22.sp)
+                    .padding(start = 32.dp, top = 16.dp, bottom = 10.dp, end = 16.dp),
+                fontSize = MaterialTheme.typography.subtitle1.fontSize)
 
             Text(text = "Calories: ${recipe.calories}",
                 modifier = Modifier
-                    .padding(start = 16.dp, bottom = 24.dp))
+                    .padding(start = 32.dp, bottom = 24.dp),
+                fontSize = MaterialTheme.typography.subtitle2.fontSize
+            )
         }
     }
 }

@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,6 +42,7 @@ fun RecipeBottomSheetContent(
                 value = ingredientName.value,
                 shape = NutriShape.mediumRoundedCornerShape,
                 colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 onValueChange = { ingredientName.value = it },
                 label = { Text("Ingredient name") })
 
@@ -52,10 +54,18 @@ fun RecipeBottomSheetContent(
                     .padding(end = 8.dp)
                     .size(width = 150.dp, height = 64.dp),
                     value = ingredientAmount.value.toString(),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Decimal),
                     shape = NutriShape.mediumRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
-                    onValueChange = { ingredientAmount.value = it.toInt() },
+                    onValueChange = {
+                        try {
+                            ingredientAmount.value = it.toInt()
+                        }
+                        catch (_: java.lang.NumberFormatException){
+
+                        }},
                     label = { Text("Amount") })
 
                 DropDownListButton(
