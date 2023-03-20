@@ -18,11 +18,7 @@ class RecipeViewModel @Inject constructor(
     val recipeId : MutableState<Int> = mutableStateOf(0)
     val recipe: MutableState<Recipe> = mutableStateOf(Recipe())
 
-    init {
-        getRecipeById()
-    }
-
-    private fun getRecipeById() = viewModelScope.launch{
+    fun getRecipeById() = viewModelScope.launch{
 
         recipe.value = useCase.getCommonRecipe(recipeId.value)
     }

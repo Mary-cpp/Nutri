@@ -1,5 +1,6 @@
 package com.example.nutri.ui.screens
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -26,7 +27,7 @@ import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.viewmodel.MyRecipesViewModel
 
-
+val TAG = "MyRecipesPage"
 @Composable
 fun MyRecipesPage(
     vm: MyRecipesViewModel = hiltViewModel(),
@@ -162,6 +163,7 @@ fun RecipeListItem(
                 .Recipe
                 .screenRoute
                 .replace("{recipe_id}", "${recipe.id}"))
+            Log.d(TAG, "NAVIGATE TO RECIPE WITH ID ${recipe.id.toString()}")
         },
         backgroundColor = MaterialTheme.colors.primary,
         shape = NutriShape.smallRoundCornerShape

@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 class RecipeEntity (
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int?,
+    val id: Int = 0,
 
     val url: String?,
     var name: String?,

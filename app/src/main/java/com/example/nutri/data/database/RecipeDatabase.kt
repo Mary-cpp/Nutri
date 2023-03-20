@@ -5,10 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.nutri.data.database.dao.RecipeDAO
-import com.example.nutri.data.entity.IngredientEntity
-import com.example.nutri.data.entity.IngredientInRecipe
-import com.example.nutri.data.entity.Label
-import com.example.nutri.data.entity.RecipeEntity
+import com.example.nutri.data.entity.*
 
 @Database(
     entities =
@@ -16,9 +13,10 @@ import com.example.nutri.data.entity.RecipeEntity
         RecipeEntity::class,
         IngredientEntity::class,
         Label::class,
-        IngredientInRecipe::class
+        IngredientInRecipe::class,
+        LabelsInRecipe::class
     ],
-    version = 5,
+    version = 9,
     exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {
 
