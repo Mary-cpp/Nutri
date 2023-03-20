@@ -42,7 +42,7 @@ fun RecipePage(
     Log.d(TAG, "RECIPE ID: $recipeId")
     vm.recipeId.value = recipeId
 
-    vm.getRecipeById()
+    vm.onRecipeScreenLoading()
 
     val recipe = vm.recipe.value
 
