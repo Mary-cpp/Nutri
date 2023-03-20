@@ -7,10 +7,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.nutri.domain.interactor.LocalRecipesInteractor
-import com.example.nutri.domain.interactor.RecipeInteractor
-import com.example.nutri.domain.model.Ingredient
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
+import com.example.nutri.domain.recipes.interactor.RecipeInteractor
+import com.example.nutri.domain.recipes.model.Ingredient
+import com.example.nutri.domain.recipes.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -5,7 +5,7 @@ import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.data.dto.Ingredient
 import com.example.nutri.data.entity.*
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.recipes.model.Recipe
 import java.lang.StringBuilder
 import javax.inject.Inject
 
@@ -162,7 +162,7 @@ class DataBaseGatewayImpl @Inject constructor(
 
     private suspend fun mapCommonEntityToRecipe(
         recipe: RecipeEntity
-    ) : Recipe{
+    ) : Recipe {
 
         val entityLabels = database.recipeDAO().getRecipeWithLabels(recipe.id)
         val entityRecipeIngredients = database.recipeDAO().getRecipeIngredients(recipe.id)

@@ -1,6 +1,6 @@
 package com.example.nutri.data.api
 
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.recipes.model.Recipe
 import retrofit2.http.GET
 import retrofit2.http.Query
 

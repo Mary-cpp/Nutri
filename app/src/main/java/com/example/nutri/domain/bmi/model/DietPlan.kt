@@ -1,4 +1,4 @@
-package com.example.nutri.domain.model
+package com.example.nutri.domain.bmi.model
 
 class DietPlan(
     val kcal: Int,

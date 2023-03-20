@@ -5,7 +5,7 @@ import com.example.nutri.data.dto.Ingredient
 import com.example.nutri.data.dto.TotalNutrients
 import com.example.nutri.data.dto.nutrients.*
 import com.example.nutri.data.repository.ApiGatewayImpl
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.recipes.model.Recipe
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.runBlocking

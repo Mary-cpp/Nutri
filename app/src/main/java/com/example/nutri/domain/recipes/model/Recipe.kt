@@ -1,4 +1,4 @@
-package com.example.nutri.domain.model
+package com.example.nutri.domain.recipes.model
 
 import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.data.dto.Ingredient
@@ -23,7 +23,7 @@ data class Recipe (
     ) {
 
     companion object{
-        fun makeRecipe() : Recipe{
+        fun makeRecipe() : Recipe {
             return Recipe(
                 id = 1011101010,
                 uri = "some uri",

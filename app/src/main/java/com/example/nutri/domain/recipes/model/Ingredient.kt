@@ -1,4 +1,4 @@
-package com.example.nutri.domain.model
+package com.example.nutri.domain.recipes.model
 
 class Ingredient (
     val ingredientName : String,

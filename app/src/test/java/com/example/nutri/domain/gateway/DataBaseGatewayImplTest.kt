@@ -4,7 +4,7 @@ import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.database.dao.RecipeDAO
 import com.example.nutri.data.dto.Characteristics
 import com.example.nutri.data.repository.DataBaseGatewayImpl
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -54,7 +54,7 @@ internal class DataBaseGatewayImplTest {
 
         val expected = argument*3
         val actual = DataBaseGatewayImpl(database)
-            .saveLabels(createRecipeWithLabels(argument), Random().nextInt(10))
+            .saveLabels(createRecipeWithLabels(argument))
 
         assertEquals(expected, actual)
     }

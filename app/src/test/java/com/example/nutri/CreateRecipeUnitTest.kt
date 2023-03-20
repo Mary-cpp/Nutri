@@ -1,6 +1,6 @@
 package com.example.nutri
 
-import com.example.nutri.domain.model.Ingredient
+import com.example.nutri.domain.recipes.model.Ingredient
 import org.junit.Assert
 import org.junit.Test
 

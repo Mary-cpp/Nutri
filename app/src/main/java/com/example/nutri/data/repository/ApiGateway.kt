@@ -1,6 +1,6 @@
 package com.example.nutri.data.repository
 
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.recipes.model.Recipe
 
 interface ApiGateway {
 

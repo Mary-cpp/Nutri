@@ -1,7 +1,7 @@
 package com.example.nutri.data.repository
 
 import com.example.nutri.data.api.EdamamService
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit

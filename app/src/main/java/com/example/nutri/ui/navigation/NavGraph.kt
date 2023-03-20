@@ -9,7 +9,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.repository.DataBaseGatewayImpl
-import com.example.nutri.domain.interactor.LocalRecipeUseCase
+import com.example.nutri.domain.recipes.interactor.LocalRecipeUseCase
 import com.example.nutri.ui.screens.*
 import com.example.nutri.ui.viewmodel.MyRecipesViewModel
 

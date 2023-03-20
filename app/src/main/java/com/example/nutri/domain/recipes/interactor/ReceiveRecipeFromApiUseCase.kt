@@ -1,8 +1,8 @@
-package com.example.nutri.domain.interactor
+package com.example.nutri.domain.recipes.interactor
 
 
 import com.example.nutri.data.repository.ApiGateway
-import com.example.nutri.domain.model.Recipe
+import com.example.nutri.domain.recipes.model.Recipe
 import javax.inject.Inject
 
 class ReceiveRecipeFromApiUseCase @Inject constructor(
