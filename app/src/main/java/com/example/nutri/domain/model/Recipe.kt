@@ -7,7 +7,7 @@ import com.example.nutri.data.dto.nutrients.TotalNutrientsKCal
 import com.google.gson.annotations.SerializedName
 
 data class Recipe (
-    var id: Int? = null,
+    var id: Int? = 0,
     val uri: String? = "",
     val name: String? = "",
     val calories: Long? = 0L,

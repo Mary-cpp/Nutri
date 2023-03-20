@@ -7,8 +7,8 @@ class RecipeEntityCommon(
     @Embedded
     val recipeEntity: RecipeEntity,
     @Relation
-        (parentColumn = "id", entity = Label::class, entityColumn = "id_recipe")
-    val labels: List<Label>,
+        (parentColumn = "id", entity = LabelsInRecipe::class, entityColumn = "id_recipe")
+    val labels: List<LabelsInRecipe>,
 
     @Relation
         (parentColumn = "id", entity = IngredientInRecipe::class, entityColumn = "id_recipe")

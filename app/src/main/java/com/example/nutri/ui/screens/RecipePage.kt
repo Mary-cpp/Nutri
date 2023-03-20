@@ -1,6 +1,7 @@
 package com.example.nutri.ui.screens
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -38,7 +39,10 @@ fun RecipePage(
     navController: NavController,
     recipeId: Int) {
 
+    Log.d(TAG, "RECIPE ID: $recipeId")
     vm.recipeId.value = recipeId
+
+    vm.getRecipeById()
 
     val recipe = vm.recipe.value
 
@@ -126,12 +130,16 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
                     fontSize = 16.sp
                 )
 
-                Labels(MaterialTheme.colors.secondary, NutriShape.mediumRoundedCornerShape, recipe.healthLabels!!)
+                recipe.healthLabels?.let {
+                    Labels(MaterialTheme.colors.secondary, NutriShape.mediumRoundedCornerShape,
+                        it
+                    )
+                }
 
                 if (recipe.cautions != null) {
                     Labels(MaterialTheme.colors.secondaryVariant, NutriShape.smallRoundedCornerShape, recipe.cautions)
                 }
-                Ingredients(recipe.ingredients?.get(0)?.parsed!!)
+                recipe.ingredients?.get(0)?.parsed?.let { Ingredients(it) }
             }
         })
 }
