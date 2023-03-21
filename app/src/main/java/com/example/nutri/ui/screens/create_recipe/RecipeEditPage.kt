@@ -21,7 +21,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Ingredient
-import com.example.nutri.ui.viewmodel.CreateRecipeViewModel
+import com.example.nutri.ui.screens.create_recipe.CreateRecipeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -1,4 +1,4 @@
-package com.example.nutri.ui.viewmodel
+package com.example.nutri.ui.screens.my_recipes
 
 import android.util.Log
 import androidx.compose.runtime.MutableState

@@ -24,7 +24,7 @@ import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
-import com.example.nutri.ui.viewmodel.MyRecipesViewModel
+import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 
 const val TAG = "MyRecipesPage"
 @Composable

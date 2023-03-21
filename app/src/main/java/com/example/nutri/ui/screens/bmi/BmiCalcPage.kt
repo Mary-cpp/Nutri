@@ -21,7 +21,7 @@ import com.example.nutri.domain.bmi.model.ExerciseType
 import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
-import com.example.nutri.ui.viewmodel.bmi.BmiViewModel
+import com.example.nutri.ui.screens.bmi.BmiViewModel
 
 @Composable
 fun BmiPage(

@@ -1,4 +1,4 @@
-package com.example.nutri.ui.viewmodel.bmi
+package com.example.nutri.ui.screens.bmi
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
