@@ -1,11 +1,12 @@
 package com.example.nutri.ui.screens.bmi
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
-import com.example.nutri.domain.bmi.model.ExerciseType
+import com.example.nutri.domain.bmi.model.ActivityType
 import com.example.nutri.domain.bmi.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,7 +23,7 @@ class BmiViewModel @Inject constructor(
     val userHeightUnit: MutableState<String> = mutableStateOf("sm")
     val userAge: MutableState<Int> = mutableStateOf(0)
     val userSex: MutableState<Char> = mutableStateOf('M')
-    val userActivity: MutableState<ExerciseType> = mutableStateOf(ExerciseType.SEDENTARY)
+    val userActivity: MutableState<ActivityType> = mutableStateOf(ActivityType.SEDENTARY)
 
     private val user: MutableState<User?> = mutableStateOf(null)
 
@@ -35,11 +36,17 @@ class BmiViewModel @Inject constructor(
             weight = userWeight.value,
             weightMeasure = userWeightUnit.value,
             age = userAge.value,
-            exerciseType = userActivity.value
+            activityType = userActivity.value
         )
 
         val plan = userUseCase.countBMI(user.value!!)
-
         user.value!!.plan = plan
+
+        Log.d("COUNT_PLAN", "ACTIVITY TYPE ${user.value!!.activityType.text}")
+        Log.d("COUNT_PLAN", user.value!!.plan!!.kcal.toString())
+    }
+
+    fun usePlan() = viewModelScope.launch {
+        userUseCase.saveUser(user.value!!)
     }
 }
