@@ -8,5 +8,5 @@ class User (
     val weightMeasure: String,
     val age: Int,
     var plan: DietPlan? = null,
-    val exerciseType: ExerciseType = ExerciseType.LIGHT
+    val activityType: ActivityType = ActivityType.LIGHT
 )

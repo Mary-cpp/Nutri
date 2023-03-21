@@ -20,13 +20,13 @@ class CountBmiImpl: CountBMI {
                 height = user.height,
                 age = user.age,
                 sexValue = -161,
-                activityValue = user.exerciseType.index)
+                activityValue = user.activityType.index)
             bmi2 = harrisBenedictEquation(
                 weight = user.weight,
                 height = user.height,
                 age = user.age,
                 sexValue = 447.593f,
-                activityValue = user.exerciseType.index
+                activityValue = user.activityType.index
             )
         }
         if (user.sex == 'M'){
@@ -35,13 +35,13 @@ class CountBmiImpl: CountBMI {
                 height = user.height,
                 age = user.age,
                 sexValue = 5,
-                activityValue = user.exerciseType.index)
+                activityValue = user.activityType.index)
             bmi2 = harrisBenedictEquation(
                 weight = user.weight,
                 height = user.height,
                 age = user.age,
                 sexValue = 88.362f,
-                activityValue = user.exerciseType.index
+                activityValue = user.activityType.index
             )
         }
 

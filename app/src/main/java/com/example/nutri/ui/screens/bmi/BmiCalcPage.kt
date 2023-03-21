@@ -17,8 +17,9 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.nutri.domain.bmi.model.ExerciseType
+import com.example.nutri.domain.bmi.model.ActivityType
 import com.example.nutri.ui.navigation.BottomNavigationBar
+import com.example.nutri.ui.screens.bmi.ActivityDropDownListButton
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.screens.bmi.BmiViewModel
@@ -159,13 +160,16 @@ fun BmiCalcCard(vm : BmiViewModel){
 
                     Text(text = "Activity type:", fontSize = MaterialTheme.typography.subtitle2.fontSize)
                     
-                    DropDownListButton(mutableString = remember {
+                    ActivityDropDownListButton(
+                        mutableString = remember {
                         mutableStateOf( activityType.value.text)
                     },
                         color = MaterialTheme.colors.background,
                         shape = NutriShape.smallRoundCornerShape,
-                        menuItems = ExerciseType.entries,
-                        buttonSize = 150)
+                        menuItems = ActivityType.entries,
+                        buttonSize = 150,
+                        activity = activityType
+                    )
                 }
             }
 
@@ -173,8 +177,7 @@ fun BmiCalcCard(vm : BmiViewModel){
 
             Button(
                 onClick = {
-                          vm.countPlan()
-                          },
+                    vm.countPlan() },
                 elevation = ButtonDefaults.elevation(6.dp),
                 modifier = Modifier
                     .fillMaxWidth()

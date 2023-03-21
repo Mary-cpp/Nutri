@@ -1,6 +1,6 @@
 package com.example.nutri.domain.bmi.model
 
-enum class ExerciseType (
+enum class ActivityType (
     var text: String,
     var index: Float
 ) {
@@ -12,11 +12,11 @@ enum class ExerciseType (
 
     companion object {
         val entries: List<String> = listOf(
-            "Sedentary",
-            "Light",
-            "Moderate",
-            "Very active",
-            "Extra active"
+            "SEDENTARY",
+            "LIGHT",
+            "MODERATE",
+            "VERY_ACTIVE",
+            "EXTRA_ACTIVE"
         )
     }
 }
