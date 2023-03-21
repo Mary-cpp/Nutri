@@ -2,8 +2,8 @@ package com.example.nutri.di
 
 import android.content.Context
 import com.example.nutri.data.bmi.database.UserDatabase
-import com.example.nutri.data.repository.UserDataBaseGateway
-import com.example.nutri.data.repository.UserDatabaseGatewayImpl
+import com.example.nutri.data.bmi.repository.UserDataBaseGateway
+import com.example.nutri.data.bmi.repository.UserDatabaseGatewayImpl
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
 import com.example.nutri.domain.bmi.interactor.BmiInteractorImpl
 import com.example.nutri.domain.bmi.interactor.CountBMI
