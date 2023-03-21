@@ -35,14 +35,10 @@ import com.example.nutri.ui.viewmodel.RecipeViewModel
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RecipePage(
-    vm: RecipeViewModel = hiltViewModel(),
-    navController: NavController,
-    recipeId: Int) {
+    vm: RecipeViewModel,
+    navController: NavController) {
 
-    Log.d(TAG, "RECIPE ID: $recipeId")
-    vm.recipeId.value = recipeId
-
-    vm.onRecipeScreenLoading()
+    Log.d(TAG, "RECIPE ID: ${vm.recipeId.value}")
 
     val recipe = vm.recipe.value
 
@@ -245,7 +241,6 @@ fun IngredientCard(ingredient: Characteristics) {
 fun RecipePagePreview() {
     NutriTheme {
         RecipePage(hiltViewModel(),
-            rememberNavController(),
-            1)
+            rememberNavController())
     }
 }

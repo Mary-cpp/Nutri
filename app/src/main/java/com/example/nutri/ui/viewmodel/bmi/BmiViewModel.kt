@@ -7,9 +7,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
 import com.example.nutri.domain.bmi.model.ExerciseType
 import com.example.nutri.domain.bmi.model.User
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class BmiViewModel(
+@HiltViewModel
+class BmiViewModel @Inject constructor(
     private val userUseCase: BmiInteractor
 ) : ViewModel(){
 
