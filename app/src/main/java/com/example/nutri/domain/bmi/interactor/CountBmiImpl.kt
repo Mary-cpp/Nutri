@@ -19,12 +19,14 @@ class CountBmiImpl: CountBMI {
                 weight = user.weight,
                 height = user.height,
                 age = user.age,
-                sexValue = -161)
+                sexValue = -161,
+                activityValue = user.exerciseType.index)
             bmi2 = harrisBenedictEquation(
                 weight = user.weight,
                 height = user.height,
                 age = user.age,
-                sexValue = 447.593f
+                sexValue = 447.593f,
+                activityValue = user.exerciseType.index
             )
         }
         if (user.sex == 'M'){
@@ -32,12 +34,14 @@ class CountBmiImpl: CountBMI {
                 weight = user.weight,
                 height = user.height,
                 age = user.age,
-                sexValue = 5)
+                sexValue = 5,
+                activityValue = user.exerciseType.index)
             bmi2 = harrisBenedictEquation(
                 weight = user.weight,
                 height = user.height,
                 age = user.age,
-                sexValue = 88.362f
+                sexValue = 88.362f,
+                activityValue = user.exerciseType.index
             )
         }
 
@@ -48,19 +52,21 @@ class CountBmiImpl: CountBMI {
         weight: Float,
         height: Float,
         age: Int,
-        sexValue: Int
+        sexValue: Int,
+        activityValue:Float
     ) : Int{
 
-        return (10*weight+6.25*height-5*age+sexValue).toInt()
+        return ((10*weight+6.25*height-5*age+sexValue)*activityValue).toInt()
     }
 
     fun harrisBenedictEquation(
         weight: Float,
         height: Float,
         age: Int,
-        sexValue: Float
+        sexValue: Float,
+        activityValue:Float
     ) : Int{
 
-        return (9.247*weight+3.098*height-4.330*age +sexValue).toInt()
+        return ((9.247*weight+3.098*height-4.330*age +sexValue)*activityValue).toInt()
     }
 }
