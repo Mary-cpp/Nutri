@@ -1,14 +1,15 @@
 package com.example.nutri.domain.bmi.interactor
 
 import com.example.nutri.data.repository.DataBaseGateway
-import com.example.nutri.domain.model.User
+import com.example.nutri.domain.bmi.model.DietPlan
+import com.example.nutri.domain.bmi.model.User
 
 class BmiInteractorImpl(
     val counter: CountBMI,
     val saver: DataBaseGateway
 ) : BmiInteractor {
-    override fun countBMI(user: User) {
-        TODO("Not yet implemented")
+    override fun countBMI(user: User) : DietPlan {
+        return counter.invoke(user)
     }
 
     override fun saveUser(user: User) {

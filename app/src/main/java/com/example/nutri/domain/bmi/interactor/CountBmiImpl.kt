@@ -1,7 +1,7 @@
 package com.example.nutri.domain.bmi.interactor
 
 import com.example.nutri.domain.bmi.model.DietPlan
-import com.example.nutri.domain.model.User
+import com.example.nutri.domain.bmi.model.User
 
 class CountBmiImpl: CountBMI {
     override fun invoke(user: User): DietPlan {
@@ -9,7 +9,8 @@ class CountBmiImpl: CountBMI {
     }
 
     fun avg(
-        user: User) : Int{
+        user: User
+    ) : Int{
 
         var bmi1 = 0; var bmi2 = 0
 

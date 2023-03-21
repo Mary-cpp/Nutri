@@ -1,10 +1,11 @@
 package com.example.nutri.domain.bmi.interactor
 
-import com.example.nutri.domain.model.User
+import com.example.nutri.domain.bmi.model.DietPlan
+import com.example.nutri.domain.bmi.model.User
 
 interface BmiInteractor {
 
-    fun countBMI(user: User)
+    fun countBMI(user: User) : DietPlan
 
-    fun saveUser(user:User)
+    fun saveUser(user: User)
 }
