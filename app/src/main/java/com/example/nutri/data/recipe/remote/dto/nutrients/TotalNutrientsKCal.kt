@@ -1,4 +1,4 @@
-package com.example.nutri.data.dto.nutrients
+package com.example.nutri.data.recipe.remote.dto.nutrients
 
 import com.google.gson.annotations.SerializedName
 

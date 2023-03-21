@@ -1,4 +1,4 @@
-package com.example.nutri.data.entity
+package com.example.nutri.data.recipe.local.entity
 
 import androidx.room.Embedded
 import androidx.room.Relation

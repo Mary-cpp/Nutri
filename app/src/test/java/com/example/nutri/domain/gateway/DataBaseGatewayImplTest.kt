@@ -1,9 +1,9 @@
 package com.example.nutri.domain.gateway
 
-import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.data.database.dao.RecipeDAO
-import com.example.nutri.data.dto.Characteristics
-import com.example.nutri.data.repository.DataBaseGatewayImpl
+import com.example.nutri.data.recipe.local.database.RecipeDatabase
+import com.example.nutri.data.recipe.local.database.dao.RecipeDAO
+import com.example.nutri.data.recipe.remote.dto.Characteristics
+import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
@@ -86,7 +86,7 @@ internal class DataBaseGatewayImplTest {
         return list.toList()
     }
 
-    private fun createRandomIngredient() : Characteristics{
+    private fun createRandomIngredient() : Characteristics {
         return Characteristics(
             quantity = Random().nextDouble(),
             measure = "MEASURE",

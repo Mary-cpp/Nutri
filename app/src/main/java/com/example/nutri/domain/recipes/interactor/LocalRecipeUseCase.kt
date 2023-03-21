@@ -1,6 +1,6 @@
 package com.example.nutri.domain.recipes.interactor
 
-import com.example.nutri.data.repository.DataBaseGatewayImpl
+import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.recipes.model.Recipe
 import javax.inject.Inject
 

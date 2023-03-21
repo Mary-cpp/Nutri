@@ -8,8 +8,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.data.repository.DataBaseGatewayImpl
+import com.example.nutri.data.recipe.local.database.RecipeDatabase
+import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.recipes.interactor.LocalRecipeUseCase
 import com.example.nutri.ui.screens.*
 import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel

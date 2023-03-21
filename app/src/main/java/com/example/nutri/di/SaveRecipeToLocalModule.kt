@@ -1,9 +1,9 @@
 package com.example.nutri.di
 
 import android.content.Context
-import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.data.repository.DataBaseGateway
-import com.example.nutri.data.repository.DataBaseGatewayImpl
+import com.example.nutri.data.recipe.local.database.RecipeDatabase
+import com.example.nutri.data.recipe.local.repository.DataBaseGateway
+import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.recipes.interactor.LocalRecipeUseCase
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import dagger.Module

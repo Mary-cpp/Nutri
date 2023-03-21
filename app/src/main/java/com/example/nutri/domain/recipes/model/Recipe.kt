@@ -1,9 +1,9 @@
 package com.example.nutri.domain.recipes.model
 
-import com.example.nutri.data.dto.Characteristics
-import com.example.nutri.data.dto.Ingredient
-import com.example.nutri.data.dto.TotalNutrients
-import com.example.nutri.data.dto.nutrients.TotalNutrientsKCal
+import com.example.nutri.data.recipe.remote.dto.Characteristics
+import com.example.nutri.data.recipe.remote.dto.Ingredient
+import com.example.nutri.data.recipe.remote.dto.TotalNutrients
+import com.example.nutri.data.recipe.remote.dto.nutrients.TotalNutrientsKCal
 import com.google.gson.annotations.SerializedName
 
 data class Recipe (

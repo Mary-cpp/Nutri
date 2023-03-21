@@ -1,11 +1,11 @@
-package com.example.nutri.data.database
+package com.example.nutri.data.recipe.local.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.nutri.data.database.dao.RecipeDAO
-import com.example.nutri.data.entity.*
+import com.example.nutri.data.recipe.local.database.dao.RecipeDAO
+import com.example.nutri.data.recipe.local.entity.*
 
 @Database(
     entities =
@@ -27,7 +27,7 @@ abstract class RecipeDatabase : RoomDatabase() {
         @Volatile
         private var INSTANCE: RecipeDatabase? = null
 
-        fun getDatabase(context: Context) : RecipeDatabase{
+        fun getDatabase(context: Context) : RecipeDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context = context.applicationContext,

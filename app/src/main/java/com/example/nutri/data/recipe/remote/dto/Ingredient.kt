@@ -1,4 +1,4 @@
-package com.example.nutri.data.dto
+package com.example.nutri.data.recipe.remote.dto
 
 data class Ingredient(
     val text: String,

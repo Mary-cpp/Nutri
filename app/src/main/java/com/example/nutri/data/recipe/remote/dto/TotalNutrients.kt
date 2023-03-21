@@ -1,6 +1,6 @@
-package com.example.nutri.data.dto
+package com.example.nutri.data.recipe.remote.dto
 
-import com.example.nutri.data.dto.nutrients.*
+import com.example.nutri.data.recipe.remote.dto.nutrients.*
 import com.google.gson.annotations.SerializedName
 
 data class TotalNutrients (

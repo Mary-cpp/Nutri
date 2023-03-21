@@ -1,4 +1,4 @@
-package com.example.nutri.data.repository
+package com.example.nutri.data.recipe.remote.repository
 
 import com.example.nutri.domain.recipes.model.Recipe
 

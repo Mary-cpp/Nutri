@@ -1,10 +1,10 @@
-package com.example.nutri.data.repository
+package com.example.nutri.data.recipe.local.repository
 
 import android.util.Log
-import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.data.dto.Characteristics
-import com.example.nutri.data.dto.Ingredient
-import com.example.nutri.data.entity.*
+import com.example.nutri.data.recipe.local.database.RecipeDatabase
+import com.example.nutri.data.recipe.remote.dto.Characteristics
+import com.example.nutri.data.recipe.remote.dto.Ingredient
+import com.example.nutri.data.recipe.local.entity.*
 import com.example.nutri.domain.recipes.model.Recipe
 import java.lang.StringBuilder
 import javax.inject.Inject
@@ -106,7 +106,8 @@ class DataBaseGatewayImpl @Inject constructor(
         labels.forEach {
             listOfLabels.add(
                 LabelsInRecipe(idRecipe = recipeId,
-                idLabel = database.recipeDAO().getLabelId(it)))
+                idLabel = database.recipeDAO().getLabelId(it))
+            )
         }
 
         return listOfLabels.toList()
@@ -114,7 +115,8 @@ class DataBaseGatewayImpl @Inject constructor(
 
     suspend fun createSpecifiedIngredient(
         recipeId: Int,
-        ingredient: Characteristics)
+        ingredient: Characteristics
+    )
             = IngredientInRecipe(
         idRecipe =  recipeId,
         idIngredient = database.recipeDAO().getIngredientId(ingredient.foodMatch),
@@ -224,8 +226,10 @@ class DataBaseGatewayImpl @Inject constructor(
         val ingredientsList: MutableList<IngredientEntity> = mutableListOf()
 
         list.forEach{
-            ingredientsList.add(IngredientEntity(id = null,
-                name = it.foodMatch))
+            ingredientsList.add(
+                IngredientEntity(id = null,
+                name = it.foodMatch)
+            )
         }
         return ingredientsList.toList()
     }
@@ -235,10 +239,12 @@ class DataBaseGatewayImpl @Inject constructor(
         val entityLabels : MutableList<Label> = mutableListOf()
 
         labels.forEach{
-            entityLabels.add(Label(id = null,
+            entityLabels.add(
+                Label(id = null,
                 text = it,
                 category = category
-            ))
+            )
+            )
         }
         return entityLabels.toList()
     }

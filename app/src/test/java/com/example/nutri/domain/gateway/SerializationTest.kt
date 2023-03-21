@@ -1,10 +1,10 @@
 package com.example.nutri.domain.gateway
 
-import com.example.nutri.data.dto.Characteristics
-import com.example.nutri.data.dto.Ingredient
-import com.example.nutri.data.dto.TotalNutrients
-import com.example.nutri.data.dto.nutrients.*
-import com.example.nutri.data.repository.ApiGatewayImpl
+import com.example.nutri.data.recipe.remote.dto.Characteristics
+import com.example.nutri.data.recipe.remote.dto.Ingredient
+import com.example.nutri.data.recipe.remote.dto.TotalNutrients
+import com.example.nutri.data.recipe.remote.dto.nutrients.*
+import com.example.nutri.data.recipe.remote.repository.ApiGatewayImpl
 import com.example.nutri.domain.recipes.model.Recipe
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -149,7 +149,8 @@ class SerializationTest {
       VITK1 = VITK1("Vitamin K (phylloquinone)", 0.6,"µg"),
       FOLFD = FOLFD("Folate, food", 10.0,"µg"),
       FOLAC = FOLAC("Folic acid", 0.0, "µg"),
-      FOLDFE = FOLDFE( "Folate, DFE", 10.0, "µg")),
+      FOLDFE = FOLDFE( "Folate, DFE", 10.0, "µg")
+      ),
       totalDaily = TotalNutrients(
       VITD = VITD( "Vitamin D", 17.333333333333332,"%"),
       ENERCKCAL = ENERC_KCAL("Energy",6.1,"%"),
@@ -183,7 +184,8 @@ class SerializationTest {
       FOLAC = null,
       FOLDFE = FOLDFE( "Folate equivalent (total)", 2.5, "%")
       ),
-      ingredients = listOf(Ingredient(
+      ingredients = listOf(
+        Ingredient(
       text = "milk 200g",
       parsed = listOf(Characteristics(
       quantity = 200.0,
@@ -224,10 +226,12 @@ class SerializationTest {
       VITK1 = VITK1("Vitamin K (phylloquinone)", 0.6,"µg"),
       FOLFD = FOLFD("Folate, food", 10.0,"µg"),
       FOLAC = FOLAC("Folic acid", 0.0, "µg"),
-      FOLDFE = FOLDFE( "Folate, DFE", 10.0, "µg")),
+      FOLDFE = FOLDFE( "Folate, DFE", 10.0, "µg")
+      ),
       measureUri = null,
       status = "OK"
-      )))),
+      )))
+      ),
       totalNutrientsKCal = TotalNutrientsKCal(
       ENERCKCAL = ENERC_KCAL("Energy",121.0,"kcal"),
       PROCNTKCAL = PROCNT_KCAL("Calories from protein", 25.0, "kcal"),

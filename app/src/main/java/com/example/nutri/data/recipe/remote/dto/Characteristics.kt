@@ -1,4 +1,4 @@
-package com.example.nutri.data.dto
+package com.example.nutri.data.recipe.remote.dto
 
 data class Characteristics (
     val quantity: Double,
@@ -15,7 +15,7 @@ data class Characteristics (
 
     companion object{
 
-        fun makeCharacteristics() : Characteristics{
+        fun makeCharacteristics() : Characteristics {
 
             return Characteristics(
                 quantity = 0.0,

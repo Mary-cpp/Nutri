@@ -24,7 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
-import com.example.nutri.data.dto.Characteristics
+import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriShape

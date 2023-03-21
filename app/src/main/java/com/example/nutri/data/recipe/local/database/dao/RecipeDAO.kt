@@ -1,7 +1,7 @@
-package com.example.nutri.data.database.dao
+package com.example.nutri.data.recipe.local.database.dao
 
 import androidx.room.*
-import com.example.nutri.data.entity.*
+import com.example.nutri.data.recipe.local.entity.*
 
 @Dao
 interface RecipeDAO {
