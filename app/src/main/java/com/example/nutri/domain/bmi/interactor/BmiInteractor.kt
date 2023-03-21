@@ -7,5 +7,5 @@ interface BmiInteractor {
 
     fun countBMI(user: User) : DietPlan
 
-    fun saveUser(user: User)
+    suspend fun saveUser(user: User)
 }
