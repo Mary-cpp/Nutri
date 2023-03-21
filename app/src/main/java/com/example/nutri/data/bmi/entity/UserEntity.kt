@@ -8,12 +8,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "users",
 foreignKeys = [
     ForeignKey(
-        entity = DietPlanEntity::class,
-        childColumns = ["diet_id"],
-        parentColumns = ["id"],
-        onDelete = ForeignKey.SET_DEFAULT
-    ),
-    ForeignKey(
         entity = ActivityTypeEntity::class,
         childColumns = ["activity_type_id"],
         parentColumns = ["id"],
@@ -23,7 +17,7 @@ foreignKeys = [
 class UserEntity (
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: Int? = 0,
 
     val height: Float,
     val heightUnit: String,
@@ -31,9 +25,6 @@ class UserEntity (
     val weightUnit: String,
     val age: Int,
     val sex: Char,
-
-    @ColumnInfo(name = "diet_id", index = true)
-    val dietPlanId: Int,
 
     @ColumnInfo(name = "activity_type_id", index = true, defaultValue = 0.toString())
     val activityTypeId: Int

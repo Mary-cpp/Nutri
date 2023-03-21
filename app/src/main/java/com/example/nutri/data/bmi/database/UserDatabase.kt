@@ -14,7 +14,7 @@ import com.example.nutri.data.bmi.entity.*
         DietPlanEntity::class,
         UserEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false)
 abstract class UserDatabase : RoomDatabase()
 {
