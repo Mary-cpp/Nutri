@@ -71,7 +71,8 @@ fun RecipeBottomSheetContent(
                 DropDownListButton(
                     mutableString = ingredientUnits,
                     color = MaterialTheme.colors.secondaryVariant,
-                    menuItems = listOf("g", "ml"))
+                    menuItems = listOf("g", "ml"),
+                    buttonSize = 48)
             }
         }
     }
@@ -81,6 +82,7 @@ fun RecipeBottomSheetContent(
 fun DropDownListButton(
     mutableString: MutableState<String>,
     menuItems: List<String>,
+    buttonSize: Int,
     shape : RoundedCornerShape = NutriShape.mediumRoundedCornerShape,
     color: Color
 ){
@@ -94,7 +96,7 @@ fun DropDownListButton(
             onClick = { isExpanded.value = true },
             modifier = Modifier
                 .padding(start = 8.dp)
-                .size(48.dp),
+                .size(height = 48.dp, width = buttonSize.dp),
             colors = ButtonDefaults.buttonColors(backgroundColor = color),
             shape = shape
         ) {
