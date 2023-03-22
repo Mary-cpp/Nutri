@@ -17,23 +17,23 @@ class BmiViewModel @Inject constructor(
     private val userUseCase: BmiInteractor
 ) : ViewModel(){
 
-    val userWeight: MutableState<Float> = mutableStateOf(0f)
+    val userWeight: MutableState<Int> = mutableStateOf(0)
     val userWeightUnit: MutableState<String> = mutableStateOf("kg")
-    val userHeight: MutableState<Float> = mutableStateOf(0f)
+    val userHeight: MutableState<Int> = mutableStateOf(0)
     val userHeightUnit: MutableState<String> = mutableStateOf("sm")
     val userAge: MutableState<Int> = mutableStateOf(0)
     val userSex: MutableState<Char> = mutableStateOf('M')
     val userActivity: MutableState<ActivityType> = mutableStateOf(ActivityType.SEDENTARY)
 
-    private val user: MutableState<User?> = mutableStateOf(null)
+    val user: MutableState<User?> = mutableStateOf(null)
 
 
     fun countPlan() = viewModelScope.launch{
         user.value = User(
             sex = userSex.value,
-            height = userHeight.value,
+            height = userHeight.value.toFloat(),
             heightMeasure = userHeightUnit.value,
-            weight = userWeight.value,
+            weight = userWeight.value.toFloat(),
             weightMeasure = userWeightUnit.value,
             age = userAge.value,
             activityType = userActivity.value

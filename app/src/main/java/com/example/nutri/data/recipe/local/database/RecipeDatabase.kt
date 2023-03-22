@@ -4,6 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.nutri.data.recipe.local.database.dao.UserDAO
+import com.example.nutri.data.bmi.entity.ActivityTypeEntity
+import com.example.nutri.data.bmi.entity.DietPlanEntity
+import com.example.nutri.data.bmi.entity.UserEntity
 import com.example.nutri.data.recipe.local.database.dao.RecipeDAO
 import com.example.nutri.data.recipe.local.entity.*
 
@@ -14,13 +18,18 @@ import com.example.nutri.data.recipe.local.entity.*
         IngredientEntity::class,
         Label::class,
         IngredientInRecipe::class,
-        LabelsInRecipe::class
+        LabelsInRecipe::class,
+        ActivityTypeEntity::class,
+        DietPlanEntity::class,
+        UserEntity::class
     ],
-    version = 9,
+    version = 10,
     exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {
 
     abstract fun recipeDAO() : RecipeDAO
+
+    abstract fun userDAO() : UserDAO
 
     companion object {
 

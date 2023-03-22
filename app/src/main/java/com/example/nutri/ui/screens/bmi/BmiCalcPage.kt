@@ -10,6 +10,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,9 +21,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nutri.domain.bmi.model.ActivityType
 import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.screens.bmi.ActivityDropDownListButton
+import com.example.nutri.ui.screens.bmi.BmiViewModel
+import com.example.nutri.ui.screens.bmi.composables.TrackUser
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
-import com.example.nutri.ui.screens.bmi.BmiViewModel
 
 @Composable
 fun BmiPage(
@@ -32,7 +34,7 @@ fun BmiPage(
     Scaffold(modifier = Modifier.fillMaxSize(),
         contentColor = Color.White,
         bottomBar = { BottomNavigationBar(navController = navController) },
-        topBar = { TopBar(topBarText = "BMI Calculator") },
+        topBar = { TopBar("BMI Calculator") },
         content = {
             Surface(
                 Modifier
@@ -49,6 +51,8 @@ fun BmiPage(
 @Composable
 fun BmiCalcCard(vm : BmiViewModel){
 
+    val context = LocalContext.current
+
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -62,6 +66,7 @@ fun BmiCalcCard(vm : BmiViewModel){
 
         Column(modifier = Modifier.padding(24.dp),
         verticalArrangement = Arrangement.SpaceEvenly){
+
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Choose your gender",
@@ -104,7 +109,7 @@ fun BmiCalcCard(vm : BmiViewModel){
 
                 OutlinedTextField(
                     value = weight.value.toString(),
-                    onValueChange = { weight.value = it.toFloat()},
+                    onValueChange = { weight.value = it.toInt()},
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     shape = NutriShape.smallRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(MaterialTheme.colors.primary),
@@ -125,7 +130,7 @@ fun BmiCalcCard(vm : BmiViewModel){
 
                 OutlinedTextField(
                     value = height.value.toString(),
-                    onValueChange = { height.value = it.toFloat()},
+                    onValueChange = { height.value = it.toInt()},
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     shape = NutriShape.smallRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(MaterialTheme.colors.primary),
@@ -190,9 +195,11 @@ fun BmiCalcCard(vm : BmiViewModel){
                     textAlign = TextAlign.Center,
                     fontSize = MaterialTheme.typography.subtitle2.fontSize)
             }
+
+            vm.user.value?.plan?.let {
+                TrackUser(context = context, vm = vm)
+            }
         }
-
-
     }
 }
 

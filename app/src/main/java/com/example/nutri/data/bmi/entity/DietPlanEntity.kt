@@ -16,7 +16,7 @@ import androidx.room.PrimaryKey
 class DietPlanEntity (
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = 0,
+    val id: Int?,
 
     val kcal: Int,
     val proteins: Int? = null,

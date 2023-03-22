@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 class ActivityTypeEntity (
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = 0,
+    val id: Int?,
 
     val text: String,
 )

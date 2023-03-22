@@ -17,7 +17,7 @@ foreignKeys = [
 class UserEntity (
 
     @PrimaryKey(autoGenerate = true)
-    val id: Int? = 0,
+    val id: Int?,
 
     val height: Float,
     val heightUnit: String,

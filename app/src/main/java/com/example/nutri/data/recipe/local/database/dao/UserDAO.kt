@@ -1,4 +1,4 @@
-package com.example.nutri.data.bmi.database.dao
+package com.example.nutri.data.recipe.local.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
