@@ -1,4 +1,4 @@
-package com.example.nutri.data.recipe.local.database.dao
+package com.example.nutri.data.database.dao
 
 import androidx.room.*
 import com.example.nutri.data.recipe.local.entity.*

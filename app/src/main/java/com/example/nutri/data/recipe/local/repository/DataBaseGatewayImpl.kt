@@ -1,7 +1,7 @@
 package com.example.nutri.data.recipe.local.repository
 
 import android.util.Log
-import com.example.nutri.data.recipe.local.database.RecipeDatabase
+import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.data.recipe.remote.dto.Ingredient
 import com.example.nutri.data.recipe.local.entity.*

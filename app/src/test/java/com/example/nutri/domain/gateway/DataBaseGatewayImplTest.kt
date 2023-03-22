@@ -1,7 +1,7 @@
 package com.example.nutri.domain.gateway
 
-import com.example.nutri.data.recipe.local.database.RecipeDatabase
-import com.example.nutri.data.recipe.local.database.dao.RecipeDAO
+import com.example.nutri.data.database.RecipeDatabase
+import com.example.nutri.data.database.dao.RecipeDAO
 import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.recipes.model.Recipe

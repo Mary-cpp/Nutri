@@ -1,8 +1,9 @@
-package com.example.nutri.data.recipe.local.database.dao
+package com.example.nutri.data.database.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import com.example.nutri.data.bmi.entity.*
 
 @Dao
@@ -23,6 +24,7 @@ interface UserDAO {
     @Insert
     suspend fun addUser(userEntity: UserEntity) : Long
 
+    @Transaction
     @Query("SELECT * FROM users WHERE id = :userId")
     suspend fun getUser(userId: Int) : UserEntity
 

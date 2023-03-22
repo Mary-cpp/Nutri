@@ -4,7 +4,7 @@ import android.util.Log
 import com.example.nutri.data.bmi.entity.ActivityTypeEntity
 import com.example.nutri.data.bmi.entity.DietPlanEntity
 import com.example.nutri.data.bmi.entity.UserEntity
-import com.example.nutri.data.recipe.local.database.RecipeDatabase
+import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.domain.bmi.model.ActivityType
 import com.example.nutri.domain.bmi.model.DietPlan
 import com.example.nutri.domain.bmi.model.User
