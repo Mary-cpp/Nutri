@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(
     tableName = "meals",
@@ -22,5 +23,5 @@ class MealEntity (
 
     @ColumnInfo("id_category", index = true)
     val idCategory: Int,
-    val date: Long
+    val date: Date
     )
