@@ -1,8 +1,10 @@
 package com.example.nutri.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -22,6 +24,7 @@ import com.example.nutri.domain.bmi.model.ActivityType
 import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.screens.bmi.ActivityDropDownListButton
 import com.example.nutri.ui.screens.bmi.BmiViewModel
+import com.example.nutri.ui.screens.bmi.composables.DietResultCard
 import com.example.nutri.ui.screens.bmi.composables.TrackUser
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
@@ -42,7 +45,13 @@ fun BmiPage(
                     .padding(it),
                 color = MaterialTheme.colors.background
             ){
-                BmiCalcCard(vm = vm)
+                Column (Modifier.verticalScroll(rememberScrollState(), true)){
+                    vm.user.value?.plan?.let { plan ->
+                        DietResultCard(plan = plan)
+                    }
+
+                    BmiCalcCard(vm = vm)
+                }
             }
         }
     )
@@ -103,7 +112,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                 }
             }
 
-            Row(modifier = Modifier){
+            Row(modifier = Modifier.padding(top = 16.dp, start = 8.dp, bottom = 8.dp)){
 
                 val weightUnits = vm.userWeightUnit
 
@@ -124,7 +133,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                     buttonSize = 48)
             }
 
-            Row(modifier = Modifier){
+            Row(modifier = Modifier.padding(8.dp)){
 
                 val heightUnits = vm.userHeightUnit
 
@@ -144,10 +153,10 @@ fun BmiCalcCard(vm : BmiViewModel){
                     menuItems = listOf("m", "ft"),
                     buttonSize = 48)
             }
-            Row(modifier = Modifier.fillMaxWidth(),
+            Row(modifier = Modifier.fillMaxWidth().padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween){
 
-                val activityType = vm.userActivity
+
 
                 OutlinedTextField(
                     value = age.value.toString(),
@@ -158,27 +167,27 @@ fun BmiCalcCard(vm : BmiViewModel){
                     modifier = Modifier.size(width = 88.dp, height = 64.dp),
                     label = { Text( "Age")}
                 )
-
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ){
-
-                    Text(text = "Activity type:", fontSize = MaterialTheme.typography.subtitle2.fontSize)
-                    
-                    ActivityDropDownListButton(
-                        mutableString = remember {
-                        mutableStateOf( activityType.value.text)
-                    },
-                        color = MaterialTheme.colors.background,
-                        shape = NutriShape.smallRoundCornerShape,
-                        menuItems = ActivityType.entries,
-                        buttonSize = 150,
-                        activity = activityType
-                    )
-                }
             }
 
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
 
+                val activityType = vm.userActivity
+
+                Text(text = "Activity type:", fontSize = MaterialTheme.typography.subtitle2.fontSize)
+
+                ActivityDropDownListButton(
+                    mutableString = remember {
+                        mutableStateOf( activityType.value.text)
+                    },
+                    color = MaterialTheme.colors.background,
+                    shape = NutriShape.smallRoundCornerShape,
+                    menuItems = ActivityType.entries,
+                    buttonSize = 150,
+                    activity = activityType
+                )
+            }
 
             Button(
                 onClick = {
