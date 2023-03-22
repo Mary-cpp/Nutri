@@ -12,7 +12,7 @@ import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
 @Module
-object GetRecipeFromApiModule {
+object RecipeApiModule {
 
     @Provides
     fun provideUseCase(

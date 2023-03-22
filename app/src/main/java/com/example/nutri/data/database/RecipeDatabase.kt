@@ -32,7 +32,7 @@ import com.example.nutri.data.statistics.entities.RecipeInMeal
         MealCategory::class,
         RecipeInMeal::class
     ],
-    version = 10,
+    version = 11,
     exportSchema = false)
 @TypeConverters(Converter::class)
 abstract class RecipeDatabase : RoomDatabase() {
