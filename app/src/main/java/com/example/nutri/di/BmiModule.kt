@@ -2,7 +2,7 @@ package com.example.nutri.di
 
 import com.example.nutri.data.bmi.repository.UserDataBaseGateway
 import com.example.nutri.data.bmi.repository.UserDatabaseGatewayImpl
-import com.example.nutri.data.recipe.local.database.RecipeDatabase
+import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
 import com.example.nutri.domain.bmi.interactor.BmiInteractorImpl
 import com.example.nutri.domain.bmi.interactor.CountBMI

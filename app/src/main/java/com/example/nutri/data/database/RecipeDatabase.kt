@@ -1,15 +1,19 @@
-package com.example.nutri.data.recipe.local.database
+package com.example.nutri.data.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.nutri.data.recipe.local.database.dao.UserDAO
+import com.example.nutri.data.database.dao.UserDAO
 import com.example.nutri.data.bmi.entity.ActivityTypeEntity
 import com.example.nutri.data.bmi.entity.DietPlanEntity
 import com.example.nutri.data.bmi.entity.UserEntity
-import com.example.nutri.data.recipe.local.database.dao.RecipeDAO
+import com.example.nutri.data.database.dao.MealDAO
+import com.example.nutri.data.database.dao.RecipeDAO
 import com.example.nutri.data.recipe.local.entity.*
+import com.example.nutri.data.statistics.entities.MealCategory
+import com.example.nutri.data.statistics.entities.MealEntity
+import com.example.nutri.data.statistics.entities.RecipeInMeal
 
 @Database(
     entities =
@@ -21,15 +25,18 @@ import com.example.nutri.data.recipe.local.entity.*
         LabelsInRecipe::class,
         ActivityTypeEntity::class,
         DietPlanEntity::class,
-        UserEntity::class
+        UserEntity::class,
+        MealEntity::class,
+        MealCategory::class,
+        RecipeInMeal::class
     ],
     version = 10,
     exportSchema = false)
 abstract class RecipeDatabase : RoomDatabase() {
 
     abstract fun recipeDAO() : RecipeDAO
-
     abstract fun userDAO() : UserDAO
+    abstract fun mealDAO() : MealDAO
 
     companion object {
 
