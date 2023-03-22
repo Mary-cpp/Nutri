@@ -118,7 +118,10 @@ fun BmiCalcCard(vm : BmiViewModel){
 
                 OutlinedTextField(
                     value = weight.value.toString(),
-                    onValueChange = { weight.value = it.toInt()},
+                    onValueChange = {
+                        if (it.isNotEmpty()){
+                            weight.value = it.toInt()}
+                        },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     shape = NutriShape.smallRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(MaterialTheme.colors.primary),
@@ -139,7 +142,10 @@ fun BmiCalcCard(vm : BmiViewModel){
 
                 OutlinedTextField(
                     value = height.value.toString(),
-                    onValueChange = { height.value = it.toInt()},
+                    onValueChange = {
+                        if (it.isNotEmpty()){
+                        height.value = it.toInt()}
+                    },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     shape = NutriShape.smallRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(MaterialTheme.colors.primary),
@@ -160,7 +166,10 @@ fun BmiCalcCard(vm : BmiViewModel){
 
                 OutlinedTextField(
                     value = age.value.toString(),
-                    onValueChange = { age.value = it.toInt()},
+                    onValueChange = {
+                        if (it.isNotEmpty()){
+                            age.value = it.toInt()}
+                            },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     shape = NutriShape.smallRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(MaterialTheme.colors.primary),
