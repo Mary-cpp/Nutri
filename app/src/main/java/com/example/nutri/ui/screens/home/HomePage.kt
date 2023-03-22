@@ -1,7 +1,6 @@
 package com.example.nutri.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -16,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.navigation.Screen
-import com.example.nutri.ui.theme.NutriShape
+import com.example.nutri.ui.screens.home.composables.HomeBottomSheetContent
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -82,66 +81,6 @@ fun HomePageBottomSheet(){
         HomePageStatistics(scope)
     }
 
-}
-
-@Composable
-fun HomeBottomSheetContent(){
-
-    Surface(modifier = Modifier
-        .fillMaxWidth()
-        .padding(24.dp),
-    shape = NutriShape.mediumRoundedCornerShape,
-    color = MaterialTheme.colors.primary) {
-
-        LazyColumn(){
-            item { MealBigCard("Breakfast") }
-            item { MealBigCard("Lunch") }
-        }
-    }
-}
-
-@Composable
-fun MealBigCard(mealCommonTitle: String){
-
-    Column(modifier = Modifier.padding(16.dp)) {
-
-        Text(text = mealCommonTitle,
-        fontSize = MaterialTheme.typography.h6.fontSize,
-        modifier = Modifier.padding(bottom = 16.dp, start = 10.dp))
-
-        Card(modifier = Modifier.fillMaxWidth(),
-            backgroundColor = MaterialTheme.colors.background,
-            shape = NutriShape.mediumRoundedCornerShape,
-        ){
-
-            Column (verticalArrangement = Arrangement.SpaceBetween)
-            {
-                MealSmallCard("Meal1", "100g")
-                MealSmallCard("Meal2", "200g")
-            }
-        }
-    }
-}
-
-@Composable
-fun MealSmallCard(
-    mealTitle: String,
-    amount: String
-){
-
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(12.dp),
-        shape = NutriShape.mediumRoundedCornerShape,
-        backgroundColor = MaterialTheme.colors.surface) {
-
-        Row (modifier = Modifier.padding(24.dp),
-            horizontalArrangement = Arrangement.SpaceBetween){
-            Text(text = mealTitle)
-            Text(text = amount)
-        }
-
-    }
 }
 
 @Composable
