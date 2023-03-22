@@ -4,11 +4,11 @@ enum class ActivityType (
     var text: String,
     var index: Float
 ) {
-    SEDENTARY(text = "Sedentary", index = 1.2f),
-    LIGHT(text = "Light", index = 1.375f),
-    MODERATE(text = "Moderate", index = 1.55f),
-    VERY_ACTIVE(text = "Very active", index = 1.725f),
-    EXTRA_ACTIVE(text = "Extra active", index = 1.9f);
+    SEDENTARY(text = "SEDENTARY", index = 1.2f),
+    LIGHT(text = "LIGHT", index = 1.375f),
+    MODERATE(text = "MODERATE", index = 1.55f),
+    VERY_ACTIVE(text = "VERY_ACTIVE", index = 1.725f),
+    EXTRA_ACTIVE(text = "EXTRA_ACTIVE", index = 1.9f);
 
     companion object {
         val entries: List<String> = listOf(

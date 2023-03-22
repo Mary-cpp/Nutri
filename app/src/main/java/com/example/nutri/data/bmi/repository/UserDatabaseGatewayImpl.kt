@@ -1,5 +1,6 @@
 package com.example.nutri.data.bmi.repository
 
+import android.util.Log
 import com.example.nutri.data.bmi.entity.ActivityTypeEntity
 import com.example.nutri.data.bmi.entity.DietPlanEntity
 import com.example.nutri.data.bmi.entity.UserEntity
@@ -13,6 +14,8 @@ import kotlinx.coroutines.withContext
 class UserDatabaseGatewayImpl(
     val database: RecipeDatabase
 ) : UserDataBaseGateway {
+
+    private val TAG = "UserDatabaseGatewayImpl"
     override suspend fun saveToLocal(user: User): Int {
 
         var userId: Long
@@ -30,7 +33,7 @@ class UserDatabaseGatewayImpl(
                 .addUser(
                     mapUserToEntity(user))
 
-            // add dietplan
+            // add dietPlan
             database.userDAO()
                 .addDietPlan(mapDietPlanToEntity(userId.toInt(), user.plan!!))
         }
@@ -39,7 +42,11 @@ class UserDatabaseGatewayImpl(
     }
 
     override suspend fun getUser(id: Int): User {
-        TODO("Not yet implemented")
+
+        val user = mapEntityToUser(id)
+
+        Log.d(TAG, "User: $user")
+        return user
     }
 
     fun mapActivityToEntity(
@@ -66,4 +73,24 @@ class UserDatabaseGatewayImpl(
         sex = user.sex,
         activityTypeId = database.userDAO().getActivityTypeId(user.activityType.text)
     )
+
+    suspend fun mapEntityToUser(
+        id: Int
+    ) : User{
+
+        val user = database.userDAO().getUser(id)
+        val userPlan = database.userDAO().getDietPlanByUser(id)
+        val activityType = database.userDAO().getActivityTypeById(user.activityTypeId)
+
+        return User(
+            height = user.height,
+            heightMeasure = user.heightUnit,
+            weight = user.weight,
+            weightMeasure = user.weightUnit,
+            age = user.age,
+            sex = user.sex,
+            plan = DietPlan(userPlan.kcal),
+            activityType = ActivityType.valueOf(activityType.text)
+        )
+    }
 }
