@@ -21,7 +21,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.domain.bmi.model.ActivityType
-import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.screens.bmi.ActivityDropDownListButton
 import com.example.nutri.ui.screens.bmi.BmiViewModel
 import com.example.nutri.ui.screens.bmi.composables.DietResultCard
@@ -36,7 +35,6 @@ fun BmiPage(
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         contentColor = Color.White,
-        bottomBar = { BottomNavigationBar(navController = navController) },
         topBar = { TopBar("BMI Calculator") },
         content = {
             Surface(

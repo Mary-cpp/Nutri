@@ -20,11 +20,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Recipe
-import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.navigation.Screen
+import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
-import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 
 const val TAG = "MyRecipesPage"
 @Composable
@@ -36,7 +35,6 @@ fun MyRecipesPage(
     var searchParameter by remember { mutableStateOf("") }
 
     Scaffold(modifier = Modifier.fillMaxSize(),
-        bottomBar = { BottomNavigationBar(navController = navController) },
         topBar = { TopAppBar(title = { Text(text = "MyRecipesPage", color = Color.Black)},
         backgroundColor = MaterialTheme.colors.background, elevation = 0.dp) },
         floatingActionButton = { RecipeFAB(navController) })

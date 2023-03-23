@@ -20,8 +20,13 @@ import com.example.nutri.ui.screens.menuItems
 fun HostScreen(){
     val navController = rememberNavController()
 
-    Scaffold(){
-        NavigationGraph(navController = navController)
+    Scaffold(
+        bottomBar = {
+            BottomNavigationBar(navController = navController)
+        }){
+        NavigationGraph(
+            navController = navController,
+            paddingValues = it)
     }
 }
 
