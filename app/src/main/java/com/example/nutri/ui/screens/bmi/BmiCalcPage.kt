@@ -1,4 +1,4 @@
-package com.example.nutri.ui.screens
+package com.example.nutri.ui.screens.bmi
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -21,8 +21,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.domain.bmi.model.ActivityType
-import com.example.nutri.ui.screens.bmi.ActivityDropDownListButton
-import com.example.nutri.ui.screens.bmi.BmiViewModel
+import com.example.nutri.ui.screens.DropDownListButton
+import com.example.nutri.ui.screens.TopBar
 import com.example.nutri.ui.screens.bmi.composables.DietResultCard
 import com.example.nutri.ui.screens.bmi.composables.TrackUser
 import com.example.nutri.ui.theme.NutriShape

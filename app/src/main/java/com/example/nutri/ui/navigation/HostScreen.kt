@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.ui.screens.menuItems
 
@@ -35,8 +36,16 @@ fun BottomNavigationBar(navController: NavController) {
 
     val selectedItem = remember { mutableStateOf(1) }
 
+    val navBackStackEntry = navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry.value
+
+    val screensWithNoBottomBar = listOf(Screen.EditRecipe.screenRoute, Screen.Recipe.screenRoute)
+
+    if (screensWithNoBottomBar.contains(currentDestination?.destination?.route)) return
+
     BottomNavigation(
         content = {
+
             menuItems.forEachIndexed { index, item ->
                 BottomNavigationItem(
                     modifier = Modifier.padding(top = 8.dp),
