@@ -10,10 +10,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.ui.navigation.Screen
+import com.example.nutri.ui.screens.home.StatisticsViewModel
 import com.example.nutri.ui.screens.home.composables.HomeBottomSheetContent
 import com.example.nutri.ui.screens.home.composables.HomeBottomSheetContentTest
 import com.example.nutri.ui.theme.NutriTheme
@@ -22,7 +24,10 @@ import kotlinx.coroutines.CoroutineScope
 val menuItems = listOf(Screen.MyRecipes, Screen.Home, Screen.BMI)
 
 @Composable
-fun HomePage(navController : NavController) {
+fun HomePage(
+    navController : NavController,
+    vm : StatisticsViewModel
+) {
     Scaffold(topBar = {TopBar(topBarText = "Home")},
         floatingActionButton = { MealFAB(navController = navController) })
     { paddingValues ->
@@ -94,6 +99,6 @@ fun HomePageStatistics(scope: CoroutineScope){
 @Composable
 fun HomePagePreview(){
     NutriTheme {
-        HomePage(rememberNavController())
+        HomePage(rememberNavController(), hiltViewModel())
     }
 }

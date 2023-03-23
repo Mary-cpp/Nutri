@@ -19,6 +19,7 @@ import com.example.nutri.domain.recipes.interactor.LocalRecipeUseCase
 import com.example.nutri.ui.screens.*
 import com.example.nutri.ui.screens.bmi.BmiPage
 import com.example.nutri.ui.screens.bmi.BmiViewModel
+import com.example.nutri.ui.screens.home.StatisticsViewModel
 import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 import com.example.nutri.ui.screens.recipe.RecipeViewModel
 
@@ -29,10 +30,26 @@ fun NavigationGraph(
     NavHost(
         navController = navController,
         startDestination = Screen.Home.screenRoute,
-        modifier = Modifier.fillMaxSize()
-            .padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = paddingValues.calculateBottomPadding())
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                start = 0.dp,
+                end = 0.dp,
+                top = 0.dp,
+                bottom = paddingValues.calculateBottomPadding()
+            )
     ){
-        composable(Screen.Home.screenRoute) { HomePage(navController) }
+        composable(Screen.Home.screenRoute) {
+
+            val vm = hiltViewModel<StatisticsViewModel>().apply {
+                onStatisticsScreenLoaded()
+            }
+
+            HomePage(
+                navController = navController,
+                vm = vm
+            )
+        }
         composable(Screen.MyRecipes.screenRoute) {
             MyRecipesPage(
                 vm = MyRecipesViewModel(
