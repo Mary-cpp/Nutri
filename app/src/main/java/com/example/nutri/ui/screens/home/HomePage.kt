@@ -83,11 +83,11 @@ fun HomePageBottomSheet(){
             HomeBottomSheetContentTest()
         }
     },
-    sheetState = bottomSheetState,
-    scrimColor = Color.Transparent) {
+        sheetElevation = 0.dp,
+        sheetState = bottomSheetState,
+        scrimColor = Color.Transparent) {
         HomePageStatistics(scope)
     }
-
 }
 
 @Composable

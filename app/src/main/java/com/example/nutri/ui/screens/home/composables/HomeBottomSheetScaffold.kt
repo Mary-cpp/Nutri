@@ -25,7 +25,7 @@ fun HomeBottomSheetContent(meals: List<Meal>){
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        shape = NutriShape.smallRoundCornerShape,
+        shape = NutriShape.mealsListCornerShape,
         color = MaterialTheme.colors.primary
     ) {
 
@@ -44,8 +44,8 @@ fun HomeBottomSheetContentTest(){
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        shape = NutriShape.smallRoundCornerShape,
+            .padding(top = 16.dp, start =  16.dp, end = 16.dp),
+        shape = NutriShape.mealsListCornerShape,
         color = MaterialTheme.colors.primary
     ) {
 
@@ -54,7 +54,6 @@ fun HomeBottomSheetContentTest(){
             item { MealBigCardTest() }
             item { MealBigCardTest() }
         }
-
     }
 }
 
