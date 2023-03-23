@@ -75,7 +75,8 @@ fun HomePageBottomSheet(){
             HomeBottomSheetContent()
         }
     },
-    sheetState = bottomSheetState) {
+    sheetState = bottomSheetState,
+    scrimColor = Color.Transparent) {
         HomePageStatistics(scope)
     }
 
@@ -83,7 +84,7 @@ fun HomePageBottomSheet(){
 
 @Composable
 fun HomePageStatistics(scope: CoroutineScope){
-
+    
 }
 
 @Preview

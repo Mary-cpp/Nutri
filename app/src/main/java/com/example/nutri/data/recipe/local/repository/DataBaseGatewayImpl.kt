@@ -7,6 +7,7 @@ import com.example.nutri.data.recipe.remote.dto.Ingredient
 import com.example.nutri.data.recipe.local.entity.*
 import com.example.nutri.domain.recipes.model.Recipe
 import java.lang.StringBuilder
+import java.util.UUID
 import javax.inject.Inject
 
 class DataBaseGatewayImpl @Inject constructor(
@@ -16,43 +17,74 @@ class DataBaseGatewayImpl @Inject constructor(
     val TAG: String = "DataBaseGatewayImpl"
 
 
-    override suspend fun saveToLocal(recipe: Recipe, recipeName: String): Int {
+    override suspend fun saveToLocal(recipe: Recipe, recipeName: String): String {
         Log.d(TAG, "saveToLocal         START")
 
-        // saving RecipeEntity
-        val recipeEnt = mapToRecipeEntity(recipe)
-        recipeEnt.name = recipeName
-        database.recipeDAO().add(recipeEnt)
-
-        // receiving saved recipeId
-        val savedRecipeId = database.recipeDAO().getRecipeId(recipeName)
+        // Creating ID for new recipe
+        val recipeId = UUID.randomUUID().toString()
 
         // saving Labels of theRecipe
         saveLabels(recipe)
 
-        database.recipeDAO().addLabelsForRecipe(
-            createSpecifiedLabelList(
-                savedRecipeId,
-                recipe.healthLabels!!))
-        database.recipeDAO().addLabelsForRecipe(
-            createSpecifiedLabelList(
-                savedRecipeId,
-                recipe.dietLabels))
-        database.recipeDAO().addLabelsForRecipe(
-            createSpecifiedLabelList(
-                savedRecipeId,
-                recipe.cautions!!))
-
         // saving Ingredients
-        database.recipeDAO().addIngredients(
-                mapToIngredientEntity(recipe.ingredients!![0].parsed!!))
+        recipe.ingredients!![0].parsed?.let{
+            database.recipeDAO().addIngredients(
+                mapToIngredientEntity(it))
+        }
 
-        // saving Ingredients with the characteristics for the current Recipe
-        saveSpecifiedIngredients(savedRecipeId, recipe.ingredients[0].parsed!!)
+        // mapping to RecipeEntity
+        val recipeEnt = mapToRecipeEntity(recipeId, recipe)
+        recipeEnt.name = recipeName
+
+        // Combining entities to TransactEntity
+        val recipeEntity = createRecipeEntityCommon(
+            recipeEnt,
+            createSpecifiedLabelList(recipeId, getAllRecipeLabels(recipe)),
+            getAllRecipeIngredients(recipe.ingredients[0], recipeId)
+        )
+
+        database.recipeDAO().addCommonRecipe(recipeEntity)
 
         Log.d(TAG, "saveToLocal         END")
 
-        return savedRecipeId
+        return recipeId
+    }
+
+    private fun getAllRecipeLabels(
+        recipe:Recipe
+    ) : MutableList<String>{
+        val allLabels = mutableListOf<String>()
+
+        recipe.healthLabels?.let {
+            allLabels.addAll(it)
+        }
+        recipe.dietLabels.let {
+            allLabels.addAll(it)
+        }
+        recipe.cautions?.let {
+            allLabels.addAll(it)
+        }
+
+        return allLabels
+    }
+    private suspend fun getAllRecipeIngredients(
+        ingredient: Ingredient,
+        recipeId: String
+    ): List<IngredientInRecipe> {
+
+        val allIngredients = mutableListOf<IngredientInRecipe>()
+
+        ingredient.parsed?.let {
+            allIngredients
+                .addAll(
+                    createSpecifiedIngredients(
+                        recipeId,
+                        it
+                    )
+                )
+        }
+
+        return allIngredients
     }
 
     override suspend fun getLocalRecipesList() : List<Recipe> {
@@ -63,18 +95,18 @@ class DataBaseGatewayImpl @Inject constructor(
         val recipes = mutableListOf<Recipe>()
         entityRecipes.forEach {
             recipes.add(mapToRecipe(it))
-            Log.d(TAG, it.id.toString())}
+            Log.d(TAG, it.id)}
 
         Log.d(TAG, "getLocalRecipesList        ${recipes.size} END")
 
         return recipes.toList()
     }
 
-    override suspend fun getRecipe(recipeId: Int): Recipe {
+    override suspend fun getRecipe(recipeId: String): Recipe {
         Log.d(TAG, "getRecipe    RecipeID: $recipeId    START")
 
 
-        val recipeEnt = database.recipeDAO().getRecipeById(recipeId = recipeId)
+        val recipeEnt = database.recipeDAO().getCommonRecipe(recipeId = recipeId)
 
         val recipeFromCommon = mapCommonEntityToRecipe(recipeEnt)
 
@@ -83,8 +115,9 @@ class DataBaseGatewayImpl @Inject constructor(
         return recipeFromCommon
     }
 
-    suspend fun saveSpecifiedIngredients(recipeId: Int,
-                                         ingredients : List<Characteristics>) : Int{
+    suspend fun saveSpecifiedIngredients(
+        recipeId: String,
+        ingredients : List<Characteristics>) : Int{
 
         val listOfSpecifiedIngredients: MutableList<IngredientInRecipe> = mutableListOf()
 
@@ -97,8 +130,21 @@ class DataBaseGatewayImpl @Inject constructor(
         return listOfSpecifiedIngredients.size
     }
 
-    suspend fun createSpecifiedLabelList(
-        recipeId: Int,
+    private suspend fun createSpecifiedIngredients(
+        recipeId: String,
+        ingredients : List<Characteristics>
+    ) : List<IngredientInRecipe>{
+
+        val listOfSpecifiedIngredients: MutableList<IngredientInRecipe> = mutableListOf()
+
+        ingredients.forEach{
+            listOfSpecifiedIngredients.add(createSpecifiedIngredient(recipeId, it))
+        }
+        return listOfSpecifiedIngredients
+    }
+
+    private suspend fun createSpecifiedLabelList(
+        recipeId: String,
         labels: List<String>
     ) : List<LabelsInRecipe> {
         val listOfLabels : MutableList<LabelsInRecipe> = mutableListOf()
@@ -113,8 +159,8 @@ class DataBaseGatewayImpl @Inject constructor(
         return listOfLabels.toList()
     }
 
-    suspend fun createSpecifiedIngredient(
-        recipeId: Int,
+    private suspend fun createSpecifiedIngredient(
+        recipeId: String,
         ingredient: Characteristics
     )
             = IngredientInRecipe(
@@ -153,9 +199,11 @@ class DataBaseGatewayImpl @Inject constructor(
     }
 
     private fun mapToRecipeEntity(
+        uuid: String,
         recipe: Recipe
     ) : RecipeEntity {
         return RecipeEntity(
+            id = uuid,
             name = null,
             url = recipe.uri,
             calories = recipe.calories
@@ -163,23 +211,20 @@ class DataBaseGatewayImpl @Inject constructor(
     }
 
     private suspend fun mapCommonEntityToRecipe(
-        recipe: RecipeEntity
+        recipe: RecipeEntityCommon
     ) : Recipe {
 
-        val entityLabels = database.recipeDAO().getRecipeWithLabels(recipe.id)
-        val entityRecipeIngredients = database.recipeDAO().getRecipeIngredients(recipe.id)
-
-        val labels = mapLabelsEntityToLabels(entityLabels)
+        val labels = mapLabelsEntityToLabels(recipe.labels)
 
         return Recipe(
-            id = recipe.id,
-            uri = recipe.url,
-            name = recipe.name,
-            calories = recipe.calories,
+            id = recipe.recipeEntity.id,
+            uri = recipe.recipeEntity.url,
+            name = recipe.recipeEntity.name,
+            calories = recipe.recipeEntity.calories,
             healthLabels = labels[0],
             cautions = labels[1],
             dietLabels = labels[2],
-            ingredients = mapLocalIngredients(entityRecipeIngredients)
+            ingredients = mapLocalIngredients(recipe.ingredientsInRecipe)
         )
     }
 
@@ -232,6 +277,15 @@ class DataBaseGatewayImpl @Inject constructor(
             )
         }
         return ingredientsList.toList()
+    }
+
+    private fun createRecipeEntityCommon(
+        recipeEntity: RecipeEntity,
+        labels: List<LabelsInRecipe>,
+        ingredients: List<IngredientInRecipe>
+    ) : RecipeEntityCommon{
+
+        return RecipeEntityCommon(recipeEntity, labels, ingredients)
     }
 
     private fun mapLabelsToEntity(labels:  List<String>,  category: String) : List<Label>{

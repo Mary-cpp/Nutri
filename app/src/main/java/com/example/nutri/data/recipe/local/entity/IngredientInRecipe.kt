@@ -24,7 +24,7 @@ import androidx.room.ForeignKey
 class IngredientInRecipe(
 
     @ColumnInfo(name = "id_recipe", index = true)
-    val idRecipe: Int,
+    val idRecipe: String,
 
     @ColumnInfo(name = "id_ingredient", index = true)
     val idIngredient: Int,

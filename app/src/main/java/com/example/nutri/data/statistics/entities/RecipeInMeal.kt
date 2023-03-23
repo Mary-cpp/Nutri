@@ -27,5 +27,5 @@ class RecipeInMeal (
     val idMeal: Int,
 
     @ColumnInfo(name = "id_recipe", index = true)
-    val idRecipe: Int
+    val idRecipe: String
     )

@@ -8,7 +8,7 @@ class LocalRecipeUseCase @Inject constructor(
     private val db: DataBaseGatewayImpl
     ): LocalRecipesInteractor {
 
-    override suspend fun saveRecipe(recipe: Recipe, recipeName: String): Int {
+    override suspend fun saveRecipe(recipe: Recipe, recipeName: String): String {
         return db.saveToLocal(recipe, recipeName)
     }
 
@@ -16,7 +16,7 @@ class LocalRecipeUseCase @Inject constructor(
         return db.getLocalRecipesList()
     }
 
-    override suspend fun getCommonRecipe(recipeId: Int): Recipe {
+    override suspend fun getCommonRecipe(recipeId: String): Recipe {
         return db.getRecipe(recipeId = recipeId)
     }
 

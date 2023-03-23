@@ -53,11 +53,11 @@ fun NavigationGraph(
         }
         composable(Screen.EditRecipe.screenRoute) { RecipeEditPage(navController = navController) }
         composable(Screen.Recipe.screenRoute,
-            arguments = listOf(navArgument("recipe_id"){type = NavType.IntType})
+            arguments = listOf(navArgument("recipe_id"){type = NavType.StringType})
         ) { backStackEntry ->
 
             val vm = hiltViewModel<RecipeViewModel>().apply {
-                recipeId.value = backStackEntry.arguments?.getInt("recipe_id") as Int
+                recipeId.value = backStackEntry.arguments?.getString("recipe_id") as String
                 onRecipeScreenLoading()
             }
             RecipePage(

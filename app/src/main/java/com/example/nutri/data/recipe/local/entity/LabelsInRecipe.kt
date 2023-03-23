@@ -22,7 +22,7 @@ import androidx.room.*
 class LabelsInRecipe (
 
     @ColumnInfo(name = "id_recipe", index = true)
-    val idRecipe: Int,
+    val idRecipe: String,
 
     @ColumnInfo(name = "id_label", index = true)
     val idLabel: Int,

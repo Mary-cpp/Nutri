@@ -7,7 +7,7 @@ import com.example.nutri.data.recipe.remote.dto.nutrients.TotalNutrientsKCal
 import com.google.gson.annotations.SerializedName
 
 data class Recipe (
-    var id: Int? = 0,
+    var id: String? = "",
     val uri: String? = "",
     val name: String? = "",
     val calories: Long? = 0L,
@@ -25,7 +25,7 @@ data class Recipe (
     companion object{
         fun makeRecipe() : Recipe {
             return Recipe(
-                id = 1011101010,
+                id = "1011101010",
                 uri = "some uri",
                 name = "Recipe Name",
                 calories = 101100,
