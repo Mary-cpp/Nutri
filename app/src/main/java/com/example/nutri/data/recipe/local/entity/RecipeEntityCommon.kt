@@ -6,12 +6,17 @@ import androidx.room.Relation
 class RecipeEntityCommon(
     @Embedded
     val recipeEntity: RecipeEntity,
-    @Relation
-        (parentColumn = "id", entity = LabelsInRecipe::class, entityColumn = "id_recipe")
+
+    @Relation(
+        entity = LabelsInRecipe::class,
+        parentColumn = "id",
+        entityColumn = "id_recipe")
     val labels: List<LabelsInRecipe>,
 
-    @Relation
-        (parentColumn = "id", entity = IngredientInRecipe::class, entityColumn = "id_recipe")
+    @Relation(
+        entity = IngredientInRecipe::class,
+        parentColumn = "id",
+        entityColumn = "id_recipe")
     val ingredientsInRecipe: List<IngredientInRecipe>
 
 )
