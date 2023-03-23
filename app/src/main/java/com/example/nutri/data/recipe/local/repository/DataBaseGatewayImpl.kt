@@ -206,7 +206,7 @@ class DataBaseGatewayImpl @Inject constructor(
         return dietLabels.size + healthLabels.size + cautions.size
     }
 
-    private fun mapToRecipe(recipe: RecipeEntity) : Recipe {
+    fun mapToRecipe(recipe: RecipeEntity) : Recipe {
         return Recipe(
             id = recipe.id,
             uri = recipe.url,

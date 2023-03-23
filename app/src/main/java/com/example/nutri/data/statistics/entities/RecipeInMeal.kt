@@ -24,7 +24,7 @@ import com.example.nutri.data.recipe.local.entity.RecipeEntity
 class RecipeInMeal (
 
     @ColumnInfo(name = "id_meal", index = true)
-    val idMeal: Int,
+    val idMeal: String,
 
     @ColumnInfo(name = "id_recipe", index = true)
     val idRecipe: String

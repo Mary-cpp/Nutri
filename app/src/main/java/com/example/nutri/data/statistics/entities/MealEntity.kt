@@ -1,9 +1,6 @@
 package com.example.nutri.data.statistics.entities
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.ForeignKey
-import androidx.room.PrimaryKey
+import androidx.room.*
 import java.util.*
 
 @Entity(
@@ -14,14 +11,17 @@ import java.util.*
             childColumns = ["id_category"],
             parentColumns = ["id"]
         )
-    ]
+    ],
+    indices = [Index(value = ["id"], unique = true)]
 )
 class MealEntity (
 
+    val id: String,
+
     @PrimaryKey
-    val id: Int?,
+    val db_id: Int?,
 
     @ColumnInfo("id_category", index = true)
-    val idCategory: Int,
+    val idCategory: String,
     val date: Date
     )

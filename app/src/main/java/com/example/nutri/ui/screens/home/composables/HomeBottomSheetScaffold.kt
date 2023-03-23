@@ -3,35 +3,44 @@ package com.example.nutri.ui.screens.home.composables
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.*
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import com.example.nutri.ui.screens.MealFAB
-import com.example.nutri.ui.screens.TopBar
+import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeBottomSheetScaffold(navController: NavController){
+fun HomeBottomSheetContent(meals: List<Meal>){
 
-    BottomSheetScaffold(
-        sheetContent = {HomeBottomSheetContent()},
-        scaffoldState = rememberBottomSheetScaffoldState(),
-        topBar = { TopBar(topBarText = "Home", navController = navController)},
-        floatingActionButton = {MealFAB(navController = navController)},
-        sheetElevation = 4.dp,
-        sheetPeekHeight = 350.dp
+    val listOfMeals = remember {   mutableStateListOf(meals) }
+
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        shape = NutriShape.smallRoundCornerShape,
+        color = MaterialTheme.colors.primary
     ) {
+
+        LazyColumn{
+
+            items(meals){
+                MealBigCard(it)
+            }
+        }
 
     }
 }
 
 @Composable
-fun HomeBottomSheetContent(){
+fun HomeBottomSheetContentTest(){
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -41,9 +50,9 @@ fun HomeBottomSheetContent(){
     ) {
 
         LazyColumn(){
-            item { MealBigCard("Breakfast") }
-            item { MealBigCard("Lunch") }
-            item { MealBigCard("Dinner") }
+            item { MealBigCardTest() }
+            item { MealBigCardTest() }
+            item { MealBigCardTest() }
         }
 
     }
@@ -53,6 +62,6 @@ fun HomeBottomSheetContent(){
 @Composable
 fun HomeSheetPreview(){
     NutriTheme {
-        HomeBottomSheetContent()
+        HomeBottomSheetContentTest()
     }
 }

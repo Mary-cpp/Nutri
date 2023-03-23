@@ -15,6 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.home.composables.HomeBottomSheetContent
+import com.example.nutri.ui.screens.home.composables.HomeBottomSheetContentTest
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -43,7 +44,9 @@ fun MealFAB(
     navController: NavController
 ){
 
-    FloatingActionButton(onClick = { //navController.navigate(Screen.EditRecipe.screenRoute)
+    FloatingActionButton(
+        onClick = {
+                  navController.navigate(Screen.EditRecipe.screenRoute)
          },
         modifier = Modifier.size(56.dp),
 
@@ -72,7 +75,7 @@ fun HomePageBottomSheet(){
     ModalBottomSheetLayout(sheetContent = {
 
         Surface(color = MaterialTheme.colors.background) {
-            HomeBottomSheetContent()
+            HomeBottomSheetContentTest()
         }
     },
     sheetState = bottomSheetState,
@@ -84,7 +87,7 @@ fun HomePageBottomSheet(){
 
 @Composable
 fun HomePageStatistics(scope: CoroutineScope){
-    
+
 }
 
 @Preview

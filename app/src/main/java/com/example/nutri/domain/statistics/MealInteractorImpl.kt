@@ -10,4 +10,8 @@ class MealInteractorImpl(
     override suspend fun saveMeal(meal: Meal): Int {
         return db.saveMeal(meal)
     }
+
+    override suspend fun getMeals(): List<Meal> {
+        return db.getMealsList()
+    }
 }
