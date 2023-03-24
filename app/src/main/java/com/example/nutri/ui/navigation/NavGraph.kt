@@ -19,9 +19,13 @@ import com.example.nutri.domain.recipes.interactor.LocalRecipeUseCase
 import com.example.nutri.ui.screens.*
 import com.example.nutri.ui.screens.bmi.BmiPage
 import com.example.nutri.ui.screens.bmi.BmiViewModel
+import com.example.nutri.ui.screens.home.HomePage
 import com.example.nutri.ui.screens.home.StatisticsViewModel
+import com.example.nutri.ui.screens.my_recipes.MyRecipesPage
 import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 import com.example.nutri.ui.screens.recipe.RecipeViewModel
+import com.example.nutri.ui.screens.search.SearchPage
+import com.example.nutri.ui.screens.search.SearchViewModel
 
 @Composable
 fun NavigationGraph(
@@ -46,6 +50,15 @@ fun NavigationGraph(
             }
 
             HomePage(
+                navController = navController,
+                vm = vm
+            )
+        }
+        composable(Screen.SearchPage.screenRoute){
+
+            val vm = hiltViewModel<SearchViewModel>()
+
+            SearchPage(
                 navController = navController,
                 vm = vm
             )

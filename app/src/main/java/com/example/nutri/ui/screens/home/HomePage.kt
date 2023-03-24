@@ -1,4 +1,4 @@
-package com.example.nutri.ui.screens
+package com.example.nutri.ui.screens.home
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -16,7 +16,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.common.TopBar
-import com.example.nutri.ui.screens.home.StatisticsViewModel
 import com.example.nutri.ui.screens.home.composables.HomeBottomSheetContent
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.CoroutineScope
@@ -40,8 +39,6 @@ fun HomePage(
             HomePageBottomSheet(vm)
         }
     }
-
-
 }
 
 @Composable
@@ -51,7 +48,7 @@ fun MealFAB(
 
     FloatingActionButton(
         onClick = {
-                  navController.navigate(Screen.EditRecipe.screenRoute)
+                  navController.navigate(Screen.SearchPage.screenRoute)
          },
         modifier = Modifier.size(56.dp),
 

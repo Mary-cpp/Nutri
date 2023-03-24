@@ -1,4 +1,4 @@
-package com.example.nutri.ui.screens
+package com.example.nutri.ui.screens.my_recipes
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -18,9 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.nutri.ui.screens.common.SearchField
+import com.example.nutri.ui.screens.common.SearchFieldTest
 import com.example.nutri.ui.screens.common.TopBar
-import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 import com.example.nutri.ui.screens.my_recipes.composables.RecipeFAB
 import com.example.nutri.ui.screens.my_recipes.composables.RecipesList
 import com.example.nutri.ui.screens.my_recipes.composables.SortAndFilter
@@ -54,7 +53,7 @@ fun MyRecipesPage(
                 Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally){
                     
-                    SearchField(searchParameter = searchParameter)
+                    SearchFieldTest()
 
                     SortAndFilter()
 

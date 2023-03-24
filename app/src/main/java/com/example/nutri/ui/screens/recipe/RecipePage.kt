@@ -28,6 +28,7 @@ import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.common.TopBarWithIcon
+import com.example.nutri.ui.screens.my_recipes.TAG
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.screens.recipe.RecipeViewModel

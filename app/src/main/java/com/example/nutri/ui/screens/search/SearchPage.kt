@@ -1,4 +1,4 @@
-package com.example.nutri.ui.screens.common
+package com.example.nutri.ui.screens.search
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -19,13 +19,14 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
-import com.example.nutri.ui.screens.home.StatisticsViewModel
+import com.example.nutri.ui.screens.common.RecipesListForSearch
+import com.example.nutri.ui.screens.common.SearchField
 import com.example.nutri.ui.theme.NutriTheme
 
 
 @Composable
 fun SearchPage(
-    vm: StatisticsViewModel,
+    vm: SearchViewModel,
     navController: NavController
 ){
     Surface (
@@ -37,10 +38,10 @@ fun SearchPage(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            val searchParam = remember{ mutableStateOf("") }
+
             val recipesList: MutableState<List<Recipe>> = remember { mutableStateOf(vm.foundRecipes.value) }
 
-            SearchField(searchParameter = searchParam)
+            SearchField(vm = vm)
 
             RecipesListForSearch(listOfRecipes = recipesList.value)
 
@@ -66,9 +67,7 @@ fun SearchPageTest(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            val searchParam = remember{ mutableStateOf("") }
-
-            SearchField(searchParameter = searchParam)
+            SearchField()
 
             RecipesListForSearch(listOfRecipes = listOf(Recipe.makeRecipe(),Recipe.makeRecipe()))
 
