@@ -95,6 +95,25 @@ class DataBaseGatewayImpl @Inject constructor(
         return recipeFromCommon
     }
 
+    override suspend fun getRecipesWithNameLike(name: String): List<Recipe>? {
+
+        val recipes = mutableListOf<Recipe>()
+        val recipesEnt : List<RecipeEntity>?
+
+        withContext(Dispatchers.IO) {
+            recipesEnt = database.recipeDAO().getRecipesWithNameLike(name)
+        }
+
+        return if (recipesEnt == null) {
+            null
+        } else {
+            recipesEnt.forEach {
+                recipes.add(mapToRecipe(it))
+            }
+            recipes
+        }
+    }
+
     private fun getAllRecipeLabels(
         recipe:Recipe
     ) : MutableList<String>{

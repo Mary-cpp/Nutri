@@ -7,4 +7,5 @@ interface DataBaseGateway {
     suspend fun saveToLocal(recipe: Recipe, recipeName: String): String
     suspend fun getLocalRecipesList(): List<Recipe>
     suspend fun getRecipe(recipeId: String) : Recipe
+    suspend fun getRecipesWithNameLike(name: String) : List<Recipe>?
 }

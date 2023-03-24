@@ -9,6 +9,9 @@ interface RecipeDAO {
     @Query("SELECT * FROM recipes")
     suspend fun getRecipes(): List<RecipeEntity>
 
+    @Query("SELECT * FROM recipes WHERE name LIKE %:name%")
+    suspend fun getRecipesWithNameLike(name: String): List<RecipeEntity>?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRecipeEntity(recipe: RecipeEntity)
 
