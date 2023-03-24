@@ -12,4 +12,5 @@ sealed class Screen(
     object BMI : Screen("My BMI", R.drawable.calculate48px, "bmi")
     object EditRecipe : Screen("Edit", screenRoute = "edit_page")
     object Recipe : Screen("Recipe", screenRoute = "recipe_details/{recipe_id}")
+    object SearchPage : Screen("Search", screenRoute = "search_page")
 }

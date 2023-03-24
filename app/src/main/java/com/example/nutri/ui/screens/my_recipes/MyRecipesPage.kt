@@ -22,6 +22,7 @@ import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
+import com.example.nutri.ui.screens.common.SearchField
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 
@@ -32,7 +33,7 @@ fun MyRecipesPage(
     navController: NavController
 ){
 
-    var searchParameter by remember { mutableStateOf("") }
+    val searchParameter = remember { mutableStateOf("") }
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { TopAppBar(title = { Text(text = "MyRecipesPage", color = Color.Black)},
@@ -52,18 +53,9 @@ fun MyRecipesPage(
                 color = MaterialTheme.colors.background){
 
                 Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally){
-                    OutlinedTextField(modifier = Modifier.size(width = 304.dp, height = 64.dp),
-                        value = searchParameter,
-                        shape = RoundedCornerShape(16.dp),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
-                        onValueChange = { searchParameter = it },
-                        trailingIcon = {
-                            Icon(imageVector = ImageVector
-                                .vectorResource(id = R.drawable.search48px),
-                                contentDescription = "SearchIcon",
-                                modifier = Modifier.size(32.dp)) },
-                        label = { Text("Search for recipes") })
+                    horizontalAlignment = Alignment.CenterHorizontally){
+                    
+                    SearchField(searchParameter = searchParameter)
 
                     SortAndFilter()
 
@@ -163,6 +155,35 @@ fun RecipeListItem(
                     .replace("{recipe_id}", "${recipe.id}")
             )
             Log.d(TAG, "NAVIGATE TO RECIPE WITH ID ${recipe.id.toString()}")
+        },
+        backgroundColor = MaterialTheme.colors.primary,
+        shape = NutriShape.smallRoundCornerShape
+    ) {
+        Column() {
+            Text(text = recipe.name!!,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 32.dp, top = 16.dp, bottom = 10.dp, end = 16.dp),
+                fontSize = MaterialTheme.typography.subtitle1.fontSize)
+
+            Text(text = "Calories: ${recipe.calories}",
+                modifier = Modifier
+                    .padding(start = 32.dp, bottom = 24.dp),
+                fontSize = MaterialTheme.typography.subtitle2.fontSize
+            )
+        }
+    }
+}
+
+@Composable
+fun RecipeSearchListItem(
+    recipe: Recipe
+){
+    Card(modifier = Modifier
+        .fillMaxWidth(1f)
+        .padding(2.dp)
+        .clickable {
+            TODO("Add recipe to meal")
         },
         backgroundColor = MaterialTheme.colors.primary,
         shape = NutriShape.smallRoundCornerShape

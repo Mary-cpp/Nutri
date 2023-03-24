@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.recipes.interactor.RecipeInteractor
+import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.domain.statistics.MealInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,8 @@ class StatisticsViewModel @Inject constructor(
 ) : ViewModel(){
 
     val meals: MutableState<List<Meal>> = mutableStateOf(listOf())
+
+    val foundRecipes : MutableState<List<Recipe>> = mutableStateOf(listOf())
 
     fun onStatisticsScreenLoaded() = viewModelScope.launch{
         meals.value = createEmptyMealsList()
