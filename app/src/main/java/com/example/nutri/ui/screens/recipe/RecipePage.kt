@@ -27,6 +27,7 @@ import com.example.nutri.R
 import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
+import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.screens.recipe.RecipeViewModel
@@ -43,39 +44,13 @@ fun RecipePage(
     val recipe = vm.recipe.value
 
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { TopBar(topBarText = recipe.name!!, navController) },
+        topBar = { TopBarWithIcon(topBarText = recipe.name!!, navController) },
         content = {
             RecipeCard(recipe = recipe, navController)
         })
 }
 
-@Composable
-fun TopBar(topBarText: String, navController: NavController) {
-    TopAppBar(title = { Text(text = topBarText, color = Color.Black) },
-        backgroundColor = MaterialTheme.colors.background,
-        elevation = 0.dp,
-        navigationIcon = {
 
-            IconButton(
-                onClick = { navController.popBackStack() },
-                modifier = Modifier.padding(end = 6.dp)
-            ) {
-                Icon(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back48px),
-                    contentDescription = "BackToListOfRecipes",
-                    modifier = Modifier.size(40.dp),
-                    tint = Color.Black
-                )
-            }
-        })
-}
-
-@Composable
-fun TopBar(topBarText: String) {
-    TopAppBar(title = { Text(text = topBarText, color = Color.Black) },
-        backgroundColor = MaterialTheme.colors.background,
-        elevation = 0.dp)
-}
 
 @Composable
 fun RecipeCard(recipe: Recipe, navController: NavController) {

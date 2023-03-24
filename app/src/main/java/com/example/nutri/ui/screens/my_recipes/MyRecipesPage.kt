@@ -1,29 +1,29 @@
 package com.example.nutri.ui.screens
 
-import android.util.Log
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.nutri.R
-import com.example.nutri.domain.recipes.model.Recipe
-import com.example.nutri.ui.navigation.Screen
-import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 import com.example.nutri.ui.screens.common.SearchField
-import com.example.nutri.ui.theme.NutriShape
+import com.example.nutri.ui.screens.common.TopBar
+import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
+import com.example.nutri.ui.screens.my_recipes.composables.RecipeFAB
+import com.example.nutri.ui.screens.my_recipes.composables.RecipesList
+import com.example.nutri.ui.screens.my_recipes.composables.SortAndFilter
 import com.example.nutri.ui.theme.NutriTheme
 
 const val TAG = "MyRecipesPage"
@@ -36,8 +36,7 @@ fun MyRecipesPage(
     val searchParameter = remember { mutableStateOf("") }
 
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { TopAppBar(title = { Text(text = "MyRecipesPage", color = Color.Black)},
-        backgroundColor = MaterialTheme.colors.background, elevation = 0.dp) },
+        topBar = {  TopBar("MyRecipes") },
         floatingActionButton = { RecipeFAB(navController) })
         { paddingValues ->
             Surface(modifier = Modifier
@@ -70,141 +69,6 @@ fun MyRecipesPage(
         }
     }
 
-@Composable
-fun RecipeFAB(navController: NavController){
-    FloatingActionButton(onClick = { navController.navigate(Screen.EditRecipe.screenRoute)},
-        modifier = Modifier.size(56.dp),
-
-        backgroundColor = MaterialTheme.colors.primary,
-        elevation = FloatingActionButtonDefaults.elevation(4.dp)) {
-
-        Icon(ImageVector.vectorResource(id = R.drawable.add48px),
-            contentDescription = "AddFAB",
-            modifier = Modifier.size(24.dp),
-            tint = Color.White)
-
-    }
-}
-
-
-@Composable
-fun SortAndFilter(){
-    Row (modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
-    horizontalArrangement = Arrangement.SpaceEvenly){
-        Button(onClick = { /*TODO(Sort)*/ },
-            colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondaryVariant),
-            shape = RoundedCornerShape(24.dp),
-            elevation = ButtonDefaults.elevation(4.dp),
-            content = {
-                Icon(imageVector = ImageVector.vectorResource(id = R.drawable.sort48px),
-                    tint = Color.Black,
-                    contentDescription = "SortIcon",
-                    modifier = Modifier
-                        .size(32.dp)
-                        .padding(end = 8.dp))
-
-                Text(text = "Sort", color = Color.Black, modifier = Modifier.padding(end = 16.dp))
-            }
-        )
-
-        Button(onClick = { /*TODO(Filter)*/ },
-            colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary),
-            shape = RoundedCornerShape(24.dp),
-            elevation = ButtonDefaults.elevation(4.dp)
-        ) {
-
-            Icon(imageVector = ImageVector.vectorResource(id = R.drawable.filter_alt48px),
-                tint = Color.Black,
-                contentDescription = "SortIcon",
-                modifier = Modifier
-                    .size(32.dp)
-                    .padding(end = 8.dp))
-
-            Text(text = "Filter", color = Color.Black)
-        }
-    }
-}
-
-@Composable
-fun RecipesList(
-    listOfRecipes: List<Recipe>,
-    navController: NavController
-){
-    LazyColumn{
-        items(listOfRecipes){
-            RecipeListItem(recipe = it, navController)
-        }
-    }
-}
-
-@Composable
-fun RecipeListItem(
-    recipe: Recipe,
-    navController: NavController
-){
-    Card(modifier = Modifier
-        .fillMaxWidth(1f)
-        .padding(2.dp)
-        .clickable {
-            navController.navigate(
-                Screen
-                    .Recipe
-                    .screenRoute
-                    .replace("{recipe_id}", "${recipe.id}")
-            )
-            Log.d(TAG, "NAVIGATE TO RECIPE WITH ID ${recipe.id.toString()}")
-        },
-        backgroundColor = MaterialTheme.colors.primary,
-        shape = NutriShape.smallRoundCornerShape
-    ) {
-        Column() {
-            Text(text = recipe.name!!,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 32.dp, top = 16.dp, bottom = 10.dp, end = 16.dp),
-                fontSize = MaterialTheme.typography.subtitle1.fontSize)
-
-            Text(text = "Calories: ${recipe.calories}",
-                modifier = Modifier
-                    .padding(start = 32.dp, bottom = 24.dp),
-                fontSize = MaterialTheme.typography.subtitle2.fontSize
-            )
-        }
-    }
-}
-
-@Composable
-fun RecipeSearchListItem(
-    recipe: Recipe
-){
-    Card(modifier = Modifier
-        .fillMaxWidth(1f)
-        .padding(2.dp)
-        .clickable {
-            TODO("Add recipe to meal")
-        },
-        backgroundColor = MaterialTheme.colors.primary,
-        shape = NutriShape.smallRoundCornerShape
-    ) {
-        Column() {
-            Text(text = recipe.name!!,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 32.dp, top = 16.dp, bottom = 10.dp, end = 16.dp),
-                fontSize = MaterialTheme.typography.subtitle1.fontSize)
-
-            Text(text = "Calories: ${recipe.calories}",
-                modifier = Modifier
-                    .padding(start = 32.dp, bottom = 24.dp),
-                fontSize = MaterialTheme.typography.subtitle2.fontSize
-            )
-        }
-    }
-}
-
-
 @Preview
 @Composable
 fun MyRecipesPagePreview(){
@@ -213,13 +77,5 @@ fun MyRecipesPagePreview(){
             vm = MyRecipesViewModel(hiltViewModel()),
             rememberNavController()
         )
-    }
-}
-
-@Preview
-@Composable
-fun RecipeListItemPreview(){
-    NutriTheme {
-        RecipeListItem(recipe = Recipe.makeRecipe(), rememberNavController())
     }
 }

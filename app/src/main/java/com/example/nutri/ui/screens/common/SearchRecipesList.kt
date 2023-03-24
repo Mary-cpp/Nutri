@@ -7,7 +7,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.recipes.model.Recipe
-import com.example.nutri.ui.screens.RecipeSearchListItem
 
 @Composable
 fun RecipesListForSearch(
