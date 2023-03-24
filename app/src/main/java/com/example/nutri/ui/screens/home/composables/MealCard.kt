@@ -33,13 +33,13 @@ fun MealBigCard(meal: Meal) {
         ) {
             Column(verticalArrangement = Arrangement.SpaceBetween)
             {
-                meal.recipes.forEach {
+                if (meal.recipes.isEmpty()){
+                    NoRecipes()
+                }
+                else{
+                    meal.recipes.forEach {
 
-                    it.name?.let { name ->
-
-                        it.totalWeight?.let { weight ->
-                            RecipeInMealCard(name, weight.toString())
-                        }
+                        RecipeInMealCard(it)
                     }
                 }
             }
@@ -62,8 +62,8 @@ fun MealBigCardTest(){
         ){
             Column (verticalArrangement = Arrangement.SpaceBetween)
             {
-                RecipeInMealCard("Meal1", "100g")
-                RecipeInMealCard("Meal2", "200g")
+                RecipeInMealCardTest("Meal1", "100g")
+                RecipeInMealCardTest("Meal2", "200g")
             }
         }
     }

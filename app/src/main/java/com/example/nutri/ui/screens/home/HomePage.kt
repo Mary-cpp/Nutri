@@ -17,7 +17,6 @@ import com.example.nutri.R
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.home.StatisticsViewModel
 import com.example.nutri.ui.screens.home.composables.HomeBottomSheetContent
-import com.example.nutri.ui.screens.home.composables.HomeBottomSheetContentTest
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -37,7 +36,7 @@ fun HomePage(
                 .padding(paddingValues),
             color = MaterialTheme.colors.background
         ) {
-            HomePageBottomSheet()
+            HomePageBottomSheet(vm)
         }
     }
 
@@ -68,7 +67,7 @@ fun MealFAB(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomePageBottomSheet(){
+fun HomePageBottomSheet(vm: StatisticsViewModel){
 
     val scope = rememberCoroutineScope()
     val bottomSheetState =
@@ -79,8 +78,11 @@ fun HomePageBottomSheet(){
 
     ModalBottomSheetLayout(sheetContent = {
 
-        Surface(color = MaterialTheme.colors.background) {
-            HomeBottomSheetContentTest()
+        Surface(
+            modifier = Modifier.fillMaxWidth(),
+            color = MaterialTheme.colors.background
+        ) {
+            HomeBottomSheetContent(vm.meals.value)
         }
     },
         sheetElevation = 0.dp,
