@@ -20,4 +20,8 @@ class LocalRecipeUseCase @Inject constructor(
         return db.getRecipe(recipeId = recipeId)
     }
 
+    override suspend fun getRecipesLike(name: String): List<Recipe>? {
+        return db.getRecipesWithNameLike(name)
+    }
+
 }
