@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.nutri.ui.screens.home.menuItems
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -30,7 +29,7 @@ fun HostScreen(){
             paddingValues = it)
     }
 }
-
+val menuItems = listOf(Screen.MyRecipes, Screen.Home, Screen.BMI)
 @Composable
 fun BottomNavigationBar(navController: NavController) {
 

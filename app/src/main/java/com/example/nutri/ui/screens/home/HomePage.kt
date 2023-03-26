@@ -20,8 +20,6 @@ import com.example.nutri.ui.screens.home.composables.HomeBottomSheetContent
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.CoroutineScope
 
-val menuItems = listOf(Screen.MyRecipes, Screen.Home, Screen.BMI)
-
 @Composable
 fun HomePage(
     navController : NavController,
@@ -80,7 +78,7 @@ fun HomePageBottomSheet(vm: StatisticsViewModel){
             modifier = Modifier.fillMaxWidth(),
             color = MaterialTheme.colors.background
         ) {
-            HomeBottomSheetContent(vm.meals.value)
+            HomeBottomSheetContent(vm.meals)
         }
     },
         sheetElevation = 0.dp,

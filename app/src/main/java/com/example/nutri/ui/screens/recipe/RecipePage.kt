@@ -1,7 +1,6 @@
-package com.example.nutri.ui.screens
+package com.example.nutri.ui.screens.recipe
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -28,10 +27,8 @@ import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.common.TopBarWithIcon
-import com.example.nutri.ui.screens.my_recipes.TAG
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
-import com.example.nutri.ui.screens.recipe.RecipeViewModel
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -39,8 +36,6 @@ import com.example.nutri.ui.screens.recipe.RecipeViewModel
 fun RecipePage(
     vm: RecipeViewModel,
     navController: NavController) {
-
-    Log.d(TAG, "RECIPE ID: ${vm.recipeId.value}")
 
     val recipe = vm.recipe.value
 

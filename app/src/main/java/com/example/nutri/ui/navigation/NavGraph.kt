@@ -16,13 +16,14 @@ import androidx.navigation.navArgument
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.recipes.interactor.LocalRecipeUseCase
-import com.example.nutri.ui.screens.*
+import com.example.nutri.ui.screens.RecipeEditPage
 import com.example.nutri.ui.screens.bmi.BmiPage
 import com.example.nutri.ui.screens.bmi.BmiViewModel
 import com.example.nutri.ui.screens.home.HomePage
 import com.example.nutri.ui.screens.home.StatisticsViewModel
 import com.example.nutri.ui.screens.my_recipes.MyRecipesPage
 import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
+import com.example.nutri.ui.screens.recipe.RecipePage
 import com.example.nutri.ui.screens.recipe.RecipeViewModel
 import com.example.nutri.ui.screens.search.SearchPage
 import com.example.nutri.ui.screens.search.SearchViewModel
@@ -43,10 +44,20 @@ fun NavigationGraph(
                 bottom = paddingValues.calculateBottomPadding()
             )
     ){
-        composable(Screen.Home.screenRoute) {
+        composable(
+            route = Screen.Home.screenRoute,
+            arguments = listOf(navArgument("recipe_id"){
+                nullable = true
+                type = NavType.StringType})
+        ) { backStackEntry ->
 
             val vm = hiltViewModel<StatisticsViewModel>().apply {
                 onStatisticsScreenLoaded()
+
+                val id = backStackEntry.arguments?.getString("recipe_id")
+                id?.let {
+                    addRecipeToMeal(id)
+                }
             }
 
             HomePage(
@@ -82,13 +93,15 @@ fun NavigationGraph(
                 navController = navController)
         }
         composable(Screen.EditRecipe.screenRoute) { RecipeEditPage(navController = navController) }
-        composable(Screen.Recipe.screenRoute,
-            arguments = listOf(navArgument("recipe_id"){type = NavType.StringType})
+        composable(
+            route = Screen.Recipe.screenRoute,
+            arguments = listOf(navArgument("recipe_id"){
+                type = NavType.StringType})
         ) { backStackEntry ->
 
             val vm = hiltViewModel<RecipeViewModel>().apply {
-                recipeId.value = backStackEntry.arguments?.getString("recipe_id") as String
-                onRecipeScreenLoading()
+                val id = backStackEntry.arguments?.getString("recipe_id") as String
+                onRecipeScreenLoading(id)
             }
             RecipePage(
                 vm = vm,

@@ -1,7 +1,7 @@
 package com.example.nutri.ui.screens.home
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.statistics.Meal
@@ -16,14 +16,19 @@ class StatisticsViewModel @Inject constructor(
     private val useCaseMeal: MealInteractor
 ) : ViewModel(){
 
-    val meals: MutableState<List<Meal>> = mutableStateOf(listOf())
+    var meals = mutableStateListOf<Meal>()
 
     fun onStatisticsScreenLoaded() = viewModelScope.launch{
-        meals.value = createEmptyMealsList()
+        meals = createEmptyMealsList().toMutableStateList()
         val mealsFromDb = useCaseMeal.getMeals()
         if (mealsFromDb.isNotEmpty()){
-            meals.value = mealsFromDb
+            meals.addAll(mealsFromDb)
         }
+    }
+
+    fun addRecipeToMeal(id: String) = viewModelScope.launch{
+
+
     }
 
     private fun createEmptyMealsList()

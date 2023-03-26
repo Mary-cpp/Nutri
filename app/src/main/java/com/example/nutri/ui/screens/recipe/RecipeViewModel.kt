@@ -15,11 +15,10 @@ class RecipeViewModel @Inject constructor(
     private var useCase: LocalRecipeUseCase
 ) : ViewModel(){
 
-    val recipeId : MutableState<String> = mutableStateOf("")
     val recipe: MutableState<Recipe> = mutableStateOf(Recipe())
 
-    fun onRecipeScreenLoading() = viewModelScope.launch{
+    fun onRecipeScreenLoading(id: String) = viewModelScope.launch{
 
-        recipe.value = useCase.getCommonRecipe(recipeId.value)
+        recipe.value = useCase.getCommonRecipe(id)
     }
 }
