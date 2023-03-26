@@ -10,18 +10,25 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.nutri.domain.recipes.model.Recipe
+import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriShape
 
 @Composable
 fun RecipeSearchListItem(
-    recipe: Recipe
+    recipe: Recipe,
+    navController: NavController
 ){
     Card(modifier = Modifier
         .fillMaxWidth(1f)
         .padding(2.dp)
         .clickable {
-            TODO("Add recipe to meal")
+            navController.navigate(Screen
+                .Home
+                .screenRoute
+                .replace("{recipe_id}", "${recipe.id}")
+            )
         },
         backgroundColor = MaterialTheme.colors.primary,
         shape = NutriShape.smallRoundCornerShape

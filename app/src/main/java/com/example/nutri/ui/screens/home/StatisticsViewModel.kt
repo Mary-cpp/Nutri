@@ -1,9 +1,11 @@
 package com.example.nutri.ui.screens.home
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.domain.statistics.MealInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,6 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
+    private val useCaseRecipe: LocalRecipesInteractor,
     private val useCaseMeal: MealInteractor
 ) : ViewModel(){
 
@@ -28,12 +31,16 @@ class StatisticsViewModel @Inject constructor(
 
     fun addRecipeToMeal(id: String) = viewModelScope.launch{
 
+        val recipe = useCaseRecipe.getCommonRecipe(id)
 
+        Log.d("addRecipeToMeal", "Recipe name: ${recipe.name}")
+
+        meals[0].recipes.add(recipe)
     }
 
     private fun createEmptyMealsList()
-    = listOf(Meal("Breakfast", emptyList(), Date()),
-        Meal("Lunch", emptyList(), Date()),
-        Meal("Dinner", emptyList(), Date())
+    = listOf(Meal("Breakfast", mutableListOf(), Date()),
+        Meal("Lunch", mutableListOf(), Date()),
+        Meal("Dinner",mutableListOf(), Date())
     )
 }

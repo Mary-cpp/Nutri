@@ -5,6 +5,6 @@ import java.util.*
 
 class Meal (
     val name: String,
-    val recipes: List<Recipe>,
+    val recipes: MutableList<Recipe>,
     val date: Date
 )

@@ -1,5 +1,6 @@
 package com.example.nutri.ui.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -32,6 +33,9 @@ import com.example.nutri.ui.screens.search.SearchViewModel
 fun NavigationGraph(
     navController: NavHostController,
     paddingValues: PaddingValues){
+
+    val TAG = "NAVIGATION"
+
     NavHost(
         navController = navController,
         startDestination = Screen.Home.screenRoute,
@@ -57,6 +61,8 @@ fun NavigationGraph(
                 val id = backStackEntry.arguments?.getString("recipe_id")
                 id?.let {
                     addRecipeToMeal(id)
+
+                    Log.i(TAG, "Navigate to ${backStackEntry.destination} with argument $id")
                 }
             }
 

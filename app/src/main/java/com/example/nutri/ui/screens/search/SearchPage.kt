@@ -39,7 +39,9 @@ fun SearchPage(
 
             SearchField(vm = vm)
 
-            RecipesListForSearch(listOfRecipes = vm.foundRecipes)
+            RecipesListForSearch(
+                listOfRecipes = vm.foundRecipes,
+                navController = navController)
 
             Text(
                 modifier = Modifier
