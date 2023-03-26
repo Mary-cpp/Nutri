@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    val useCase: LocalRecipesInteractor
+    private val useCase: LocalRecipesInteractor
 ) : ViewModel() {
 
     private val tag = "SearchViewModel"
@@ -24,10 +24,14 @@ class SearchViewModel @Inject constructor(
 
         Log.d(tag, "getRecipes     START")
 
-        val listOfRecipes = useCase.getRecipesLike(name)
+        var listOfRecipes: List<Recipe>? = emptyList()
+
+        if(name!=""){
+            listOfRecipes = useCase.getRecipesLike(name)
+        }
 
         listOfRecipes?.let{
-            foundRecipes.value = listOfRecipes
+            foundRecipes.value = it
         }
 
         Log.d(tag, "getRecipes     END")

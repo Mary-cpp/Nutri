@@ -8,9 +8,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,6 +17,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.common.RecipesListForSearch
+import com.example.nutri.ui.screens.common.RecipesListForSearchTest
 import com.example.nutri.ui.screens.common.SearchField
 import com.example.nutri.ui.theme.NutriTheme
 
@@ -29,6 +27,7 @@ fun SearchPage(
     vm: SearchViewModel,
     navController: NavController
 ){
+
     Surface (
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
@@ -38,12 +37,9 @@ fun SearchPage(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-
-            val recipesList: MutableState<List<Recipe>> = remember { mutableStateOf(vm.foundRecipes.value) }
-
             SearchField(vm = vm)
 
-            RecipesListForSearch(listOfRecipes = recipesList.value)
+            RecipesListForSearch(listOfRecipes = vm.foundRecipes)
 
             Text(
                 modifier = Modifier
@@ -69,7 +65,7 @@ fun SearchPageTest(
 
             SearchField()
 
-            RecipesListForSearch(listOfRecipes = listOf(Recipe.makeRecipe(),Recipe.makeRecipe()))
+            RecipesListForSearchTest(listOfRecipes = listOf(Recipe.makeRecipe(),Recipe.makeRecipe()))
 
             Text(
                 modifier = Modifier

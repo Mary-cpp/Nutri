@@ -102,6 +102,8 @@ class DataBaseGatewayImpl @Inject constructor(
 
         withContext(Dispatchers.IO) {
             recipesEnt = database.recipeDAO().getRecipesWithNameLike(name)
+
+            Log.d(TAG, "Recipes list size: ${recipesEnt?.size}")
         }
 
         return if (recipesEnt == null) {
@@ -109,6 +111,7 @@ class DataBaseGatewayImpl @Inject constructor(
         } else {
             recipesEnt.forEach {
                 recipes.add(mapToRecipe(it))
+                Log.d(TAG, "recipe: ${it.name}")
             }
             recipes
         }

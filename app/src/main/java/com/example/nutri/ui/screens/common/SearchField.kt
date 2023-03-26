@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
@@ -24,10 +25,13 @@ import com.example.nutri.ui.theme.NutriTheme
 fun SearchField(
     vm: SearchViewModel? = null){
 
-    val searchParameter = remember{ mutableStateOf("") }
+    val searchParameter = remember{ mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(searchParameter.value ){
-        vm?.getRecipes(searchParameter.value)
+
+        if(searchParameter.value.text != ""){
+            vm?.getRecipes(searchParameter.value.text)
+        }
     }
 
     OutlinedTextField(modifier = Modifier.size(width = 304.dp, height = 64.dp),

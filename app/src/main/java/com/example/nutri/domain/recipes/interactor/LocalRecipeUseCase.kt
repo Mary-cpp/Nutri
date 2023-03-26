@@ -1,11 +1,11 @@
 package com.example.nutri.domain.recipes.interactor
 
-import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
+import com.example.nutri.data.recipe.local.repository.DataBaseGateway
 import com.example.nutri.domain.recipes.model.Recipe
 import javax.inject.Inject
 
 class LocalRecipeUseCase @Inject constructor(
-    private val db: DataBaseGatewayImpl
+    private val db: DataBaseGateway
     ): LocalRecipesInteractor {
 
     override suspend fun saveRecipe(recipe: Recipe, recipeName: String): String {
