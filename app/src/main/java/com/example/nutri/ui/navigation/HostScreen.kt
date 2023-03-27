@@ -63,6 +63,11 @@ fun BottomNavigationBar(navController: NavController) {
                     },
                     selected = selectedItem.value == index,
                     onClick = {
+
+                        currentDestination?.destination?.let{
+                            if (it.route.equals(item.screenRoute)) return@BottomNavigationItem
+                        }
+
                         selectedItem.value = index
                         navController.navigate(item.screenRoute) {
                             navController.setGraph(navController.graph, navController.saveState() )
