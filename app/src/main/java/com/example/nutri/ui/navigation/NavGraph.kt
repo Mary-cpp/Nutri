@@ -55,15 +55,27 @@ fun NavigationGraph(
                 type = NavType.StringType})
         ) { backStackEntry ->
 
+            Log.i(TAG, "load ${Screen.Home.screenRoute}")
+
             val vm = hiltViewModel<StatisticsViewModel>().apply {
                 onStatisticsScreenLoaded()
 
-                val id = backStackEntry.arguments?.getString("recipe_id")
+                backStackEntry.arguments?.let{ bundle->
+
+                    val id = bundle.getString("recipe_id")
+
+                    id?.let{
+                        addRecipeToMeal(it)
+                        Log.i(TAG, "Navigate to ${backStackEntry.destination} with argument $id")
+                    }
+                }
+
+                /*val id = backStackEntry.arguments?.getString("recipe_id")
                 id?.let {
                     addRecipeToMeal(id)
 
                     Log.i(TAG, "Navigate to ${backStackEntry.destination} with argument $id")
-                }
+                }*/
             }
 
             HomePage(
