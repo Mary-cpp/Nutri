@@ -69,13 +69,6 @@ fun NavigationGraph(
                         Log.i(TAG, "Navigate to ${backStackEntry.destination} with argument $id")
                     }
                 }
-
-                /*val id = backStackEntry.arguments?.getString("recipe_id")
-                id?.let {
-                    addRecipeToMeal(id)
-
-                    Log.i(TAG, "Navigate to ${backStackEntry.destination} with argument $id")
-                }*/
             }
 
             HomePage(

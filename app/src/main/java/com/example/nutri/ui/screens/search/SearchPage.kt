@@ -4,9 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,12 +18,16 @@ import com.example.nutri.ui.screens.common.RecipesListForSearch
 import com.example.nutri.ui.screens.common.RecipesListForSearchTest
 import com.example.nutri.ui.screens.common.SearchField
 import com.example.nutri.ui.theme.NutriTheme
+import kotlinx.coroutines.CoroutineScope
 
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SearchPage(
+fun SearchPageContent(
     vm: SearchViewModel,
-    navController: NavController
+    navController: NavController,
+    scope : CoroutineScope,
+    bottomSheetState: ModalBottomSheetState
 ){
 
     Surface (
@@ -41,7 +43,10 @@ fun SearchPage(
 
             RecipesListForSearch(
                 listOfRecipes = vm.foundRecipes,
-                navController = navController)
+                recipeId = vm.selectedRecipeId,
+                scope = scope,
+                bottomSheetState = bottomSheetState
+            )
 
             Text(
                 modifier = Modifier

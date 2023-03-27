@@ -23,6 +23,7 @@ import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Ingredient
 import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.screens.create_recipe.CreateRecipeViewModel
+import com.example.nutri.ui.theme.NutriShape
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -74,7 +75,7 @@ fun RecipeEditPage(
         },
         sheetState = bottomSheetState,
         sheetBackgroundColor = MaterialTheme.colors.background,
-        sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+        sheetShape = NutriShape.mealsListCornerShape,
         sheetElevation = 8.dp,
     ) {
         EditRecipeScreenContent(vm, scope, bottomSheetState, navController)
