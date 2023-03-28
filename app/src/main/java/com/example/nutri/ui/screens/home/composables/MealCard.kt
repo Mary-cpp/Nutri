@@ -1,6 +1,5 @@
 package com.example.nutri.ui.screens.home.composables
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -34,9 +33,6 @@ fun MealBigCard(meal: Meal) {
         ) {
             Column(verticalArrangement = Arrangement.SpaceBetween)
             {
-
-                Log.i("MealBigCard", "Has recipes?: ${meal.recipes.isNotEmpty()}")
-
                 if (meal.recipes.isEmpty()) NoRecipes()
                 else {
                     meal.recipes.forEach {

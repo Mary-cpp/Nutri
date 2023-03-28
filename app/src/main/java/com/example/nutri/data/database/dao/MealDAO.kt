@@ -8,6 +8,7 @@ import com.example.nutri.data.statistics.entities.MealCategory
 import com.example.nutri.data.statistics.entities.MealCommonEntity
 import com.example.nutri.data.statistics.entities.MealEntity
 import com.example.nutri.data.statistics.entities.RecipeInMeal
+import java.util.*
 
 @Dao
 interface MealDAO {
@@ -18,11 +19,17 @@ interface MealDAO {
     @Query("SELECT * FROM meal_categories WHERE id = :id")
     suspend fun getCategoryById(id: String): MealCategory
 
+    @Query("SELECT id FROM meal_categories WHERE text = :name")
+    suspend fun getCategoryIdByName(name: String): String
+
     @Insert
     suspend fun addMeal(it: MealEntity): Long
 
     @Query("SELECT * FROM meals")
     suspend fun getMeals(): List<MealEntity>
+
+    @Query("SELECT * FROM meals WHERE date(date / 1000,'unixepoch') = date(:date / 1000,'unixepoch')")
+    suspend fun getMealsByDate(date: Date): List<MealEntity>
 
     @Insert
     suspend fun addRecipeInMeal(it: RecipeInMeal)
@@ -32,6 +39,9 @@ interface MealDAO {
 
     @Query("SELECT * FROM recipes_in_meal WHERE id_meal = :idMeal")
     suspend fun getRecipesInMeal(idMeal: String): List<RecipeInMeal>
+
+    @Query("SELECT id FROM meals WHERE date = :date AND id_category = :idCategory")
+    suspend fun getMealByDateAndCategory(date: Date, idCategory: String) : String?
 
     @Insert
     suspend fun addRecipesInMeal(list: List<RecipeInMeal>)
@@ -52,11 +62,35 @@ interface MealDAO {
 
         val mealEntityList = getMeals()
 
-        mealEntityList.forEach {
-            commonMealList.add(MealCommonEntity(it,
-                getCategoryById(it.id),
-                getRecipesInMeal(it.id)
-            ) )
+        if(mealEntityList.isNotEmpty()){
+            mealEntityList.forEach {
+                commonMealList.add(
+                    MealCommonEntity(
+                        it,
+                    getCategoryById(it.idCategory),
+                    getRecipesInMeal(it.id)
+                ) )
+            }
+        }
+
+        return commonMealList
+    }
+
+    @Transaction
+    suspend fun getCommonMealsByDate(date: Date): List<MealCommonEntity>{
+        val commonMealList = mutableListOf<MealCommonEntity>()
+
+        val mealEntityList = getMealsByDate(date = date)
+
+        if(mealEntityList.isNotEmpty()){
+            mealEntityList.forEach {
+                commonMealList.add(
+                    MealCommonEntity(
+                        it,
+                        getCategoryById(it.idCategory),
+                        getRecipesInMeal(it.id)
+                    ) )
+            }
         }
 
         return commonMealList

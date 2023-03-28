@@ -7,16 +7,24 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.model.Recipe
+import com.example.nutri.domain.statistics.Meal
+import com.example.nutri.domain.statistics.MealInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
-    private val useCase: LocalRecipesInteractor
+    private val useCase: LocalRecipesInteractor,
+    private val useCaseMeal: MealInteractor,
 ) : ViewModel() {
 
     private val tag = "SearchViewModel"
+
+    val selectedRecipeId = mutableStateOf("")
 
     val foundRecipes : MutableState<List<Recipe>> = mutableStateOf(listOf())
 
@@ -36,4 +44,19 @@ class SearchViewModel @Inject constructor(
 
         Log.d(tag, "getRecipes     END")
     }
+
+    fun addRecipeToMeal(id: String, mealName: String)
+            = CoroutineScope(Dispatchers.Main).launch{
+
+        val tag = "addRecipeToMeal"
+        val recipe = useCase.getCommonRecipe(id)
+
+        Log.i(tag, "Recipe name: ${recipe.name}")
+
+        val meal = Meal(mealName, mutableListOf(recipe), Date())
+
+        useCaseMeal.addMeal(meal)
+    }
+
+
 }

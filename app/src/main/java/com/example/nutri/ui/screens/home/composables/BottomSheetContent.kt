@@ -51,7 +51,7 @@ fun HomePageBottomSheet(vm: StatisticsViewModel){
             modifier = Modifier.fillMaxWidth(),
             color = MaterialTheme.colors.background
         ) {
-            HomeBottomSheetContent(vm.meals)
+            HomeBottomSheetContent(vm.meals.value)
         }
     },
         sheetElevation = 0.dp,

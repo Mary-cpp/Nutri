@@ -34,7 +34,7 @@ fun NavigationGraph(
     navController: NavHostController,
     paddingValues: PaddingValues){
 
-    val TAG = "NAVIGATION"
+    val TAG = "NavigationGraph"
 
     NavHost(
         navController = navController,
@@ -49,26 +49,13 @@ fun NavigationGraph(
             )
     ){
         composable(
-            route = Screen.Home.screenRoute,
-            arguments = listOf(navArgument("recipe_id"){
-                nullable = true
-                type = NavType.StringType})
+            route = Screen.Home.screenRoute
         ) { backStackEntry ->
 
             Log.i(TAG, "load ${Screen.Home.screenRoute}")
 
             val vm = hiltViewModel<StatisticsViewModel>().apply {
-                onStatisticsScreenLoaded()
 
-                backStackEntry.arguments?.let{ bundle->
-
-                    val id = bundle.getString("recipe_id")
-
-                    id?.let{
-                        addRecipeToMeal(it)
-                        Log.i(TAG, "Navigate to ${backStackEntry.destination} with argument $id")
-                    }
-                }
             }
 
             HomePage(
@@ -112,6 +99,8 @@ fun NavigationGraph(
 
             val vm = hiltViewModel<RecipeViewModel>().apply {
                 val id = backStackEntry.arguments?.getString("recipe_id") as String
+
+                Log.i(TAG, "Navigate to ${backStackEntry.destination.route} with argument $id")
                 onRecipeScreenLoading(id)
             }
             RecipePage(

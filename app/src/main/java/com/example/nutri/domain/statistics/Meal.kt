@@ -6,5 +6,5 @@ import java.util.*
 class Meal (
     val name: String,
     val recipes: MutableList<Recipe>,
-    val date: Date
+    var date: Date
 )
