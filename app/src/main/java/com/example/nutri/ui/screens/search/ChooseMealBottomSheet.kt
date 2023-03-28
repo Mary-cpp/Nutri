@@ -40,18 +40,6 @@ fun SearchPage(
 
                 if(mealName.value!="Select meal"){
 
-                    /*val route = Screen
-                        .Home
-                        .screenRoute + "?recipe_id={recipe_id}&meal_name={meal_name}"
-                        .replace("{recipe_id}", vm.selectedRecipeId.value)
-                        .replace("{meal_name}", mealName.value)
-
-                    Log.d(TAG, route)
-
-                    navController.navigate(
-                        route
-                    )*/
-
                     Log.d("BOTTOM SHEET", mealName.value)
                 }
             }
