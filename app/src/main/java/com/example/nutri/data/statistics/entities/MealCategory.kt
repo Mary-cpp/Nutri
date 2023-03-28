@@ -6,7 +6,10 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "meal_categories",
-    indices = [Index(value = ["id"], unique = true)]
+    indices = [
+        Index(value = ["id"], unique = true),
+        Index(value = ["text"], unique = true)
+    ]
 )
 class MealCategory (
 

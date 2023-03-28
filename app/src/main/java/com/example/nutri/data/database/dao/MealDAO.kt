@@ -1,9 +1,6 @@
 package com.example.nutri.data.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Transaction
+import androidx.room.*
 import com.example.nutri.data.statistics.entities.MealCategory
 import com.example.nutri.data.statistics.entities.MealCommonEntity
 import com.example.nutri.data.statistics.entities.MealEntity
@@ -13,7 +10,7 @@ import java.util.*
 @Dao
 interface MealDAO {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMealCategory(it: MealCategory): Long
 
     @Query("SELECT * FROM meal_categories WHERE id = :id")
@@ -48,6 +45,7 @@ interface MealDAO {
 
     @Transaction
     suspend fun addCommonMeal(it: MealCommonEntity): Long{
+
         addMealCategory(it.mealCategory)
         val id = addMeal(it.meal)
         addRecipesInMeal(it.recipes)
