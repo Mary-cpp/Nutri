@@ -112,7 +112,6 @@ fun MealBottomSheetContent(
 
                                 scope.launch {
 
-
                                     vm.addRecipeToMeal(
                                         id = vm.selectedRecipeId.value,
                                         mealName = it
@@ -141,12 +140,6 @@ fun MealBottomSheetContent(
                 }
             }
         }
-
-        /*DropDownListButton(mutableString = mealName,
-            color = MaterialTheme.colors.primary,
-            shape = NutriShape.smallRoundCornerShape,
-            menuItems = mealNames,
-            buttonSize = 150)*/
     }
 }
 
