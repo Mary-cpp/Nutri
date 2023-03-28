@@ -23,15 +23,20 @@ class MealDatabaseGatewayImpl(
         val mealUId = UUID.randomUUID().toString()
         val mealCategoryUId = UUID.randomUUID().toString()
 
+        var mealCategoryId = database.mealDAO().getCategoryIdByName(meal.name)
+        if (mealCategoryId == null){
+            mealCategoryId = mealCategoryUId
+        }
+
         val mealCategory = MealCategory(
-            id = mealCategoryUId,
+            id = mealCategoryId,
             db_id = null,
             text = meal.name
         )
         val mealEntity = MealEntity(
             id = mealUId,
             db_id = null,
-            idCategory = mealCategoryUId,
+            idCategory = mealCategoryId,
             date = meal.date
         )
 
@@ -65,12 +70,18 @@ class MealDatabaseGatewayImpl(
     override suspend fun addRecipeInMeal(meal: Meal){
 
         val category = database.mealDAO().getCategoryIdByName(meal.name)
-        val dbMealId = database
-            .mealDAO()
-            .getMealByDateAndCategory(
-                date = meal.date,
-                idCategory = category
-            )
+
+        var dbMealId: String? = null
+
+        category.let{
+            dbMealId = database
+                .mealDAO()
+                .getMealByDateAndCategory(
+                    date = meal.date,
+                    idCategory = it
+                )
+        }
+
 
         if (dbMealId == null){
             saveMeal(meal)
@@ -83,7 +94,7 @@ class MealDatabaseGatewayImpl(
                     it.name?.let { name ->
                         recipesInMeal.add(
                             RecipeInMeal(
-                                idMeal = dbMealId,
+                                idMeal = dbMealId!!,
                                 idRecipe = database.recipeDAO().getRecipeId(name)
                             )
                         )
@@ -106,17 +117,21 @@ class MealDatabaseGatewayImpl(
     override suspend fun getMealsList(date: Date?): List<Meal> {
 
         Log.d(tag, "getMealsList START")
-        var commonMeals = database.mealDAO().getCommonMeals()
 
-        date?.let{
-            Log.d(tag, "Date: ${it.time}")
-
-            commonMeals = database.mealDAO().getCommonMealsByDate(it)
-        }
-
-        val mealsList = mutableListOf<Meal>()
+        var mealsList : MutableList<Meal>
 
         withContext(Dispatchers.IO){
+
+            var commonMeals = database.mealDAO().getCommonMeals()
+
+            date?.let{
+                Log.d(tag, "Date: ${it.time}")
+
+                commonMeals = database.mealDAO().getCommonMealsByDate(it)
+            }
+
+
+            mealsList = mutableListOf()
 
             commonMeals.forEach {
 
@@ -133,6 +148,7 @@ class MealDatabaseGatewayImpl(
                         )
                     )
                 }
+
 
                 mealsList.add(Meal(
                     name = it.mealCategory.text,
@@ -146,44 +162,4 @@ class MealDatabaseGatewayImpl(
 
         return mealsList.toList()
     }
-
-/*    override suspend fun getTodayMeals(date: Date?): List<Meal> {
-
-
-        var commonMeals = database.mealDAO().getCommonMeals()
-
-        date?.let{
-            commonMeals = database.mealDAO().getCommonMealsByDate(date)
-        }
-
-        val mealsList = mutableListOf<Meal>()
-
-        withContext(Dispatchers.IO){
-
-            commonMeals.forEach {
-
-                val recipes = mutableListOf<Recipe>()
-
-                it.recipes.forEach { recipeInMeal ->
-                    recipes.add(
-                        DataBaseGatewayImpl(
-                            database
-                        ).mapToRecipe(
-                            database
-                                .recipeDAO()
-                                .getRecipeById(recipeInMeal.idRecipe)
-                        )
-                    )
-                }
-
-                mealsList.add(Meal(
-                    name = it.mealCategory.text,
-                    date = it.meal.date,
-                    recipes = recipes
-                ))
-            }
-        }
-
-        return mealsList.toList()
-    }*/
 }

@@ -28,6 +28,9 @@ interface MealDAO {
     @Query("SELECT * FROM meals WHERE date(date / 1000,'unixepoch') = date(:date / 1000,'unixepoch')")
     suspend fun getMealsByDate(date: Date): List<MealEntity>
 
+    @Query("SELECT * FROM meals WHERE date(date) BETWEEN date() date(:date)")
+    suspend fun getMealsByDateText(date: Date): List<MealEntity>
+
     @Insert
     suspend fun addRecipeInMeal(it: RecipeInMeal)
 
@@ -45,6 +48,7 @@ interface MealDAO {
 
     @Transaction
     suspend fun addCommonMeal(it: MealCommonEntity): Long{
+
 
         addMealCategory(it.mealCategory)
         val id = addMeal(it.meal)
