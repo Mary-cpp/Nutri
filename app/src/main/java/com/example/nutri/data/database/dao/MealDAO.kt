@@ -28,9 +28,8 @@ interface MealDAO {
     @Query("SELECT * FROM meals WHERE date(date / 1000,'unixepoch') = date(:date / 1000,'unixepoch')")
     suspend fun getMealsByDate(date: Date): List<MealEntity>
 
-    @Query("SELECT * FROM meals WHERE date(date) BETWEEN date() date(:date)")
-    suspend fun getMealsByDateText(date: Date): List<MealEntity>
-
+    @Query("SELECT * FROM meals WHERE date(date) = date(:date)")
+    suspend fun getMealsByDateText(date: String): List<MealEntity>
     @Insert
     suspend fun addRecipeInMeal(it: RecipeInMeal)
 
@@ -41,7 +40,7 @@ interface MealDAO {
     suspend fun getRecipesInMeal(idMeal: String): List<RecipeInMeal>
 
     @Query("SELECT id FROM meals WHERE date = :date AND id_category = :idCategory")
-    suspend fun getMealByDateAndCategory(date: Date, idCategory: String) : String?
+    suspend fun getMealByDateAndCategory(date: String, idCategory: String) : String?
 
     @Insert
     suspend fun addRecipesInMeal(list: List<RecipeInMeal>)
@@ -79,10 +78,10 @@ interface MealDAO {
     }
 
     @Transaction
-    suspend fun getCommonMealsByDate(date: Date): List<MealCommonEntity>{
+    suspend fun getCommonMealsByDate(date: String): List<MealCommonEntity>{
         val commonMealList = mutableListOf<MealCommonEntity>()
 
-        val mealEntityList = getMealsByDate(date = date)
+        val mealEntityList = getMealsByDateText(date = date)
 
         if(mealEntityList.isNotEmpty()){
             mealEntityList.forEach {

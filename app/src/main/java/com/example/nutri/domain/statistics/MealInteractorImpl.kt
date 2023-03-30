@@ -1,7 +1,6 @@
 package com.example.nutri.domain.statistics
 
 import com.example.nutri.data.statistics.repository.MealDataBaseGateway
-import java.util.*
 
 class MealInteractorImpl(
     val db: MealDataBaseGateway
@@ -16,7 +15,7 @@ class MealInteractorImpl(
         return db.addRecipeInMeal(meal)
     }
 
-    override suspend fun getMeals(date: Date?): List<Meal> {
+    override suspend fun getMeals(date: String?): List<Meal> {
         return db.getMealsList(date)
     }
 

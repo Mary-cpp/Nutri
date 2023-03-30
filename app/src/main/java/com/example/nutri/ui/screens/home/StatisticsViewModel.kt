@@ -10,9 +10,11 @@ import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.domain.statistics.MealInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 import javax.inject.Inject
 
+val dateFormat= SimpleDateFormat("yyyy-MM-dd", Locale.US)
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
     private val useCaseMeal: MealInteractor
@@ -21,7 +23,6 @@ class StatisticsViewModel @Inject constructor(
     private val TAG = "StatisticsViewModel"
 
     var meals: MutableState<List<Meal>> =  mutableStateOf(createEmptyMealsList())
-
     init {
         onStatisticsScreenLoaded()
     }
@@ -39,7 +40,11 @@ class StatisticsViewModel @Inject constructor(
         Log.i(TAG, "Meals empty?: ${meals.value[0].recipes.isEmpty()}")
 
         var mealsFromDb : List<Meal> = listOf()
-        try {mealsFromDb = useCaseMeal.getMeals(date = Date())}
+
+
+        println(dateFormat.format(Date()))
+
+        try {mealsFromDb = useCaseMeal.getMeals(date = dateFormat.format(Date()))}
         catch(e: Exception){ Log.e(TAG, "Can not fetch meals from db", e ) }
         finally{
             if (mealsFromDb.isNotEmpty()){
@@ -49,8 +54,8 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private fun createEmptyMealsList()
-    = listOf(Meal("Breakfast", mutableListOf(), Date()),
-        Meal("Lunch", mutableListOf(), Date()),
-        Meal("Dinner",mutableListOf(), Date())
+    = listOf(Meal("Breakfast", mutableListOf(), dateFormat.format(Date())),
+        Meal("Lunch", mutableListOf(), dateFormat.format(Date())),
+        Meal("Dinner",mutableListOf(), dateFormat.format(Date()))
     )
 }

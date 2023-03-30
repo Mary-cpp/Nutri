@@ -35,13 +35,14 @@ internal class DataBaseGatewayImplTest {
     @ValueSource(ints = [0, 1, 24, 5])
     fun saveSpecifiedIngredients(argument: Int) = runBlocking {
 
+        //Проверка соответствует сохраняется ли в базу то же количество ингредиентов
         Mockito.`when`(dao.addIngredientsOfRecipe(emptyList())).thenReturn(Unit)
 
         val expected = argument
 
         val actual = DataBaseGatewayImpl(database)
             .saveSpecifiedIngredients(
-                Random().nextInt(),
+                UUID.randomUUID().toString(),
                 makeListOfIngredients(argument))
 
         assertEquals(expected, actual)

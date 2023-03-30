@@ -114,7 +114,7 @@ class MealDatabaseGatewayImpl(
         }
     }
 
-    override suspend fun getMealsList(date: Date?): List<Meal> {
+    override suspend fun getMealsList(date: String?): List<Meal> {
 
         Log.d(tag, "getMealsList START")
 
@@ -125,7 +125,7 @@ class MealDatabaseGatewayImpl(
             var commonMeals = database.mealDAO().getCommonMeals()
 
             date?.let{
-                Log.d(tag, "Date: ${it.time}")
+                Log.d(tag, "Date: $it")
 
                 commonMeals = database.mealDAO().getCommonMealsByDate(it)
             }

@@ -1,7 +1,6 @@
 package com.example.nutri.data.statistics.entities
 
 import androidx.room.*
-import java.util.*
 
 @Entity(
     tableName = "meals",
@@ -23,5 +22,5 @@ class MealEntity (
 
     @ColumnInfo("id_category", index = true)
     val idCategory: String,
-    val date: Date
+    val date: String
     )

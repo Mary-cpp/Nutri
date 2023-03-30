@@ -9,6 +9,7 @@ import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.domain.statistics.MealInteractor
+import com.example.nutri.ui.screens.home.dateFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -53,7 +54,7 @@ class SearchViewModel @Inject constructor(
 
         Log.i(tag, "Recipe name: ${recipe.name}")
 
-        val meal = Meal(mealName, mutableListOf(recipe), Date())
+        val meal = Meal(mealName, mutableListOf(recipe), dateFormat.format(Date()))
 
         useCaseMeal.addMeal(meal)
     }
