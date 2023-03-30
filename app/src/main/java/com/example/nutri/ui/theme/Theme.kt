@@ -28,6 +28,7 @@ private val LightColorScheme = lightColors(
     onBackground = Primary,
     onSurface = Color.Black,
 
+
 )
 
 @Composable
@@ -43,7 +44,8 @@ fun NutriTheme(
     val view = LocalView.current
     if (!view.isInEditMode) {
         SideEffect {
-            (view.context as Activity).window.statusBarColor = colorScheme.primary.toArgb()
+            (view.context as Activity).window.statusBarColor = Color.Transparent.toArgb()
+            (view.context as Activity).window.isStatusBarContrastEnforced = true
             ViewCompat.getWindowInsetsController(view)?.isAppearanceLightStatusBars = darkTheme
         }
     }
