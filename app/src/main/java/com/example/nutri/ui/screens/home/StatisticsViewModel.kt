@@ -6,6 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nutri.domain.bmi.interactor.BmiInteractor
+import com.example.nutri.domain.bmi.model.User
 import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.domain.statistics.MealInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,17 +19,20 @@ import javax.inject.Inject
 val dateFormat= SimpleDateFormat("yyyy-MM-dd", Locale.US)
 @HiltViewModel
 class StatisticsViewModel @Inject constructor(
-    private val useCaseMeal: MealInteractor
+    private val useCaseMeal: MealInteractor,
+    private val useCaseBmi: BmiInteractor,
 ) : ViewModel(){
 
     private val TAG = "StatisticsViewModel"
 
+    var user: MutableState<User?> = mutableStateOf(null)
     var meals: MutableState<List<Meal>> =  mutableStateOf(createEmptyMealsList())
     init {
         onStatisticsScreenLoaded()
+        getUserPlan()
     }
 
-    fun onStatisticsScreenLoaded() = viewModelScope.launch {
+    private fun onStatisticsScreenLoaded() = viewModelScope.launch {
 
         var hasMeals = false
         meals.value.forEach {
@@ -51,6 +56,10 @@ class StatisticsViewModel @Inject constructor(
                 meals.value = mealsFromDb
             }
         }
+    }
+
+    private fun getUserPlan() = viewModelScope.launch{
+       user.value = useCaseBmi.getCurrentUser()
     }
 
     private fun createEmptyMealsList()

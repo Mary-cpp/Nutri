@@ -233,6 +233,7 @@ class DataBaseGatewayImpl @Inject constructor(
             id = recipe.id,
             uri = recipe.url,
             name = recipe.name,
+            totalWeight = recipe.weight,
             calories = recipe.calories
         )
     }
@@ -246,6 +247,7 @@ class DataBaseGatewayImpl @Inject constructor(
             id = uuid,
             name = null,
             url = recipe.uri,
+            weight = recipe.totalWeight,
             calories = recipe.calories
         )
     }
@@ -259,6 +261,7 @@ class DataBaseGatewayImpl @Inject constructor(
         return Recipe(
             id = recipe.recipeEntity.id,
             uri = recipe.recipeEntity.url,
+            totalWeight = recipe.recipeEntity.weight,
             name = recipe.recipeEntity.name,
             calories = recipe.recipeEntity.calories,
             healthLabels = labels[0],

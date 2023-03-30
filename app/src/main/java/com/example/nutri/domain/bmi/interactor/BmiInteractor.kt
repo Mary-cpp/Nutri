@@ -8,4 +8,6 @@ interface BmiInteractor {
     fun countBMI(user: User) : DietPlan
 
     suspend fun saveUser(user: User)
+
+    suspend fun getCurrentUser() : User?
 }

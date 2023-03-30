@@ -49,18 +49,25 @@ class UserDatabaseGatewayImpl(
         return user
     }
 
-    fun mapActivityToEntity(
+    override suspend fun getLastUser(): User? {
+        val user = mapEntityToUser()
+
+        Log.d(TAG, "User: $user")
+        return user
+    }
+
+    private fun mapActivityToEntity(
         activityType: ActivityType
     ) : ActivityTypeEntity
     = ActivityTypeEntity(text = activityType.text, id = null)
 
-    fun mapDietPlanToEntity(
+    private fun mapDietPlanToEntity(
         userId: Int,
         plan: DietPlan
     ) : DietPlanEntity
     = DietPlanEntity(kcal = plan.kcal, userId = userId, id = null)
 
-    suspend fun mapUserToEntity(
+    private suspend fun mapUserToEntity(
         user: User
     ) : UserEntity
     = UserEntity(
@@ -74,7 +81,7 @@ class UserDatabaseGatewayImpl(
         activityTypeId = database.userDAO().getActivityTypeId(user.activityType.text)
     )
 
-    suspend fun mapEntityToUser(
+    private suspend fun mapEntityToUser(
         id: Int
     ) : User{
 
@@ -93,4 +100,26 @@ class UserDatabaseGatewayImpl(
             activityType = ActivityType.valueOf(activityType.text)
         )
     }
+
+    private suspend fun mapEntityToUser() : User?{
+
+        val user = database.userDAO().getLastUser()
+        user?.let{
+            val userPlan = database.userDAO().getDietPlanByUser(it.id!!)
+            val activityType = database.userDAO().getActivityTypeById(user.activityTypeId)
+
+            return User(
+                height = user.height,
+                heightMeasure = user.heightUnit,
+                weight = user.weight,
+                weightMeasure = user.weightUnit,
+                age = user.age,
+                sex = user.sex,
+                plan = DietPlan(userPlan.kcal),
+                activityType = ActivityType.valueOf(activityType.text)
+            )
+        }
+        return null
+    }
 }
+

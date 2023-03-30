@@ -28,6 +28,10 @@ interface UserDAO {
     @Query("SELECT * FROM users WHERE id = :userId")
     suspend fun getUser(userId: Int) : UserEntity
 
+    @Transaction
+    @Query("SELECT * FROM users ORDER BY id DESC LIMIT 1")
+    suspend fun getLastUser(): UserEntity?
+
     @Query("SELECT id FROM activity_types WHERE text = :text")
     suspend fun getActivityTypeId(text: String): Int
 }

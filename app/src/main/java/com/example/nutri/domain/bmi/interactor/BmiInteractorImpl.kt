@@ -15,4 +15,8 @@ class BmiInteractorImpl(
     override suspend fun saveUser(user: User) {
         saver.saveToLocal(user)
     }
+
+    override suspend fun getCurrentUser(): User? {
+        return saver.getLastUser()
+    }
 }

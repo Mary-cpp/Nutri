@@ -71,7 +71,7 @@ class MealDatabaseGatewayImpl(
 
         val category = database.mealDAO().getCategoryIdByName(meal.name)
 
-        var dbMealId: String? = null
+        var dbMealId: String?
 
         category.let{
             dbMealId = database

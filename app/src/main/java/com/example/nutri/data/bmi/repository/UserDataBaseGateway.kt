@@ -7,4 +7,5 @@ interface UserDataBaseGateway {
     suspend fun saveToLocal(user: User): Int
 
     suspend fun getUser(id: Int) : User
+    suspend fun getLastUser() : User?
 }
