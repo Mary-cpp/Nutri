@@ -1,4 +1,4 @@
-package com.example.nutri.ui.screens
+package com.example.nutri.ui.screens.my_recipes
 
 import android.util.Log
 import androidx.compose.foundation.clickable
@@ -24,12 +24,11 @@ import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
-import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 
 const val TAG = "MyRecipesPage"
 @Composable
 fun MyRecipesPage(
-    vm: MyRecipesViewModel = hiltViewModel(),
+    vm: MyRecipesViewModel,
     navController: NavController
 ){
 

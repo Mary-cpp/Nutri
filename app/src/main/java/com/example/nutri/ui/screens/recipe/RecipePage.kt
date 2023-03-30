@@ -27,6 +27,7 @@ import com.example.nutri.R
 import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
+import com.example.nutri.ui.screens.my_recipes.TAG
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 import com.example.nutri.ui.screens.recipe.RecipeViewModel
@@ -106,7 +107,14 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
 
                     Column {
                         IconButton(
-                            onClick = { navController.navigate(Screen.EditRecipe.screenRoute) },
+                            onClick = {
+
+                                val route = Screen.EditRecipe.screenRoute+"?recipe_id=${recipe.id}"
+
+                                Log.i("Navigate to", route)
+
+                                navController.navigate(route)
+                                      },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .background(Color.Transparent)

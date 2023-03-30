@@ -17,7 +17,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Ingredient
@@ -28,7 +27,7 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun RecipeEditPage(
-    vm: CreateRecipeViewModel = hiltViewModel(),
+    vm: CreateRecipeViewModel,
     navController: NavController) {
 
     val scope = rememberCoroutineScope()
