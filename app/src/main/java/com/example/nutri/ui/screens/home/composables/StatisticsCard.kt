@@ -17,8 +17,9 @@ import com.example.nutri.ui.theme.NutriTheme
 
 @Composable
 fun StatisticsCard(
-    current: MutableState<String>,
-    norm: MutableState<String>,
+    current: MutableState<Int?>,
+    norm: Int,
+    color: MutableState<androidx.compose.ui.graphics.Color>
 ){
     Card(
         shape = NutriShape.smallRoundCornerShape,
@@ -26,7 +27,7 @@ fun StatisticsCard(
             .fillMaxWidth()
             .size(160.dp)
             .padding(24.dp),
-        backgroundColor = MaterialTheme.colors.primary,
+        backgroundColor = color.value,
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
@@ -37,10 +38,10 @@ fun StatisticsCard(
 
             Row(horizontalArrangement = Arrangement.Center) {
 
-                Text(text = current.value,
+                Text(text = current.value.toString(),
                     fontSize = MaterialTheme.typography.subtitle1.fontSize
                 )
-                Text(text = " / ${norm.value}",
+                Text(text = " / $norm",
                     fontSize = MaterialTheme.typography.subtitle1.fontSize
                 )
             }
@@ -53,7 +54,9 @@ fun StatisticsCard(
 fun StatisticsPreview(){
     NutriTheme {
         StatisticsCard(
-            current = remember{ mutableStateOf("1101")},
-            norm = remember{mutableStateOf("11010")})
+            current = remember{ mutableStateOf(1101)},
+            norm = 11010,
+            color = remember{ mutableStateOf(com.example.nutri.ui.theme.Tertiary) }
+        )
     }
 }

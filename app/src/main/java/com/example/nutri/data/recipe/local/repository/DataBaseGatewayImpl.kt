@@ -11,6 +11,7 @@ import kotlinx.coroutines.withContext
 import java.lang.StringBuilder
 import java.util.UUID
 import javax.inject.Inject
+import kotlin.math.roundToInt
 
 class DataBaseGatewayImpl @Inject constructor(
     val database: RecipeDatabase
@@ -247,7 +248,7 @@ class DataBaseGatewayImpl @Inject constructor(
             id = uuid,
             name = null,
             url = recipe.uri,
-            weight = recipe.totalWeight,
+            weight = recipe.totalWeight?.roundToInt()?.toDouble(),
             calories = recipe.calories
         )
     }

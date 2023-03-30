@@ -14,6 +14,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.nutri.ui.screens.common.TopBar
 import com.example.nutri.ui.screens.home.composables.HomePageBottomSheet
 import com.example.nutri.ui.screens.home.composables.MealFAB
+import com.example.nutri.ui.screens.home.composables.StatisticsCard
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -37,8 +38,12 @@ fun HomePage(
 }
 
 @Composable
-fun HomePageStatistics(scope: CoroutineScope){
+fun HomePageStatistics(
+    vm: StatisticsViewModel){
 
+    vm.user.value?.let {
+        StatisticsCard(current = vm.myCalories, norm = it.plan!!.kcal, vm.statisticsCardColor)
+    }
 }
 
 @Preview

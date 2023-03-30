@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
@@ -25,11 +26,12 @@ class StatisticsViewModel @Inject constructor(
 
     private val TAG = "StatisticsViewModel"
 
+    val myCalories: MutableState<Int?> = mutableStateOf(0)
+    val statisticsCardColor: MutableState<Color> = mutableStateOf(com.example.nutri.ui.theme.Tertiary)
     var user: MutableState<User?> = mutableStateOf(null)
     var meals: MutableState<List<Meal>> =  mutableStateOf(createEmptyMealsList())
     init {
         onStatisticsScreenLoaded()
-        getUserPlan()
     }
 
     private fun onStatisticsScreenLoaded() = viewModelScope.launch {
@@ -46,20 +48,43 @@ class StatisticsViewModel @Inject constructor(
 
         var mealsFromDb : List<Meal> = listOf()
 
-
-        println(dateFormat.format(Date()))
-
         try {mealsFromDb = useCaseMeal.getMeals(date = dateFormat.format(Date()))}
         catch(e: Exception){ Log.e(TAG, "Can not fetch meals from db", e ) }
         finally{
             if (mealsFromDb.isNotEmpty()){
                 meals.value = mealsFromDb
             }
+
+            getUserPlan()
+            countCalories()
         }
     }
 
     private fun getUserPlan() = viewModelScope.launch{
        user.value = useCaseBmi.getCurrentUser()
+    }
+
+    fun countCalories() {
+
+        var todayCalories = 0
+        meals.value.forEach{ meal->
+            if(meal.recipes.isNotEmpty()){
+                meal.recipes.forEach {
+                    todayCalories += it.calories?.toInt() ?: 0
+                }
+            }
+        }
+        user.value?.plan?.let {
+
+            Log.i(TAG, "Changing card color")
+
+            if (todayCalories >= it.kcal){
+                statisticsCardColor.value = com.example.nutri.ui.theme.Error
+            }
+            else statisticsCardColor.value = com.example.nutri.ui.theme.PrimaryVariant
+        }
+        Log.i(TAG, "Today's calories $todayCalories")
+        myCalories.value = todayCalories
     }
 
     private fun createEmptyMealsList()

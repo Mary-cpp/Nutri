@@ -57,6 +57,6 @@ fun HomePageBottomSheet(vm: StatisticsViewModel){
         sheetElevation = 0.dp,
         sheetState = bottomSheetState,
         scrimColor = Color.Transparent) {
-        HomePageStatistics(scope)
+        HomePageStatistics(vm)
     }
 }

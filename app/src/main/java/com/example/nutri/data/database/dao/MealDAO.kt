@@ -30,7 +30,7 @@ interface MealDAO {
 
     @Query("SELECT * FROM meals WHERE date(date) = date(:date)")
     suspend fun getMealsByDateText(date: String): List<MealEntity>
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addRecipeInMeal(it: RecipeInMeal)
 
     @Query("SELECT * FROM meals WHERE id = :id")

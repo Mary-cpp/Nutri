@@ -52,7 +52,10 @@ class UserDatabaseGatewayImpl(
     override suspend fun getLastUser(): User? {
         val user = mapEntityToUser()
 
-        Log.d(TAG, "User: $user")
+        if (user != null) {
+            Log.d(TAG, "User: ${user.id}")
+        }
+        else{Log.d(TAG, "User not found")}
         return user
     }
 
