@@ -16,4 +16,5 @@ class RecipeEntity (
 
     val url: String?,
     var name: String?,
+    var weight : Double?,
     val calories: Long?)
