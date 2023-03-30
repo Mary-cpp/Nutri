@@ -1,84 +1,32 @@
 package com.example.nutri.ui.navigation
 
-import android.util.Log
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
-import com.example.nutri.domain.recipes.interactor.LocalRecipeUseCase
+import com.example.nutri.ui.screens.BmiPage
+import com.example.nutri.ui.screens.HomePage
 import com.example.nutri.ui.screens.RecipeEditPage
-import com.example.nutri.ui.screens.bmi.BmiPage
+import com.example.nutri.ui.screens.RecipePage
 import com.example.nutri.ui.screens.bmi.BmiViewModel
-import com.example.nutri.ui.screens.home.HomePage
-import com.example.nutri.ui.screens.home.StatisticsViewModel
+import com.example.nutri.ui.screens.create_recipe.CreateRecipeViewModel
 import com.example.nutri.ui.screens.my_recipes.MyRecipesPage
 import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
-import com.example.nutri.ui.screens.recipe.RecipePage
 import com.example.nutri.ui.screens.recipe.RecipeViewModel
-import com.example.nutri.ui.screens.search.SearchPage
-import com.example.nutri.ui.screens.search.SearchViewModel
 
 @Composable
-fun NavigationGraph(
-    navController: NavHostController,
-    paddingValues: PaddingValues){
-
-    val TAG = "NavigationGraph"
-
-    NavHost(
-        navController = navController,
-        startDestination = Screen.Home.screenRoute,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                start = 0.dp,
-                end = 0.dp,
-                top = 0.dp,
-                bottom = paddingValues.calculateBottomPadding()
-            )
-    ){
-        composable(
-            route = Screen.Home.screenRoute
-        ) { backStackEntry ->
-
-            Log.i(TAG, "load ${Screen.Home.screenRoute}")
-
-            val vm = hiltViewModel<StatisticsViewModel>().apply {
-
-            }
-
-            HomePage(
-                navController = navController,
-                vm = vm
-            )
-        }
-        composable(Screen.SearchPage.screenRoute){
-
-            val vm = hiltViewModel<SearchViewModel>()
-
-            SearchPage(
-                navController = navController,
-                vm = vm
-            )
-        }
+fun NavigationGraph(navController: NavHostController){
+    NavHost(navController = navController, startDestination = Screen.Home.screenRoute){
+        composable(Screen.Home.screenRoute) { HomePage(navController) }
         composable(Screen.MyRecipes.screenRoute) {
+
+            val vm = hiltViewModel<MyRecipesViewModel>()
+
             MyRecipesPage(
-                vm = MyRecipesViewModel(
-                    useCase = LocalRecipeUseCase(
-                        db = DataBaseGatewayImpl(database = RecipeDatabase.getDatabase(context = LocalContext.current))
-                    )
-                ),
+                vm = vm,
                 navController
             )
         }
@@ -90,18 +38,36 @@ fun NavigationGraph(
                 vm = vm,
                 navController = navController)
         }
-        composable(Screen.EditRecipe.screenRoute) { RecipeEditPage(navController = navController) }
         composable(
-            route = Screen.Recipe.screenRoute,
-            arguments = listOf(navArgument("recipe_id"){
-                type = NavType.StringType})
+            route = Screen.EditRecipe.screenRoute,
+            /*arguments = listOf(navArgument("recipe_id"){
+                type = NavType.IntType
+                nullable = true
+            }
+            )*/
+        ) {
+
+            val vm = hiltViewModel<CreateRecipeViewModel>()
+
+            /*it.arguments?.let{
+                vm.apply {
+
+                    val id = it.getInt("recipe_id")
+                    getRecipeInfoIfEditing(id)
+                }
+            }*/
+
+            RecipeEditPage(
+                vm = vm,
+                navController = navController)
+        }
+        composable(Screen.Recipe.screenRoute,
+            arguments = listOf(navArgument("recipe_id"){type = NavType.IntType})
         ) { backStackEntry ->
 
             val vm = hiltViewModel<RecipeViewModel>().apply {
-                val id = backStackEntry.arguments?.getString("recipe_id") as String
-
-                Log.i(TAG, "Navigate to ${backStackEntry.destination.route} with argument $id")
-                onRecipeScreenLoading(id)
+                recipeId.value = backStackEntry.arguments?.getInt("recipe_id") as Int
+                onRecipeScreenLoading()
             }
             RecipePage(
                 vm = vm,

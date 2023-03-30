@@ -81,4 +81,13 @@ class CreateRecipeViewModel @Inject constructor(
 
         Log.d(tag, "END")
     }
+
+    fun getRecipeInfoIfEditing(id: Int) = viewModelScope.launch{
+
+        Log.d(tag, "Load CreateRecipesViewModel when editing")
+
+        recipe.value = useCase.getCommonRecipe(id)
+        listOfIngredients = recipe.value.ingredients as SnapshotStateList<Ingredient>
+        recipeName.value = recipe.value.name.toString()
+    }
 }

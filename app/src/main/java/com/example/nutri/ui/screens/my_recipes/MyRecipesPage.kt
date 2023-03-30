@@ -23,7 +23,7 @@ import com.example.nutri.ui.theme.NutriTheme
 const val TAG = "MyRecipesPage"
 @Composable
 fun MyRecipesPage(
-    vm: MyRecipesViewModel = hiltViewModel(),
+    vm: MyRecipesViewModel,
     navController: NavController
 ){
 
