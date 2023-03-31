@@ -12,7 +12,7 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.nutri.ui.screens.RecipeEditPage
+import com.example.nutri.ui.screens.create_recipe.CreateRecipePage
 import com.example.nutri.ui.screens.bmi.BmiPage
 import com.example.nutri.ui.screens.bmi.BmiViewModel
 import com.example.nutri.ui.screens.create_recipe.CreateRecipeViewModel
@@ -61,7 +61,7 @@ fun NavigationGraph(
 
             val vm = hiltViewModel<CreateRecipeViewModel>()
 
-            RecipeEditPage(
+            CreateRecipePage(
                 vm = vm,
                 navController = navController)
         }

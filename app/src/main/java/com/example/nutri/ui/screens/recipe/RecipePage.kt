@@ -1,13 +1,8 @@
 package com.example.nutri.ui.screens.recipe
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -15,18 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
-import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.domain.recipes.model.Recipe
-import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.common.TopBarWithIcon
+import com.example.nutri.ui.screens.create_recipe.composables.Ingredients
+import com.example.nutri.ui.screens.create_recipe.composables.Labels
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 
@@ -46,10 +39,10 @@ fun RecipePage(
         })
 }
 
-
-
 @Composable
-fun RecipeCard(recipe: Recipe, navController: NavController) {
+fun RecipeCard(
+    recipe: Recipe,
+    navController: NavController) {
     Surface(modifier = Modifier
         .fillMaxWidth()
         .padding(start = 16.dp, top = 24.dp, end = 16.dp),
@@ -113,106 +106,12 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
 }
 
 
-@Composable
-fun Labels(
-    backgroundColor: Color,
-    cornerShape: RoundedCornerShape,
-    labels: List<String>
-) {
-    Row(
-        Modifier
-            .padding(bottom = 8.dp)
-            .horizontalScroll(ScrollState(0))
-    ) {
-        labels.forEach {
-
-            Card(
-                modifier = Modifier.padding(end = 8.dp),
-                backgroundColor = backgroundColor,
-                elevation = 6.dp,
-                shape = cornerShape
-            ) {
-                Text(
-                    text = it,
-                    modifier = Modifier.padding(
-                        top = 8.dp,
-                        bottom = 8.dp,
-                        start = 16.dp,
-                        end = 16.dp
-                    )
-                )
-            }
-        }
-    }
-}
-
-@Composable
-fun Ingredients(ingredients : List<Characteristics>) {
-
-    Surface(
-        modifier = Modifier
-            .fillMaxWidth(1f)
-            .padding(top = 10.dp),
-        color = MaterialTheme.colors.background,
-        shape = NutriShape.largeRoundedCornerShape,
-        elevation = 4.dp
-    ) {
-
-        Column(Modifier.padding(24.dp)) {
-
-            Text(
-                text = "Ingredients",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 24.dp),
-                textAlign = TextAlign.Center,
-                fontSize = 24.sp
-            )
-
-            LazyColumn{
-                items(items = ingredients){ ingredient ->
-                    IngredientCard(ingredient)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun IngredientCard(ingredient: Characteristics) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(bottom = 4.dp),
-        backgroundColor = MaterialTheme.colors.primary,
-        shape = NutriShape.smallRoundedCornerShape,
-        content = {
-            Column {
-                Text(
-                    text = ingredient.foodMatch,
-                    modifier = Modifier.padding(start = 16.dp, bottom = 10.dp, top = 16.dp)
-                )
-
-                Row {
-                    Text(
-                        text = ingredient.quantity.toString(),
-                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
-                    )
-
-                    Text (
-                        text = ingredient.measure,
-                        modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
-                    )
-                }
-            }
-        }
-    )
-}
-
 @Preview
 @Composable
 fun RecipePagePreview() {
     NutriTheme {
-        RecipePage(hiltViewModel(),
-            rememberNavController())
+        RecipeCard(
+            recipe = Recipe.makeRecipe(),
+            navController = rememberNavController())
     }
 }
