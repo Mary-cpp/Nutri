@@ -50,7 +50,7 @@ fun SearchPageContent(
 
             Text(
                 modifier = Modifier
-                    .clickable { navController.navigate(Screen.EditRecipe.screenRoute) },
+                    .clickable { navController.navigate(Screen.CreateRecipe.screenRoute) },
                 text = "Didn't find desired Recipe? Create!"
             )
         }
@@ -76,7 +76,7 @@ fun SearchPageTest(
 
             Text(
                 modifier = Modifier
-                    .clickable { navController.navigate(Screen.EditRecipe.screenRoute) },
+                    .clickable { navController.navigate(Screen.CreateRecipe.screenRoute) },
                 text = "Didn't find desired Recipe? Create!"
             )
         }

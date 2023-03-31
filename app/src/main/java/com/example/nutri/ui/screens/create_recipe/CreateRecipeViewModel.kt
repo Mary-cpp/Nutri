@@ -82,7 +82,7 @@ class CreateRecipeViewModel @Inject constructor(
         Log.d(tag, "END")
     }
 
-    fun getRecipeInfoIfEditing(id: Int) = viewModelScope.launch{
+    fun getRecipeInfoIfEditing(id: String) = viewModelScope.launch{
 
         Log.d(tag, "Load CreateRecipesViewModel when editing")
 

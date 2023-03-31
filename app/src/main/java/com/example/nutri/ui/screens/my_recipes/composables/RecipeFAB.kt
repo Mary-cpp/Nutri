@@ -17,7 +17,7 @@ import com.example.nutri.ui.navigation.Screen
 
 @Composable
 fun RecipeFAB(navController: NavController){
-    FloatingActionButton(onClick = { navController.navigate(Screen.EditRecipe.screenRoute)},
+    FloatingActionButton(onClick = { navController.navigate(Screen.CreateRecipe.screenRoute)},
         modifier = Modifier.size(56.dp),
 
         backgroundColor = MaterialTheme.colors.primary,

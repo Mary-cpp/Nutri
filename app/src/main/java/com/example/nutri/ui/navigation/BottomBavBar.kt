@@ -23,7 +23,7 @@ fun BottomNavigationBar(navController: NavController) {
     val navBackStackEntry = navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry.value
 
-    val screensWithNoBottomBar = listOf(Screen.EditRecipe.screenRoute, Screen.Recipe.screenRoute)
+    val screensWithNoBottomBar = listOf(Screen.CreateRecipe.screenRoute, Screen.Recipe.screenRoute)
     if (screensWithNoBottomBar.contains(currentDestination?.destination?.route)) return
 
     BottomNavigation(

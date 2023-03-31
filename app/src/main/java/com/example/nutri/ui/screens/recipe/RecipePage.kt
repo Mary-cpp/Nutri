@@ -77,7 +77,8 @@ fun RecipeCard(recipe: Recipe, navController: NavController) {
 
                     Column {
                         IconButton(
-                            onClick = { navController.navigate(Screen.EditRecipe.screenRoute) },
+                            onClick = { //navController.navigate(Screen.CreateRecipe.screenRoute)
+                                },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .background(Color.Transparent)
