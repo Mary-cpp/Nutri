@@ -1,5 +1,6 @@
 package com.example.nutri.ui.screens.recipe
 
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -17,8 +18,13 @@ class RecipeViewModel @Inject constructor(
 
     val recipe: MutableState<Recipe> = mutableStateOf(Recipe())
 
+    val tag = "RecipeViewModel"
+
     fun onRecipeScreenLoading(id: String) = viewModelScope.launch{
 
+        Log.i(tag, "onRecipeScreenLoading START")
         recipe.value = useCase.getCommonRecipe(id)
+
+        Log.i(tag, "onRecipeScreenLoading END")
     }
 }

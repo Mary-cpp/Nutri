@@ -20,10 +20,6 @@ class MyRecipesViewModel @Inject constructor(
 
     private val tag = "MyRecipesViewModel"
 
-    init {
-        getSavedRecipes()
-    }
-
     fun getSavedRecipes() = viewModelScope.launch{
         Log.d(tag, "MyRecipes Screen Loaded        START")
 

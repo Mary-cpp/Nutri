@@ -1,13 +1,11 @@
 package com.example.nutri.ui.screens.create_recipe
 
 import android.annotation.SuppressLint
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,13 +14,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.nutri.R
-import com.example.nutri.domain.recipes.model.Ingredient
-import com.example.nutri.ui.screens.RecipeBottomSheetContent
 import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.screens.create_recipe.composables.EmptyIngredients
 import com.example.nutri.ui.screens.create_recipe.composables.IngredientFAB
+import com.example.nutri.ui.screens.create_recipe.composables.IngredientsBottomSheet
 import com.example.nutri.ui.screens.create_recipe.composables.IngredientsToEdit
-import com.example.nutri.ui.theme.NutriShape
 import kotlinx.coroutines.CoroutineScope
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -47,56 +43,6 @@ fun CreateRecipePage(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun IngredientsBottomSheet(
-    bottomSheetState: ModalBottomSheetState,
-    ingredientList: SnapshotStateList<Ingredient>,
-    screenContent: @Composable () -> Unit,
-){
-
-    val ingredientName: MutableState<String> = remember { mutableStateOf("") }
-    val ingredientAmount: MutableState<Int> = remember { mutableStateOf(0) }
-    val ingredientUnits: MutableState<String> = remember { mutableStateOf("g") }
-
-    if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden){
-        DisposableEffect(Unit) {
-            onDispose {
-
-                if(ingredientName.value.isNotEmpty() || ingredientAmount.value != 0){
-                    val ingredient = Ingredient(ingredientName = ingredientName.value.trim(),
-                        ingredientAmount = ingredientAmount.value,
-                        ingredientUnits = ingredientUnits.value)
-
-                    ingredientList.add(
-                        ingredient
-                    )
-
-                    ingredientName.value = ""; ingredientAmount.value = 0
-
-                    Log.d("BOTTOM SHEET", ingredient.toString())
-                }
-            }
-        }
-    }
-
-    ModalBottomSheetLayout(
-        sheetContent = {
-            RecipeBottomSheetContent(
-                ingredientName = ingredientName,
-                ingredientAmount = ingredientAmount,
-                ingredientUnits = ingredientUnits
-            )
-        },
-        sheetState = bottomSheetState,
-        sheetBackgroundColor = MaterialTheme.colors.background,
-        sheetShape = NutriShape.mealsListCornerShape,
-        sheetElevation = 8.dp,
-    ) {
-        screenContent()
-    }
-}
-
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -111,13 +57,14 @@ fun EditRecipeScreenContent(
         topBar = { TopBarWithIcon("Edit", navController) },
         floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
         content = {
-            RecipeEditCard( vm = vm)
+            RecipeEditCard( vm = vm, vm.recipeName)
         })
 }
 
 @Composable
 fun RecipeEditCard(
-    vm: CreateRecipeViewModel
+    vm: CreateRecipeViewModel,
+    recipeName: MutableState<String>
 ){
 
     Surface(modifier = Modifier
@@ -139,10 +86,10 @@ fun RecipeEditCard(
                     TextField(modifier = Modifier
                         .padding(start = 24.dp, bottom = 16.dp)
                         .size(208.dp, 64.dp),
-                        value = vm.recipeName.value,
+                        value = recipeName.value,
                         shape = RoundedCornerShape(16.dp),
                         colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
-                        onValueChange = { vm.recipeName.value = it },
+                        onValueChange = { recipeName.value = it },
                         label = { Text("Title") })
 
                     Column{

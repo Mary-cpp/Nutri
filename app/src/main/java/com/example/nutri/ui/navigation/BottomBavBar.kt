@@ -1,5 +1,6 @@
 package com.example.nutri.ui.navigation
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
@@ -14,6 +15,8 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 
 val menuItems = listOf(Screen.MyRecipes, Screen.Home, Screen.BMI)
+
+private val TAG = "BottomNavigationBar"
 
 @Composable
 fun BottomNavigationBar(navController: NavController) {
@@ -54,6 +57,8 @@ fun BottomNavigationBar(navController: NavController) {
 
                         selectedItem.value = index
                         navController.navigate(item.screenRoute) {
+
+                            Log.i(TAG, "navigate to ${item.screenRoute}")
                             navController.setGraph(navController.graph, navController.saveState())
                             popUpTo(navController.graph.startDestinationRoute!!)
                             launchSingleTop = true

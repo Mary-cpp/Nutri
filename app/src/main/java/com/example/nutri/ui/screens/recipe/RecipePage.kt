@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Recipe
+import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.screens.create_recipe.composables.Ingredients
 import com.example.nutri.ui.screens.create_recipe.composables.Labels
@@ -70,7 +71,10 @@ fun RecipeCard(
 
                     Column {
                         IconButton(
-                            onClick = { //navController.navigate(Screen.CreateRecipe.screenRoute)
+                            onClick = { navController
+                                .navigate(
+                                    Screen.EditRecipe.screenRoute.replace("{recipe_id}", "${recipe.id}"
+                                ))
                                 },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)

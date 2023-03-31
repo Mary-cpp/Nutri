@@ -34,7 +34,9 @@ fun RecipeListItem(
                     .Recipe
                     .screenRoute
                     .replace("{recipe_id}", "${recipe.id}")
-            )
+            ){
+                //popUpTo(Screen.MyRecipes.screenRoute)
+            }
             Log.d(TAG, "NAVIGATE TO RECIPE WITH ID ${recipe.id.toString()}")
         },
         backgroundColor = MaterialTheme.colors.primary,
