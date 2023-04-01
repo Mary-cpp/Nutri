@@ -2,7 +2,6 @@ package com.example.nutri.domain.gateway
 
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.database.dao.RecipeDAO
-import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
 import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.runBlocking
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.mockito.Mockito
-import java.util.*
 
 internal class DataBaseGatewayImplTest {
 
@@ -32,43 +30,17 @@ internal class DataBaseGatewayImplTest {
     }
 
     @ParameterizedTest
-    @ValueSource(ints = [0, 1, 24, 5])
-    fun saveSpecifiedIngredients(argument: Int) = runBlocking {
-
-        //Проверка соответствует сохраняется ли в базу то же количество ингредиентов
-        Mockito.`when`(dao.addIngredientsOfRecipe(emptyList())).thenReturn(Unit)
-
-        val expected = argument
-
-        val actual = DataBaseGatewayImpl(database)
-            .saveSpecifiedIngredients(
-                UUID.randomUUID().toString(),
-                makeListOfIngredients(argument))
-
-        assertEquals(expected, actual)
-    }
-
-    @ParameterizedTest
     @ValueSource(ints = [1, 4, 50, 100])
-    fun saveLabels(argument: Int) = runBlocking {
+    fun checkIfLabelsMappedCorrectly(argument: Int) = runBlocking {
         Mockito.`when`(dao.addLabels(listOf())).thenReturn(Unit)
 
         val expected = argument*3
         val actual = DataBaseGatewayImpl(database)
-            .saveLabels(createRecipeWithLabels(argument))
+            .mapLabels(createRecipeWithLabels(argument))
 
         assertEquals(expected, actual)
     }
 
-    private fun makeListOfIngredients(size : Int) : List<Characteristics>{
-
-        val list : MutableList<Characteristics> = mutableListOf()
-
-        repeat(size){
-            list.add(createRandomIngredient())
-        }
-        return list.toList()
-    }
 
 
     private fun createRecipeWithLabels(size: Int)
@@ -85,20 +57,5 @@ internal class DataBaseGatewayImplTest {
             list.add("LABEL")
         }
         return list.toList()
-    }
-
-    private fun createRandomIngredient() : Characteristics {
-        return Characteristics(
-            quantity = Random().nextDouble(),
-            measure = "MEASURE",
-            foodMatch = "FOOD MATCH",
-            food = "FOOD",
-            foodId = "FOODiD",
-            weight = Random().nextDouble(),
-            retainedWeight =  Random().nextDouble(),
-            nutrients = null,
-            measureUri = "MEASURE URI",
-            status = "STATUS"
-        )
     }
 }
