@@ -60,7 +60,13 @@ interface RecipeDAO {
     }
 
     @Transaction
-    suspend fun addCommonRecipe(recipe: RecipeEntityCommon){
+    suspend fun addCommonRecipe(
+        recipe: RecipeEntityCommon,
+        newLabels: List<Label>,
+        ingredients: List<IngredientEntity>
+    ){
+        addLabels(newLabels)
+        addIngredients(ingredients)
         addRecipeEntity(recipe.recipeEntity)
         addLabelsForRecipe(recipe.labels)
         addIngredientsOfRecipe(recipe.ingredientsInRecipe)
