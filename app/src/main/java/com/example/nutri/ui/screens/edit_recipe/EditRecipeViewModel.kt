@@ -12,9 +12,7 @@ import com.example.nutri.domain.recipes.interactor.RecipeInteractor
 import com.example.nutri.domain.recipes.model.Ingredient
 import com.example.nutri.domain.recipes.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -43,23 +41,22 @@ class EditRecipeViewModel @Inject constructor(
     }
 
     fun onSaveEditedRecipeButtonPressed()
-    = CoroutineScope(Dispatchers.Main).launch {
+    = viewModelScope.launch {
         Log.d(tag, "onSaveButtonPressed     START")
 
-        analyzeEdited(ingredientList)
+        val result = analyzeEditedAsync(ingredientList).await()
 
-        if (recipeOnEdit.value.ingredients != null){
+        if (result.ingredients != null){
             if (nameOnEdit.value.isEmpty()){
                 Log.d(tag, "Can't save recipe. Expected recipe name!")
 
                 //Toast.makeText(context, "Enter recipe's name", Toast.LENGTH_LONG).show()
-                nameOnEdit.value = recipeOnEdit.value.ingredients!![0].text
+                nameOnEdit.value = result.ingredients[0].text
             }
 
             val id = useCase.saveRecipe(recipeOnEdit.value, nameOnEdit.value)
             Log.d(tag, "${useCase.getCommonRecipe(id)}")
         }
-
         Log.w(tag, "Can't save empty recipe!!")
     }
 
@@ -85,21 +82,20 @@ class EditRecipeViewModel @Inject constructor(
         ingredientList.remove(ingredient)
     }
 
-    private fun analyzeEdited(
+    private val analyzeExceptionHandler
+    = CoroutineExceptionHandler { coroutineContext, throwable ->
+        throw IllegalArgumentException("$coroutineContext : Can not analyze empty recipe $throwable") }
+
+    private fun analyzeEditedAsync(
         list: SnapshotStateList<Ingredient>
-    ) = viewModelScope.launch{
+    ) = CoroutineScope(
+        context = Dispatchers.Main,
+    ).async(analyzeExceptionHandler){
 
         Log.d(tag, "onAnalyzeButtonPressed    START")
 
         val ingredientParam = ingredientsToString(list)
 
-        if (ingredientParam.isEmpty()){
-            throw IllegalArgumentException("Ingredient param is null")
-        }
-        else { recipeOnEdit.value = useCaseAnalyze.retrieveRecipe(ingredientParam)
-
-            Log.d("Recipe: ", "\n ${recipeOnEdit.value}")
-        }
-        Log.d(tag, "END")
+        useCaseAnalyze.retrieveRecipe(ingredientParam)
     }
 }
