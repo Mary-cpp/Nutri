@@ -24,15 +24,22 @@ class DataBaseGatewayImpl @Inject constructor(
         Log.d(TAG, "saveToLocal         START")
 
         // Creating ID for new recipe
-        val recipeId = UUID.randomUUID().toString()
+        val recipeId = recipe.id ?: UUID.randomUUID().toString()
 
         withContext(Dispatchers.IO){
+
+            //saving labels
+            database.recipeDAO().addLabels(mapLabels(recipe))
+
 
             // mapping to RecipeEntity
             val recipeEnt = mapToRecipeEntity(recipeId, recipe)
             recipeEnt.name = recipeName
 
             recipe.ingredients?.get(0)?.parsed?.let{
+
+                //saving ingredients
+                database.recipeDAO().addIngredients(mapToIngredientEntity(it))
 
                 // Combining entities to TransactEntity
                 val recipeEntity = RecipeEntityCommon(
@@ -41,9 +48,7 @@ class DataBaseGatewayImpl @Inject constructor(
                     mapRecipeIngredients(recipe.ingredients[0], recipeId)
                 )
 
-                database.recipeDAO().addCommonRecipe(recipeEntity,
-                    mapLabels(recipe),
-                    mapToIngredientEntity(it))
+                database.recipeDAO().addCommonRecipe(recipeEntity)
             }
         }
         Log.d(TAG, "saveToLocal         END")
@@ -163,6 +168,7 @@ class DataBaseGatewayImpl @Inject constructor(
         val listOfLabels : MutableList<LabelsInRecipe> = mutableListOf()
 
         labels.forEach {
+            Log.w(TAG, "Label name: $it")
             listOfLabels.add(
                 LabelsInRecipe(idRecipe = recipeId,
                 idLabel = database.recipeDAO().getLabelId(it))
@@ -175,14 +181,17 @@ class DataBaseGatewayImpl @Inject constructor(
     private suspend fun mapToIngredientInRecipe(
         recipeId: String,
         ingredient: Characteristics
-    )
-            = IngredientInRecipe(
-        idRecipe =  recipeId,
-        idIngredient = database.recipeDAO().getIngredientId(ingredient.foodMatch),
-        amount = ingredient.quantity,
-        units = ingredient.measure,
-        calories = ingredient.nutrients!!.ENERCKCAL!!.quantity
-    )
+    ) : IngredientInRecipe{
+
+        Log.d(TAG, ingredient.quantity.toString())
+
+        return IngredientInRecipe(
+            idRecipe =  recipeId,
+            idIngredient = database.recipeDAO().getIngredientId(ingredient.foodMatch),
+            amount = ingredient.quantity,
+            units = ingredient.measure,
+            calories = ingredient.nutrients?.ENERCKCAL!!.quantity)
+    }
 
     fun mapLabels(
         recipe: Recipe

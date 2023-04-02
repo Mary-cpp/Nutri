@@ -45,6 +45,7 @@ class EditRecipeViewModel @Inject constructor(
         Log.d(tag, "onSaveButtonPressed     START")
 
         val result = analyzeEditedAsync(ingredientList).await()
+        result.id = recipeOnEdit.value.id
 
         if (result.ingredients != null){
             if (nameOnEdit.value.isEmpty()){
@@ -54,7 +55,7 @@ class EditRecipeViewModel @Inject constructor(
                 nameOnEdit.value = result.ingredients[0].text
             }
 
-            val id = useCase.saveRecipe(recipeOnEdit.value, nameOnEdit.value)
+            val id = useCase.saveRecipe(result, nameOnEdit.value)
             Log.d(tag, "${useCase.getCommonRecipe(id)}")
         }
         Log.w(tag, "Can't save empty recipe!!")
