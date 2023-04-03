@@ -8,4 +8,5 @@ interface DataBaseGateway {
     suspend fun getLocalRecipesList(): List<Recipe>
     suspend fun getRecipe(recipeId: String) : Recipe
     suspend fun getRecipesWithNameLike(name: String) : List<Recipe>?
+    suspend fun deleteRecipe(recipe: Recipe)
 }

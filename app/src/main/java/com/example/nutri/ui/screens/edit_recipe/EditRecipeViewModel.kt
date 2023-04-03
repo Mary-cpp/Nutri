@@ -61,6 +61,9 @@ class EditRecipeViewModel @Inject constructor(
         Log.w(tag, "Can't save empty recipe!!")
     }
 
+    fun onDeleteButtonPresseed(){
+    }
+
     private fun ingredientsToString(
         list: SnapshotStateList<Ingredient>
     ): String {

@@ -79,5 +79,5 @@ interface RecipeDAO {
     suspend fun getRecipeIngredients(idRecipe: String) : List<IngredientInRecipe>
 
     @Delete
-    suspend fun delete(model: RecipeEntity)
+    suspend fun deleteRecipe(model: RecipeEntity)
 }
