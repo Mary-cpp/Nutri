@@ -25,6 +25,8 @@ import com.example.nutri.ui.screens.my_recipes.MyRecipesPage
 import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 import com.example.nutri.ui.screens.recipe.RecipePage
 import com.example.nutri.ui.screens.recipe.RecipeViewModel
+import com.example.nutri.ui.screens.search.SearchPage
+import com.example.nutri.ui.screens.search.SearchViewModel
 
 private val TAG = "NAVIGATION"
 @Composable
@@ -35,7 +37,14 @@ fun NavigationGraph(
     NavHost(
         navController = navController,
         startDestination = Screen.Home.screenRoute,
-        modifier = Modifier.fillMaxSize().padding(start = 0.dp, end = 0.dp, top = 0.dp, bottom = paddingValues.calculateBottomPadding())
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                start = 0.dp,
+                end = 0.dp,
+                top = 0.dp,
+                bottom = paddingValues.calculateBottomPadding()
+            )
     ){
         composable(Screen.Home.screenRoute) {
             val vm = hiltViewModel<StatisticsViewModel>()
@@ -52,6 +61,12 @@ fun NavigationGraph(
                 vm = vm,
                 navController
             )
+        }
+        composable(Screen.SearchPage.screenRoute){
+
+            val vm = hiltViewModel<SearchViewModel>()
+
+            SearchPage(navController = navController, vm = vm)
         }
         composable(Screen.BMI.screenRoute){
 
