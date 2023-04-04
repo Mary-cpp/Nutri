@@ -1,19 +1,25 @@
 package com.example.nutri.ui.navigation
 
+import android.util.Log
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.rememberNavController
+import com.example.nutri.core.rememberAppState
 
 @Composable
 fun HostScreen(){
-    val navController = rememberNavController()
+    val appState = rememberAppState()
+
+    Log.w("HostScreen", "Draw Host Screen")
 
     Scaffold(
         bottomBar = {
-            BottomNavigationBar(navController = navController)
+            BottomNavigationBar(navigateToScreen = appState::navigateToMenuItem)
         }){
         NavigationGraph(
-            navController = navController,
+            navController = appState.navController,
+            navigateToScreen = appState::navigateToMenuItem,
+            navigateWithRecipe = appState::navigateWithRecipe,
+            navigateBack = appState::navigateUpBackStack,
             paddingValues = it
         )
     }
