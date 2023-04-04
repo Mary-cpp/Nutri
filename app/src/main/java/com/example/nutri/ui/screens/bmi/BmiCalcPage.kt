@@ -18,8 +18,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.nutri.domain.bmi.model.ActivityType
 import com.example.nutri.ui.screens.DropDownListButton
 import com.example.nutri.ui.screens.bmi.composables.DietResultCard
@@ -30,8 +28,7 @@ import com.example.nutri.ui.theme.NutriTheme
 
 @Composable
 fun BmiPage(
-    vm: BmiViewModel,
-    navController : NavController){
+    vm: BmiViewModel = hiltViewModel()){
 
     Scaffold(modifier = Modifier.fillMaxSize(),
         contentColor = Color.White,
@@ -157,7 +154,9 @@ fun BmiCalcCard(vm : BmiViewModel){
                     menuItems = listOf("m", "ft"),
                     buttonSize = 48)
             }
-            Row(modifier = Modifier.fillMaxWidth().padding(8.dp),
+            Row(modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
             horizontalArrangement = Arrangement.SpaceBetween){
 
 
@@ -224,7 +223,6 @@ fun BmiCalcCard(vm : BmiViewModel){
 fun BmiPagePreview(){
     NutriTheme {
         BmiPage(
-            hiltViewModel(),
-            rememberNavController())
+            hiltViewModel())
     }
 }
