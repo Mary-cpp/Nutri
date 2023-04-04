@@ -20,11 +20,11 @@ import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun HomePage(
-    navController : NavController,
+    goToScreen: (String) -> Unit,
     vm : StatisticsViewModel
 ) {
     Scaffold(topBar = {TopBar(topBarText = "Home")},
-        floatingActionButton = { MealFAB(navController = navController) })
+        floatingActionButton = { MealFAB(goToScreen) })
     { paddingValues ->
         Surface(
             Modifier
@@ -50,6 +50,6 @@ fun HomePageStatistics(
 @Composable
 fun HomePagePreview(){
     NutriTheme {
-        HomePage(rememberNavController(), hiltViewModel())
+        /*HomePage( hiltViewModel())*/
     }
 }

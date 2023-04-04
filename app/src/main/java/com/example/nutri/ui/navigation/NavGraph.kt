@@ -5,18 +5,19 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.nutri.ui.screens.create_recipe.CreateRecipePage
+import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.screens.bmi.BmiPage
-import com.example.nutri.ui.screens.bmi.BmiViewModel
-import com.example.nutri.ui.screens.create_recipe.CreateRecipeViewModel
+import com.example.nutri.ui.screens.create_recipe.CreateRecipePage
 import com.example.nutri.ui.screens.edit_recipe.EditRecipePage
 import com.example.nutri.ui.screens.edit_recipe.EditRecipeViewModel
 import com.example.nutri.ui.screens.home.HomePage
@@ -26,13 +27,15 @@ import com.example.nutri.ui.screens.my_recipes.MyRecipesViewModel
 import com.example.nutri.ui.screens.recipe.RecipePage
 import com.example.nutri.ui.screens.recipe.RecipeViewModel
 import com.example.nutri.ui.screens.search.SearchPage
-import com.example.nutri.ui.screens.search.SearchViewModel
 
-private val TAG = "NAVIGATION"
+private const val TAG = "NAVIGATION"
 @Composable
 fun NavigationGraph(
-    navController: NavHostController,
+    navigateWithRecipe: (String, Recipe) -> Unit,
+    navigateToScreen: (String) -> Unit,
+    navigateBack: () -> Unit,
     paddingValues: PaddingValues,
+    navController: NavHostController
 ){
     NavHost(
         navController = navController,
@@ -48,43 +51,40 @@ fun NavigationGraph(
     ){
         composable(Screen.Home.screenRoute) {
             val vm = hiltViewModel<StatisticsViewModel>()
-            HomePage(navController, vm) }
+
+            LaunchedEffect(vm){
+                vm.onStatisticsScreenLoaded()
+            }
+            HomePage(goToScreen = navigateToScreen, vm)
+        }
         composable(Screen.MyRecipes.screenRoute) {
 
-            Log.i(TAG, "Getting recipes")
+            Log.i(TAG, "To ${it.destination.route}")
 
-            val vm = hiltViewModel<MyRecipesViewModel>().apply {
-                getSavedRecipes()
+            val vm = hiltViewModel<MyRecipesViewModel>()
+
+            LaunchedEffect(vm){
+                vm.getSavedRecipes()
             }
 
-            MyRecipesPage(
-                vm = vm,
-                navController
-            )
+            if (it.lifecycle.currentState == Lifecycle.State.RESUMED){
+                MyRecipesPage(
+                    vm = vm,
+                    navigateToScreen = navigateToScreen,
+                    navigateWithRecipe = navigateWithRecipe)
+            }
         }
         composable(Screen.SearchPage.screenRoute){
-
-            val vm = hiltViewModel<SearchViewModel>()
-
-            SearchPage(navController = navController, vm = vm)
+            SearchPage(goToScreen = navigateToScreen)
         }
         composable(Screen.BMI.screenRoute){
 
-            val vm = hiltViewModel<BmiViewModel>()
-
-            BmiPage(
-                vm = vm,
-                navController = navController)
+            BmiPage()
         }
         composable(
             route = Screen.CreateRecipe.screenRoute,
         ) {
-
-            val vm = hiltViewModel<CreateRecipeViewModel>()
-
-            CreateRecipePage(
-                vm = vm,
-                navController = navController)
+            CreateRecipePage(getBack = navigateBack)
         }
         composable(
             route = Screen.EditRecipe.screenRoute,
@@ -93,28 +93,39 @@ fun NavigationGraph(
 
             val vm = hiltViewModel<EditRecipeViewModel>().apply {
 
-                //val id = navController.previousBackStackEntry?.arguments?.getString("recipe_id") as String
                 val id = backStackEntry.arguments?.getString("recipe_id") as String
                 Log.i(TAG, "onEditRecipePageLoaded")
                 onEditRecipePageLoaded(id)
             }
             EditRecipePage(
                 vm = vm,
-                navController = navController
+                getBack = navigateBack,
+                navigateToScreen = navigateToScreen
             )
         }
-        composable(Screen.Recipe.screenRoute,
+        composable(
+            route = "${Screen.Recipe.screenRoute}/{recipe_id}",
             arguments = listOf(navArgument("recipe_id"){type = NavType.StringType})
         ) { backStackEntry ->
 
-            val vm = hiltViewModel<RecipeViewModel>().apply {
-                val id = backStackEntry.arguments?.getString("recipe_id") as String
-                onRecipeScreenLoading(id)
+            var id: String
+            backStackEntry.arguments?.let{ bundle->
+                id = bundle.getString("recipe_id") as String
+                Log.d(TAG, id)
+
+                val vm = hiltViewModel<RecipeViewModel>()
+
+                LaunchedEffect(id){
+                    vm.onRecipeScreenLoading(id)
+                }
+
+                if (backStackEntry.lifecycle.currentState == Lifecycle.State.RESUMED){
+                RecipePage(
+                    vm = vm,
+                    navigateBack,
+                    navigateWithRecipe
+                )}
             }
-            RecipePage(
-                vm = vm,
-                navController = navController
-            )
         }
     }
 }

@@ -10,18 +10,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.nutri.R
 import com.example.nutri.ui.navigation.Screen
 
 @Composable
 fun MealFAB(
-    navController: NavController
+    goToSearch:(String) -> Unit,
 ){
 
     FloatingActionButton(
         onClick = {
-            navController.navigate(Screen.SearchPage.screenRoute)
+            goToSearch(Screen.SearchPage.screenRoute)
         },
         modifier = Modifier.size(56.dp),
 
