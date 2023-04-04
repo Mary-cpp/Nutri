@@ -1,5 +1,6 @@
 package com.example.nutri.core
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
@@ -33,15 +34,24 @@ class AppState(
     get() = navController.currentBackStackEntryAsState().value?.destination?.route in bottomBarRoutes
 
     fun navigateToMenuItem(route: String){
-        if (navController.currentDestination?.route != route){
+        if (navController.currentDestination?.route != route && navController.currentBackStackEntry?.lifecycle?.currentState == Lifecycle.State.RESUMED){
             navController.navigate(route){
+
+                Log.i("navigateToMenuItem", "${navController.currentDestination?.route}     START")
+
                 launchSingleTop = true
                 restoreState = true
                 popUpTo(navController.graph.startDestinationId){
                     saveState = true
                 }
             }
+            Log.i("navigateToMenuItem", "${navController.currentDestination?.route}     END")
         }
+
+    }
+
+    fun navigateUpBackStack(){
+        navController.navigateUp()
     }
 
     fun navigateWithRecipe(route: String, recipe: Recipe){

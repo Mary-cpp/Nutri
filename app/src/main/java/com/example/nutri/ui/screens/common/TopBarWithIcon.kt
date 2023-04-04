@@ -9,18 +9,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.nutri.R
 
 @Composable
-fun TopBarWithIcon(topBarText: String, navController: NavController) {
+fun TopBarWithIcon(topBarText: String, action: () -> Unit) {
     TopAppBar(title = { Text(text = topBarText, color = Color.Black) },
         backgroundColor = MaterialTheme.colors.background,
         elevation = 0.dp,
         navigationIcon = {
 
             IconButton(
-                onClick = { navController.popBackStack() },
+                onClick = { action()},
                 modifier = Modifier.padding(end = 6.dp)
             ) {
                 Icon(
