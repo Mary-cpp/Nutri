@@ -30,11 +30,12 @@ class StatisticsViewModel @Inject constructor(
     val statisticsCardColor: MutableState<Color> = mutableStateOf(com.example.nutri.ui.theme.Tertiary)
     var user: MutableState<User?> = mutableStateOf(null)
     var meals: MutableState<List<Meal>> =  mutableStateOf(createEmptyMealsList())
-    init {
-        onStatisticsScreenLoaded()
-    }
 
-    private fun onStatisticsScreenLoaded() = viewModelScope.launch {
+/*    init {
+        onStatisticsScreenLoaded()
+    }*/
+
+    fun onStatisticsScreenLoaded() = viewModelScope.launch {
 
         var hasMeals = false
         meals.value.forEach {
