@@ -15,7 +15,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.example.nutri.R
 import com.example.nutri.ui.screens.create_recipe.composables.EmptyIngredients
 import com.example.nutri.ui.screens.create_recipe.composables.IngredientEditCard
@@ -23,8 +22,7 @@ import com.example.nutri.ui.screens.edit_recipe.EditRecipeViewModel
 
 @Composable
 fun EditRecipeCard(
-    vm: EditRecipeViewModel,
-    navController: NavController) {
+    vm: EditRecipeViewModel) {
 
     val name = vm.nameOnEdit
     val ingredients = vm.ingredientList

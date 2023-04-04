@@ -1,18 +1,20 @@
 package com.example.nutri.ui.screens.my_recipes
 
+import android.util.Log
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.screens.common.SearchFieldTest
 import com.example.nutri.ui.screens.common.TopBar
 import com.example.nutri.ui.screens.my_recipes.composables.RecipeFAB
@@ -24,12 +26,13 @@ const val TAG = "MyRecipesPage"
 @Composable
 fun MyRecipesPage(
     vm: MyRecipesViewModel,
-    navController: NavController
+    navigateWithRecipe: (String, Recipe) -> Unit,
+    navigateToScreen: (String) -> Unit
 ){
-
+    Log.w(TAG, "$TAG loaded")
         Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {  TopBar("MyRecipes") },
-        floatingActionButton = { RecipeFAB(navController) })
+        floatingActionButton = { RecipeFAB(goToScreen = navigateToScreen) })
         { paddingValues ->
             Surface(modifier = Modifier
                 .fillMaxSize()
@@ -50,7 +53,7 @@ fun MyRecipesPage(
 
                     SortAndFilter()
 
-                    RecipesList(listOfRecipes = vm.recipeList.value, navController)
+                    RecipesList(listOfRecipes = vm.recipeList.value, navigateWithRecipe)
 
                     Text(
                         modifier = Modifier.padding(top = 24.dp),
@@ -65,9 +68,8 @@ fun MyRecipesPage(
 @Composable
 fun MyRecipesPagePreview(){
     NutriTheme {
-        MyRecipesPage(
-            vm = MyRecipesViewModel(hiltViewModel()),
-            rememberNavController()
-        )
+        /*MyRecipesPage(
+            vm = MyRecipesViewModel(hiltViewModel())
+        )*/
     }
 }

@@ -11,13 +11,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.example.nutri.R
 import com.example.nutri.ui.navigation.Screen
 
 @Composable
-fun RecipeFAB(navController: NavController){
-    FloatingActionButton(onClick = { navController.navigate(Screen.CreateRecipe.screenRoute)},
+fun RecipeFAB(
+    goToScreen: (String) -> Unit
+){
+    FloatingActionButton(onClick = { goToScreen(Screen.CreateRecipe.screenRoute) },
         modifier = Modifier.size(56.dp),
 
         backgroundColor = MaterialTheme.colors.primary,

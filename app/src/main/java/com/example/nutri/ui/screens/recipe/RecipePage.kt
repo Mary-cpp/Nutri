@@ -1,6 +1,7 @@
 package com.example.nutri.ui.screens.recipe
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -13,8 +14,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
@@ -29,21 +28,24 @@ import com.example.nutri.ui.theme.NutriTheme
 @Composable
 fun RecipePage(
     vm: RecipeViewModel,
-    navController: NavController) {
+    getBack: () -> Unit,
+    navigateWithRecipe: (String, Recipe) -> Unit) {
+
+    Log.i("RecipePage", "Loaded")
 
     val recipe = vm.recipe.value
 
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { TopBarWithIcon(topBarText = recipe.name!!, navController) },
+        topBar = { TopBarWithIcon(topBarText = recipe.name!!, getBack) },
         content = {
-            RecipeCard(recipe = recipe, navController)
+            RecipeCard(recipe = recipe, navigateWithRecipe)
         })
 }
 
 @Composable
 fun RecipeCard(
     recipe: Recipe,
-    navController: NavController) {
+    navigateWithRecipe: (String, Recipe) -> Unit,) {
     Surface(modifier = Modifier
         .fillMaxWidth()
         .padding(start = 16.dp, top = 24.dp, end = 16.dp),
@@ -71,10 +73,8 @@ fun RecipeCard(
 
                     Column {
                         IconButton(
-                            onClick = { navController
-                                .navigate(
-                                    Screen.EditRecipe.screenRoute.replace("{recipe_id}", "${recipe.id}"
-                                ))
+                            onClick = {
+                                navigateWithRecipe(Screen.EditRecipe.screenRoute, recipe)
                                 },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
@@ -114,8 +114,7 @@ fun RecipeCard(
 @Composable
 fun RecipePagePreview() {
     NutriTheme {
-        RecipeCard(
-            recipe = Recipe.makeRecipe(),
-            navController = rememberNavController())
+        /*RecipeCard(
+            recipe = Recipe.makeRecipe())*/
     }
 }

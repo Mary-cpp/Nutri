@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun SearchPage(
-    navController: NavController,
-    vm : SearchViewModel
+    goToScreen: (String) -> Unit,
+    vm : SearchViewModel = hiltViewModel()
 ){
     val scope = rememberCoroutineScope()
 
@@ -50,7 +50,7 @@ fun SearchPage(
         sheetContent = {
             MealBottomSheetContent(
                 mealName = mealName,
-                navController = navController,
+                goToMainScreen = goToScreen,
                 vm = vm,
                 bottomSheetState = bottomSheetState
             )
@@ -61,7 +61,7 @@ fun SearchPage(
         sheetElevation = 8.dp,
     ) {
         SearchPageContent(
-            navController = navController,
+            navigateToCreateRecipe = goToScreen,
             vm = vm,
             scope = scope,
             bottomSheetState = bottomSheetState
@@ -74,7 +74,7 @@ fun SearchPage(
 fun MealBottomSheetContent(
     vm: SearchViewModel,
     mealName: MutableState<String>,
-    navController: NavController,
+    goToMainScreen: (String) -> Unit,
     bottomSheetState: ModalBottomSheetState
 ){
 
@@ -119,7 +119,7 @@ fun MealBottomSheetContent(
 
                                     bottomSheetState.hide()
 
-                                    navController.navigate(
+                                    goToMainScreen(
                                         Screen.Home.screenRoute
                                     )
                                 }

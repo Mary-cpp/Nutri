@@ -6,7 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.screens.create_recipe.composables.IngredientFAB
 import com.example.nutri.ui.screens.create_recipe.composables.IngredientsBottomSheet
@@ -16,8 +16,9 @@ import kotlinx.coroutines.CoroutineScope
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EditRecipePage(
-    navController: NavController,
-    vm : EditRecipeViewModel
+    navigateToScreen: (String) -> Unit,
+    getBack: () -> Unit,
+    vm : EditRecipeViewModel = hiltViewModel()
 ){
 
     val bottomSheetState =
@@ -33,7 +34,7 @@ fun EditRecipePage(
         EditRecipePageContent(
             scope = scope,
             vm = vm,
-            navController = navController,
+            getBack,
             modalBottomSheetState = bottomSheetState
         )
     }
@@ -45,14 +46,14 @@ fun EditRecipePage(
 fun EditRecipePageContent(
     scope: CoroutineScope,
     vm: EditRecipeViewModel,
+    getBack: () -> Unit,
     modalBottomSheetState: ModalBottomSheetState,
-    navController: NavController
 ){
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { TopBarWithIcon("Edit", navController) },
+        topBar = { TopBarWithIcon("Edit", getBack) },
         floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
         content = {
-            EditRecipeCard(vm = vm, navController = navController)
+            EditRecipeCard(vm = vm)
         }
     )
 }

@@ -10,8 +10,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.common.RecipesListForSearch
@@ -25,7 +23,7 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun SearchPageContent(
     vm: SearchViewModel,
-    navController: NavController,
+    navigateToCreateRecipe: (String) -> Unit,
     scope : CoroutineScope,
     bottomSheetState: ModalBottomSheetState
 ){
@@ -50,7 +48,7 @@ fun SearchPageContent(
 
             Text(
                 modifier = Modifier
-                    .clickable { navController.navigate(Screen.CreateRecipe.screenRoute) },
+                    .clickable { navigateToCreateRecipe(Screen.CreateRecipe.screenRoute) },
                 text = "Didn't find desired Recipe? Create!"
             )
         }
@@ -59,7 +57,6 @@ fun SearchPageContent(
 
 @Composable
 fun SearchPageTest(
-    navController: NavController
 ){
     Surface (
         modifier = Modifier.fillMaxSize(),
@@ -75,8 +72,6 @@ fun SearchPageTest(
             RecipesListForSearchTest(listOfRecipes = listOf(Recipe.makeRecipe(),Recipe.makeRecipe()))
 
             Text(
-                modifier = Modifier
-                    .clickable { navController.navigate(Screen.CreateRecipe.screenRoute) },
                 text = "Didn't find desired Recipe? Create!"
             )
         }
@@ -87,6 +82,6 @@ fun SearchPageTest(
 @Composable
 fun SearchPagePreview(){
     NutriTheme {
-        SearchPageTest(navController = rememberNavController())
+        SearchPageTest()
     }
 }
