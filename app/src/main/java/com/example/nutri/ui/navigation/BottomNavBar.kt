@@ -1,6 +1,5 @@
 package com.example.nutri.ui.navigation
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
@@ -11,23 +10,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
-
-val menuItems = listOf(Screen.MyRecipes, Screen.Home, Screen.BMI)
-
-private val TAG = "BottomNavigationBar"
 
 @Composable
-fun BottomNavigationBar(navController: NavController) {
-
+fun BottomNavigationBar(
+    navigateToScreen: (String) -> Unit
+) {
+    val menuItems = listOf(Screen.MyRecipes, Screen.Home, Screen.BMI)
     val selectedItem = remember { mutableStateOf(1) }
-
-    val navBackStackEntry = navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry.value
-
-    val screensWithNoBottomBar = listOf(Screen.CreateRecipe.screenRoute, Screen.Recipe.screenRoute)
-    if (screensWithNoBottomBar.contains(currentDestination?.destination?.route)) return
 
     BottomNavigation(
         content = {
@@ -50,19 +39,8 @@ fun BottomNavigationBar(navController: NavController) {
                     },
                     selected = selectedItem.value == index,
                     onClick = {
-
-                        currentDestination?.destination?.let {
-                            if (it.route.equals(item.screenRoute)) return@BottomNavigationItem
-                        }
-
                         selectedItem.value = index
-                        navController.navigate(item.screenRoute) {
-
-                            Log.i(TAG, "navigate to ${item.screenRoute}")
-                            navController.setGraph(navController.graph, navController.saveState())
-                            popUpTo(navController.graph.startDestinationRoute!!)
-                            launchSingleTop = true
-                        }
+                        navigateToScreen(item.screenRoute)
                     },
                     selectedContentColor = MaterialTheme.colors.primary
                 )
