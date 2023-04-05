@@ -11,16 +11,15 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
-import com.example.nutri.ui.navigation.Screen
 
 @Composable
 fun MealFAB(
-    goToSearch:(String) -> Unit,
+    goToSearch:() -> Unit,
 ){
 
     FloatingActionButton(
         onClick = {
-            goToSearch(Screen.SearchPage.screenRoute)
+            goToSearch()
         },
         modifier = Modifier.size(56.dp),
 

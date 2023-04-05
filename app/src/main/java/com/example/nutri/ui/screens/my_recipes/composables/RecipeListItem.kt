@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.recipes.model.Recipe
-import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.my_recipes.TAG
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
@@ -21,13 +20,13 @@ import com.example.nutri.ui.theme.NutriTheme
 @Composable
 fun RecipeListItem(
     recipe: Recipe,
-    navigateToRecipe: (String, Recipe) -> Unit
+    navigateToRecipe: (String) -> Unit
 ){
     Card(modifier = Modifier
         .fillMaxWidth(1f)
         .padding(2.dp)
         .clickable {
-            navigateToRecipe(Screen.Recipe.screenRoute, recipe)
+            navigateToRecipe(recipe.id!!)
             Log.d(TAG, "NAVIGATE TO RECIPE WITH ID ${recipe.id.toString()}")
         },
         backgroundColor = MaterialTheme.colors.primary,

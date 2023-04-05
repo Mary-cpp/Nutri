@@ -12,13 +12,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
-import com.example.nutri.ui.navigation.Screen
 
 @Composable
 fun RecipeFAB(
-    goToScreen: (String) -> Unit
+    goToScreen: () -> Unit
 ){
-    FloatingActionButton(onClick = { goToScreen(Screen.CreateRecipe.screenRoute) },
+    FloatingActionButton(onClick = { goToScreen() },
         modifier = Modifier.size(56.dp),
 
         backgroundColor = MaterialTheme.colors.primary,

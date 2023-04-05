@@ -16,8 +16,6 @@ import kotlinx.coroutines.CoroutineScope
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun EditRecipePage(
-    navigateToScreen: (String) -> Unit,
-    getBack: () -> Unit,
     vm : EditRecipeViewModel = hiltViewModel()
 ){
 
@@ -34,7 +32,7 @@ fun EditRecipePage(
         EditRecipePageContent(
             scope = scope,
             vm = vm,
-            getBack,
+            getBack = vm::navigateBack,
             modalBottomSheetState = bottomSheetState
         )
     }

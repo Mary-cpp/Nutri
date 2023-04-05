@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Recipe
-import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.screens.create_recipe.composables.Ingredients
 import com.example.nutri.ui.screens.create_recipe.composables.Labels
@@ -28,24 +27,23 @@ import com.example.nutri.ui.theme.NutriTheme
 @Composable
 fun RecipePage(
     vm: RecipeViewModel,
-    getBack: () -> Unit,
-    navigateWithRecipe: (String, Recipe) -> Unit) {
+) {
 
     Log.i("RecipePage", "Loaded")
 
     val recipe = vm.recipe.value
 
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { TopBarWithIcon(topBarText = recipe.name!!, getBack) },
+        topBar = { TopBarWithIcon(topBarText = recipe.name!!, vm::navigateBack) },
         content = {
-            RecipeCard(recipe = recipe, navigateWithRecipe)
+            RecipeCard(recipe = recipe, vm::navigateToRecipeEditor)
         })
 }
 
 @Composable
 fun RecipeCard(
     recipe: Recipe,
-    navigateWithRecipe: (String, Recipe) -> Unit,) {
+    navigateToRecipeEditor: (String) -> Unit,) {
     Surface(modifier = Modifier
         .fillMaxWidth()
         .padding(start = 16.dp, top = 24.dp, end = 16.dp),
@@ -74,7 +72,8 @@ fun RecipeCard(
                     Column {
                         IconButton(
                             onClick = {
-                                navigateWithRecipe(Screen.EditRecipe.screenRoute, recipe)
+                                recipe.id?.let{ recipeId->
+                                    navigateToRecipeEditor(recipeId) }
                                 },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
