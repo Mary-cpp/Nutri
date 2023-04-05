@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.recipes.model.Recipe
-import com.example.nutri.ui.navigation.Screen
 import com.example.nutri.ui.screens.common.RecipesListForSearch
 import com.example.nutri.ui.screens.common.RecipesListForSearchTest
 import com.example.nutri.ui.screens.common.SearchField
@@ -23,7 +22,7 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun SearchPageContent(
     vm: SearchViewModel,
-    navigateToCreateRecipe: (String) -> Unit,
+    navigateToCreateRecipe: () -> Unit,
     scope : CoroutineScope,
     bottomSheetState: ModalBottomSheetState
 ){
@@ -48,7 +47,7 @@ fun SearchPageContent(
 
             Text(
                 modifier = Modifier
-                    .clickable { navigateToCreateRecipe(Screen.CreateRecipe.screenRoute) },
+                    .clickable { navigateToCreateRecipe() },
                 text = "Didn't find desired Recipe? Create!"
             )
         }

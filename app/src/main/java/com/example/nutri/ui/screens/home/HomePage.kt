@@ -8,23 +8,18 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.nutri.ui.screens.common.TopBar
 import com.example.nutri.ui.screens.home.composables.HomePageBottomSheet
 import com.example.nutri.ui.screens.home.composables.MealFAB
 import com.example.nutri.ui.screens.home.composables.StatisticsCard
 import com.example.nutri.ui.theme.NutriTheme
-import kotlinx.coroutines.CoroutineScope
 
 @Composable
 fun HomePage(
-    goToScreen: (String) -> Unit,
     vm : StatisticsViewModel
 ) {
     Scaffold(topBar = {TopBar(topBarText = "Home")},
-        floatingActionButton = { MealFAB(goToScreen) })
+        floatingActionButton = { MealFAB(vm::navigateToSearch) })
     { paddingValues ->
         Surface(
             Modifier

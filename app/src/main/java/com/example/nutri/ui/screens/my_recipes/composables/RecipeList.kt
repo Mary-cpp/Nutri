@@ -8,7 +8,7 @@ import com.example.nutri.domain.recipes.model.Recipe
 @Composable
 fun RecipesList(
     listOfRecipes: List<Recipe>,
-    navigateToRecipe: (String, Recipe) -> Unit
+    navigateToRecipe: (String) -> Unit
 ){
     LazyColumn{
         items(listOfRecipes){

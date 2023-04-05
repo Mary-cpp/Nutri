@@ -14,7 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.screens.common.SearchFieldTest
 import com.example.nutri.ui.screens.common.TopBar
 import com.example.nutri.ui.screens.my_recipes.composables.RecipeFAB
@@ -25,14 +24,12 @@ import com.example.nutri.ui.theme.NutriTheme
 const val TAG = "MyRecipesPage"
 @Composable
 fun MyRecipesPage(
-    vm: MyRecipesViewModel,
-    navigateWithRecipe: (String, Recipe) -> Unit,
-    navigateToScreen: (String) -> Unit
+    vm: RecipesViewModel
 ){
     Log.w(TAG, "$TAG loaded")
         Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {  TopBar("MyRecipes") },
-        floatingActionButton = { RecipeFAB(goToScreen = navigateToScreen) })
+        floatingActionButton = { RecipeFAB(goToScreen = vm::navigateToNewRecipe) })
         { paddingValues ->
             Surface(modifier = Modifier
                 .fillMaxSize()
@@ -53,7 +50,7 @@ fun MyRecipesPage(
 
                     SortAndFilter()
 
-                    RecipesList(listOfRecipes = vm.recipeList.value, navigateWithRecipe)
+                    RecipesList(listOfRecipes = vm.recipeList.value, vm::navigateToRecipe)
 
                     Text(
                         modifier = Modifier.padding(top = 24.dp),

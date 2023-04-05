@@ -24,8 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CreateRecipePage(
-    vm: CreateRecipeViewModel = hiltViewModel(),
-    getBack: () -> Unit,) {
+    vm: CreateRecipeViewModel = hiltViewModel()) {
 
     val bottomSheetState =
         rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden,
@@ -39,7 +38,7 @@ fun CreateRecipePage(
         ingredientList = vm.listOfIngredients,
         bottomSheetState = bottomSheetState
     ) {
-        EditRecipeScreenContent(vm, scope, bottomSheetState, getBack = getBack)
+        EditRecipeScreenContent(vm, scope, bottomSheetState, getBack = vm::navigateBack)
     }
 }
 
