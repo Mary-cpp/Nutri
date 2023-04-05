@@ -3,6 +3,8 @@ package com.example.nutri.ui.screens.my_recipes
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
@@ -14,11 +16,15 @@ import javax.inject.Inject
 @HiltViewModel
 class MyRecipesViewModel @Inject constructor(
     private var useCase: LocalRecipesInteractor
-) : ViewModel() {
+) : ViewModel(), DefaultLifecycleObserver {
 
     val recipeList : MutableState<List<Recipe>> = mutableStateOf(listOf())
 
     private val tag = "MyRecipesViewModel"
+
+    override fun onResume(owner: LifecycleOwner) {
+        getSavedRecipes()
+    }
 
     fun getSavedRecipes() = viewModelScope.launch{
         Log.d(tag, "MyRecipes Screen Loaded        START")

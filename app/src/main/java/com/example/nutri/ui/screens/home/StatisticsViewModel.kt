@@ -5,6 +5,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
@@ -22,7 +24,7 @@ val dateFormat= SimpleDateFormat("yyyy-MM-dd", Locale.US)
 class StatisticsViewModel @Inject constructor(
     private val useCaseMeal: MealInteractor,
     private val useCaseBmi: BmiInteractor,
-) : ViewModel(){
+) : ViewModel(), DefaultLifecycleObserver{
 
     private val TAG = "StatisticsViewModel"
 
@@ -31,7 +33,11 @@ class StatisticsViewModel @Inject constructor(
     var user: MutableState<User?> = mutableStateOf(null)
     var meals: MutableState<List<Meal>> =  mutableStateOf(createEmptyMealsList())
 
-    fun onStatisticsScreenLoaded() = viewModelScope.launch {
+    override fun onResume(owner: LifecycleOwner) {
+        onStatisticsScreenLoaded()
+    }
+
+    private fun onStatisticsScreenLoaded() = viewModelScope.launch {
 
         var hasMeals = false
         meals.value.forEach {

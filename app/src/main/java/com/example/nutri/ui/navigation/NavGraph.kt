@@ -49,36 +49,28 @@ fun NavigationGraph(
                 bottom = paddingValues.calculateBottomPadding()
             )
     ){
-        composable(Screen.Home.screenRoute) {
+        composable(Screen.Home.screenRoute) { navEntry ->
             val vm = hiltViewModel<StatisticsViewModel>()
+            navEntry.lifecycle.addObserver(vm)
 
-            LaunchedEffect(vm){
-                vm.onStatisticsScreenLoaded()
-            }
             HomePage(goToScreen = navigateToScreen, vm)
         }
-        composable(Screen.MyRecipes.screenRoute) {
+        composable(Screen.MyRecipes.screenRoute) { navEntry->
 
-            Log.i(TAG, "To ${it.destination.route}")
+            Log.i(TAG, "To ${navEntry.destination.route}")
 
             val vm = hiltViewModel<MyRecipesViewModel>()
+            navEntry.lifecycle.addObserver(vm)
 
-            LaunchedEffect(vm){
-                vm.getSavedRecipes()
-            }
-
-            if (it.lifecycle.currentState == Lifecycle.State.RESUMED){
-                MyRecipesPage(
-                    vm = vm,
-                    navigateToScreen = navigateToScreen,
-                    navigateWithRecipe = navigateWithRecipe)
-            }
+            MyRecipesPage(
+                vm = vm,
+                navigateToScreen = navigateToScreen,
+                navigateWithRecipe = navigateWithRecipe)
         }
         composable(Screen.SearchPage.screenRoute){
             SearchPage(goToScreen = navigateToScreen)
         }
         composable(Screen.BMI.screenRoute){
-
             BmiPage()
         }
         composable(
