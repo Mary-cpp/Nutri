@@ -1,6 +1,6 @@
 package com.example.nutri.di
 
-import com.example.nutri.core.MyNavController
+import com.example.nutri.ui.navigation.NavControllerHolder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,6 +13,6 @@ object NavigationModule {
 
     @Singleton
     @Provides
-    fun provideNavController(): MyNavController
-            = MyNavController()
+    fun provideNavController(): NavControllerHolder
+            = NavControllerHolder()
 }

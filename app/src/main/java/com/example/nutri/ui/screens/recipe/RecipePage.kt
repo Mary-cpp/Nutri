@@ -62,7 +62,7 @@ fun RecipeCard(
                 ) {
 
                     Text(
-                        text = "${recipe.calories.toString()} Kcal",
+                        text = "${recipe.calories.toString()} KCal",
                         modifier = Modifier
                             .padding(bottom = 18.dp)
                             .align(Alignment.CenterVertically),

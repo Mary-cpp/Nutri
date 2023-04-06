@@ -20,7 +20,6 @@ import com.example.nutri.ui.screens.create_recipe.CreateRecipeViewModel
 fun IngredientsToEdit(
     vm: CreateRecipeViewModel
 ) {
-
     Surface(
         modifier = Modifier
             .fillMaxWidth(1f)
@@ -29,9 +28,7 @@ fun IngredientsToEdit(
         shape = RoundedCornerShape(24.dp),
         elevation = 4.dp
     ) {
-
         Column(Modifier.padding(24.dp)) {
-
             Text(
                 text = "Ingredients",
                 modifier = Modifier
@@ -40,7 +37,6 @@ fun IngredientsToEdit(
                 textAlign = TextAlign.Center,
                 fontSize = 24.sp
             )
-
             LazyColumn {
                 items(items = vm.listOfIngredients) { ingredient ->
                     IngredientEditCard(ingredient) { vm.onRemoveButtonPressed(ingredient) }

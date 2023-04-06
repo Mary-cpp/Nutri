@@ -13,11 +13,11 @@ import com.example.nutri.R
 
 @Composable
 fun TopBarWithIcon(topBarText: String, action: () -> Unit) {
-    TopAppBar(title = { Text(text = topBarText, color = Color.Black) },
+    TopAppBar(
+        title = { Text(text = topBarText, color = Color.Black) },
         backgroundColor = MaterialTheme.colors.background,
         elevation = 0.dp,
         navigationIcon = {
-
             IconButton(
                 onClick = { action()},
                 modifier = Modifier.padding(end = 6.dp)
@@ -29,5 +29,6 @@ fun TopBarWithIcon(topBarText: String, action: () -> Unit) {
                     tint = Color.Black
                 )
             }
-        })
+        }
+    )
 }

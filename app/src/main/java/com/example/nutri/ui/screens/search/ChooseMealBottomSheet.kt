@@ -32,17 +32,6 @@ fun SearchPage(
         )
 
     val mealName: MutableState<String> = remember{ mutableStateOf("Select meal")}
-    if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden){
-        DisposableEffect(Unit) {
-            onDispose {
-
-                if(mealName.value!="Select meal"){
-
-                    Log.d("BOTTOM SHEET", mealName.value)
-                }
-            }
-        }
-    }
 
     ModalBottomSheetLayout(
         sheetContent = {
@@ -72,7 +61,7 @@ fun MealBottomSheetContent(
     mealName: MutableState<String>,
     bottomSheetState: ModalBottomSheetState
 ){
-
+    val tag = "MealBottomSheetContent"
     val mealNames = listOf("Breakfast", "Lunch", "Dinner")
     val scope = rememberCoroutineScope()
 
@@ -100,24 +89,18 @@ fun MealBottomSheetContent(
                         .padding(4.dp)
                         .size(48.dp)
                         .clickable {
-
                             mealName.value = it
 
                             if (mealName.value != "Select meal") {
-
                                 scope.launch {
-
                                     vm.addRecipeToMeal(
                                         id = vm.selectedRecipeId.value,
                                         mealName = it
                                     )
-
                                     bottomSheetState.hide()
-
                                     vm.navigateToHome()
                                 }
-
-                                Log.d("BOTTOM SHEET", mealName.value)
+                                Log.d(tag, mealName.value)
                             }
                         },
                     backgroundColor = MaterialTheme.colors.primary
@@ -140,9 +123,7 @@ fun MealBottomSheetContent(
 fun MealBottomSheetContentTest(
     mealName: MutableState<String>
 ){
-
     val mealNames = listOf("Breakfast", "Lunch", "Dinner")
-
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier

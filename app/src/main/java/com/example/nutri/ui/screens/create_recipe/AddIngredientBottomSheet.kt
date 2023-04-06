@@ -29,15 +29,16 @@ fun RecipeBottomSheetContent(
         Modifier
             .fillMaxWidth()
             .background(Color.White)
-    ) {
-        Column(modifier = Modifier.padding(20.dp)) {
+    ){
+        Column(modifier = Modifier.padding(20.dp)){
             Text(
                 text = "Add new ingredient",
                 modifier = Modifier.padding(16.dp),
                 fontSize = MaterialTheme.typography.h5.fontSize
             )
 
-            OutlinedTextField(modifier = Modifier
+            OutlinedTextField(
+                modifier = Modifier
                 .padding(start = 16.dp, bottom = 16.dp),
                 value = ingredientName.value,
                 shape = NutriShape.mediumRoundedCornerShape,
@@ -50,7 +51,8 @@ fun RecipeBottomSheetContent(
                 modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                OutlinedTextField(modifier = Modifier
+                OutlinedTextField(
+                    modifier = Modifier
                     .padding(end = 8.dp)
                     .size(width = 150.dp, height = 64.dp),
                     value = ingredientAmount.value.toString(),
@@ -63,11 +65,9 @@ fun RecipeBottomSheetContent(
                         try {
                             ingredientAmount.value = it.toInt()
                         }
-                        catch (_: java.lang.NumberFormatException){
-
-                        }},
-                    label = { Text("Amount") })
-
+                        catch (_: java.lang.NumberFormatException){ }},
+                    label = { Text("Amount") }
+                )
                 DropDownListButton(
                     mutableString = ingredientUnits,
                     color = MaterialTheme.colors.secondaryVariant,
@@ -87,7 +87,6 @@ fun DropDownListButton(
     color: Color
 ){
     val isExpanded = remember { mutableStateOf(false) }
-
     Box(
         modifier = Modifier.padding(top = 8.dp),
         contentAlignment = Alignment.Center
@@ -105,8 +104,8 @@ fun DropDownListButton(
                 fontSize = MaterialTheme.typography.caption.fontSize
             )
         }
-
-        DropdownMenu(expanded = isExpanded.value,
+        DropdownMenu(
+            expanded = isExpanded.value,
             onDismissRequest = { isExpanded.value = false }) {
             menuItems.forEach{
                 DropdownMenuItem(onClick = { mutableString.value = it }) {
@@ -126,7 +125,8 @@ fun BottomSheetPreview(){
     val units = remember { mutableStateOf("") }
 
     NutriTheme{
-        RecipeBottomSheetContent(ingredientName = name,
+        RecipeBottomSheetContent(
+            ingredientName = name,
             ingredientAmount = amount,
             ingredientUnits = units)
     }

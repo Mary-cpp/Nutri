@@ -38,14 +38,12 @@ fun SortAndFilter(){
             shape = RoundedCornerShape(24.dp),
             elevation = ButtonDefaults.elevation(4.dp)
         ) {
-
             Icon(imageVector = ImageVector.vectorResource(id = R.drawable.filter_alt48px),
                 tint = Color.Black,
                 contentDescription = "SortIcon",
                 modifier = Modifier
                     .size(32.dp)
                     .padding(end = 8.dp))
-
             Text(text = "Filter", color = Color.Black)
         }
     }

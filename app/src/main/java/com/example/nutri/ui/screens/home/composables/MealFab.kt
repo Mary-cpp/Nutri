@@ -16,20 +16,17 @@ import com.example.nutri.R
 fun MealFAB(
     goToSearch:() -> Unit,
 ){
-
     FloatingActionButton(
-        onClick = {
-            goToSearch()
-        },
+        onClick = { goToSearch() },
         modifier = Modifier.size(56.dp),
-
         backgroundColor = Color.Black,
-        elevation = FloatingActionButtonDefaults.elevation(4.dp)) {
-
+        elevation = FloatingActionButtonDefaults.elevation(4.dp)
+    ){
         Icon(
             ImageVector.vectorResource(id = R.drawable.add48px),
             contentDescription = "AddFAB",
             modifier = Modifier.size(24.dp),
-            tint = Color.White)
+            tint = Color.White
+        )
     }
 }

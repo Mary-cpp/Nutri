@@ -5,8 +5,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
-import com.example.nutri.core.MyNavController
-import com.example.nutri.core.NavigationViewModel
+import com.example.nutri.ui.navigation.NavControllerHolder
+import com.example.nutri.ui.navigation.NavigationViewModel
 import com.example.nutri.data.recipe.remote.dto.Ingredient.Companion.mapToDomainIngredients
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.interactor.RecipeInteractor
@@ -20,7 +20,7 @@ import javax.inject.Inject
 class EditRecipeViewModel @Inject constructor(
     private var useCase: LocalRecipesInteractor,
     private var useCaseAnalyze: RecipeInteractor,
-    navControllerProvider: MyNavController
+    navControllerProvider: NavControllerHolder
 ) : NavigationViewModel(navControllerProvider){
 
     private val tag = "CreateRecipeViewModel"
@@ -61,9 +61,6 @@ class EditRecipeViewModel @Inject constructor(
             Log.d(tag, "${useCase.getCommonRecipe(id)}")
         }
         Log.w(tag, "Can't save empty recipe!!")
-    }
-
-    fun onDeleteButtonPresseed(){
     }
 
     private fun ingredientsToString(

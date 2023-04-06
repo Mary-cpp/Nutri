@@ -21,8 +21,7 @@ import com.example.nutri.ui.screens.create_recipe.composables.IngredientEditCard
 import com.example.nutri.ui.screens.edit_recipe.EditRecipeViewModel
 
 @Composable
-fun EditRecipeCard(
-    vm: EditRecipeViewModel) {
+fun EditRecipeCard(vm: EditRecipeViewModel){
 
     val name = vm.nameOnEdit
     val ingredients = vm.ingredientList
@@ -35,14 +34,12 @@ fun EditRecipeCard(
         elevation = 4.dp,
         content = {
             Column(Modifier.padding(24.dp)) {
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
-                ) {
-
+                ){
                     TextField(modifier = Modifier
                         .padding(start = 24.dp, bottom = 16.dp)
                         .size(208.dp, 64.dp),
@@ -53,15 +50,12 @@ fun EditRecipeCard(
                         label = { Text("Title") })
 
                     Column{
-
                         IconButton(
-                            onClick = {
-                                vm.onSaveEditedRecipeButtonPressed()
-                                      },
+                            onClick = { vm.onSaveEditedRecipeButtonPressed() },
                             modifier = Modifier
                                 .align(Alignment.CenterHorizontally)
                                 .background(Color.Transparent)
-                        ) {
+                        ){
                             Icon(
                                 imageVector = ImageVector.vectorResource(id = R.drawable.save48px),
                                 modifier = Modifier.size(32.dp),
@@ -70,12 +64,8 @@ fun EditRecipeCard(
                         }
                     }
                 }
-
-                if (ingredients.isEmpty()) {
-                    EmptyIngredients()
-                } else {
-                    IngredientsToEdit(vm = vm)
-                }
+                if (ingredients.isEmpty()) { EmptyIngredients()}
+                else { IngredientsToEdit(vm = vm) }
             }
         })
 }
@@ -83,8 +73,7 @@ fun EditRecipeCard(
 @Composable
 fun IngredientsToEdit(
     vm: EditRecipeViewModel
-) {
-
+){
     Surface(
         modifier = Modifier
             .fillMaxWidth(1f)
@@ -92,10 +81,8 @@ fun IngredientsToEdit(
         color = MaterialTheme.colors.background,
         shape = RoundedCornerShape(24.dp),
         elevation = 4.dp
-    ) {
-
-        Column(Modifier.padding(24.dp)) {
-
+    ){
+        Column(Modifier.padding(24.dp)){
             Text(
                 text = "Ingredients",
                 modifier = Modifier
@@ -104,7 +91,6 @@ fun IngredientsToEdit(
                 textAlign = TextAlign.Center,
                 fontSize = 24.sp
             )
-
             LazyColumn {
                 items(items = vm.ingredientList) { ingredient ->
                     IngredientEditCard(ingredient) { vm.onRemoveButtonPressed(ingredient) }

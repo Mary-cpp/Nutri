@@ -10,12 +10,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.screens.my_recipes.TAG
 import com.example.nutri.ui.theme.NutriShape
-import com.example.nutri.ui.theme.NutriTheme
 
 @Composable
 fun RecipeListItem(
@@ -32,7 +30,7 @@ fun RecipeListItem(
         backgroundColor = MaterialTheme.colors.primary,
         shape = NutriShape.smallRoundCornerShape
     ) {
-        Column() {
+        Column {
             Text(text = recipe.name!!,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -45,12 +43,5 @@ fun RecipeListItem(
                 fontSize = MaterialTheme.typography.subtitle2.fontSize
             )
         }
-    }
-}
-@Preview
-@Composable
-fun RecipeListItemPreview(){
-    NutriTheme {
-        //RecipeListItem(recipe = Recipe.makeRecipe())
     }
 }

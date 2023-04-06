@@ -25,8 +25,7 @@ fun SearchPageContent(
     scope : CoroutineScope,
     bottomSheetState: ModalBottomSheetState
 ){
-
-    Surface (
+    Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background
     ){
@@ -34,16 +33,13 @@ fun SearchPageContent(
             modifier = Modifier.padding(top = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             SearchField(vm = vm)
-
             RecipesListForSearch(
                 listOfRecipes = vm.foundRecipes,
                 recipeId = vm.selectedRecipeId,
                 scope = scope,
                 bottomSheetState = bottomSheetState
             )
-
             Text(
                 modifier = Modifier
                     .clickable { vm.navigateToNewRecipe() },
@@ -64,11 +60,8 @@ fun SearchPageTest(
             modifier = Modifier.padding(top = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             SearchField()
-
             RecipesListForSearchTest(listOfRecipes = listOf(Recipe.makeRecipe(),Recipe.makeRecipe()))
-
             Text(
                 text = "Didn't find desired Recipe? Create!"
             )

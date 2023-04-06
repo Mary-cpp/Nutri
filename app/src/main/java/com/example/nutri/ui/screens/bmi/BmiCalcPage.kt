@@ -12,7 +12,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -30,7 +29,8 @@ import com.example.nutri.ui.theme.NutriTheme
 fun BmiPage(
     vm: BmiViewModel = hiltViewModel()){
 
-    Scaffold(modifier = Modifier.fillMaxSize(),
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
         contentColor = Color.White,
         topBar = { TopBar("BMI Calculator") },
         content = {
@@ -54,9 +54,6 @@ fun BmiPage(
 
 @Composable
 fun BmiCalcCard(vm : BmiViewModel){
-
-    val context = LocalContext.current
-
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -68,42 +65,44 @@ fun BmiCalcCard(vm : BmiViewModel){
         val height = vm.userHeight
         val age = vm.userAge
 
-        Column(modifier = Modifier.padding(24.dp),
-        verticalArrangement = Arrangement.SpaceEvenly){
-
+        Column(
+            modifier = Modifier.padding(24.dp),
+            verticalArrangement = Arrangement.SpaceEvenly
+        ){
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Choose your gender",
                 fontSize = MaterialTheme.typography.h5.fontSize,
                 textAlign = TextAlign.Center
             )
-
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly){
 
-                Button(onClick = { vm.userSex.value = 'F'},
+                Button(
+                    onClick = { vm.userSex.value = 'F'},
                     modifier = Modifier.size(width = 136.dp, height = 176.dp),
                     elevation = ButtonDefaults.elevation(6.dp),
                     shape = RoundedCornerShape(24.dp),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary)
                 ) {
-
                     Text (text = "F",
                         fontSize = MaterialTheme.typography.h3.fontSize)
                 }
 
-                Button(onClick = { vm.userSex.value = 'M'},
+                Button(
+                    onClick = { vm.userSex.value = 'M'},
                     modifier = Modifier.size(width = 136.dp, height = 176.dp),
                     elevation = ButtonDefaults.elevation(6.dp),
                     shape = RoundedCornerShape(24.dp),
                     colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondaryVariant)
                 ) {
-
-                    Text (text = "M",
-                        fontSize = MaterialTheme.typography.h3.fontSize)
+                    Text (
+                        text = "M",
+                        fontSize = MaterialTheme.typography.h3.fontSize
+                    )
                 }
             }
 
@@ -124,7 +123,8 @@ fun BmiCalcCard(vm : BmiViewModel){
                     label = { Text( "Weight")}
                 )
 
-                DropDownListButton(mutableString = weightUnits,
+                DropDownListButton(
+                    mutableString = weightUnits,
                     color = MaterialTheme.colors.primary,
                     shape = NutriShape.smallRoundCornerShape,
                     menuItems = listOf("kg", "lbs"),
@@ -134,7 +134,6 @@ fun BmiCalcCard(vm : BmiViewModel){
             Row(modifier = Modifier.padding(8.dp)){
 
                 val heightUnits = vm.userHeightUnit
-
                 OutlinedTextField(
                     value = height.value.toString(),
                     onValueChange = {
@@ -148,19 +147,19 @@ fun BmiCalcCard(vm : BmiViewModel){
                     label = { Text( "Height")}
                 )
 
-                DropDownListButton(mutableString = heightUnits,
+                DropDownListButton(
+                    mutableString = heightUnits,
                     color = MaterialTheme.colors.primary,
                     shape = NutriShape.smallRoundCornerShape,
                     menuItems = listOf("m", "ft"),
                     buttonSize = 48)
             }
-            Row(modifier = Modifier
+            Row(
+                modifier = Modifier
                 .fillMaxWidth()
                 .padding(8.dp),
-            horizontalArrangement = Arrangement.SpaceBetween){
-
-
-
+                horizontalArrangement = Arrangement.SpaceBetween
+            ){
                 OutlinedTextField(
                     value = age.value.toString(),
                     onValueChange = {
@@ -175,13 +174,14 @@ fun BmiCalcCard(vm : BmiViewModel){
                 )
             }
 
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ){
+            Column(horizontalAlignment = Alignment.CenterHorizontally){
 
                 val activityType = vm.userActivity
 
-                Text(text = "Activity type:", fontSize = MaterialTheme.typography.subtitle2.fontSize)
+                Text(
+                    text = "Activity type:",
+                    fontSize = MaterialTheme.typography.subtitle2.fontSize
+                )
 
                 ActivityDropDownListButton(
                     mutableString = remember {
@@ -212,7 +212,7 @@ fun BmiCalcCard(vm : BmiViewModel){
             }
 
             vm.user.value?.plan?.let {
-                TrackUser(context = context, vm = vm)
+                TrackUser(vm = vm)
             }
         }
     }

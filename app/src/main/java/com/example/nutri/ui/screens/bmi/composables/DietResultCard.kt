@@ -26,8 +26,7 @@ fun DietResultCard(
         backgroundColor = MaterialTheme.colors.primary,
         elevation = 8.dp
     ){
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
             Text(
                 text = "Daily calories: ${plan.kcal}",

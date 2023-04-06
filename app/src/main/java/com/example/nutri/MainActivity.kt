@@ -4,11 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.nutri.core.MyNavController
+import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.navigation.NavigationGraph
 import com.example.nutri.ui.theme.NutriTheme
@@ -19,7 +17,7 @@ import javax.inject.Inject
 class MainActivity: ComponentActivity() {
 
     @Inject
-    lateinit var navControllerProvider: MyNavController
+    lateinit var navControllerHolder: NavControllerHolder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,29 +25,18 @@ class MainActivity: ComponentActivity() {
         setContent {
             val navController: NavHostController = rememberNavController()
 
-            navControllerProvider.navController = navController
+            navControllerHolder.navController = navController
 
-          NutriTheme {
-              Scaffold(
-                  bottomBar = {
-                      BottomNavigationBar(navController = navController)
-                  }){
-                  NavigationGraph(
+            NutriTheme {
+                Scaffold(
+                    bottomBar = { BottomNavigationBar(navController = navController) })
+                {
+                    NavigationGraph(
                       navController = navController,
                       paddingValues = it
-                  )
-              }
+                    )
+                }
             }
         }
     }
 }
-
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    NutriTheme {
-        //HostScreen()
-    }
-}
-

@@ -22,9 +22,7 @@ fun EmptyIngredients(){
         shape = RoundedCornerShape(24.dp),
         elevation = 4.dp
     ) {
-
         Column(Modifier.padding(24.dp)) {
-
             Text(
                 text = "Ingredients",
                 modifier = Modifier
@@ -33,7 +31,6 @@ fun EmptyIngredients(){
                 textAlign = TextAlign.Center,
                 fontSize = MaterialTheme.typography.h5.fontSize
             )
-
             Text(text = "No ingredients added",
                 modifier = Modifier
                     .fillMaxWidth()

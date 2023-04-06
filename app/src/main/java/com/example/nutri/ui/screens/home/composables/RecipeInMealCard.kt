@@ -19,16 +19,17 @@ import com.example.nutri.ui.theme.NutriTheme
 fun RecipeInMealCard(
     recipe: Recipe
 ){
-
-    Card(modifier = Modifier
+    Card(
+        modifier = Modifier
         .fillMaxWidth()
         .padding(12.dp),
         shape = NutriShape.mediumRoundedCornerShape,
-        backgroundColor = MaterialTheme.colors.surface) {
-
-        Row (modifier = Modifier.padding(24.dp),
-            horizontalArrangement = Arrangement.SpaceBetween){
-
+        backgroundColor = MaterialTheme.colors.surface
+    ){
+        Row(
+            modifier = Modifier.padding(24.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
             recipe.name?.let{
                 Text(text = recipe.name)
                 Text(text = "${recipe.totalWeight}g")
@@ -39,15 +40,17 @@ fun RecipeInMealCard(
 
 @Composable
 fun NoRecipes(){
-    Card(modifier = Modifier
+    Card(
+        modifier = Modifier
         .fillMaxWidth()
         .padding(12.dp),
         shape = NutriShape.mediumRoundedCornerShape,
-        backgroundColor = MaterialTheme.colors.surface) {
-
-        Row (modifier = Modifier.padding(24.dp),
-            horizontalArrangement = Arrangement.Center){
-
+        backgroundColor = MaterialTheme.colors.surface
+    ){
+        Row(
+            modifier = Modifier.padding(24.dp),
+            horizontalArrangement = Arrangement.Center
+        ){
             Text(text = "Nothing for today :c")
         }
 
@@ -59,16 +62,17 @@ fun RecipeInMealCardTest(
     recipeName : String,
     recipeWeight: String
 ){
-
-    Card(modifier = Modifier
+    Card(
+        modifier = Modifier
         .fillMaxWidth()
         .padding(12.dp),
         shape = NutriShape.mediumRoundedCornerShape,
-        backgroundColor = MaterialTheme.colors.surface) {
-
-        Row (modifier = Modifier.padding(24.dp),
-            horizontalArrangement = Arrangement.SpaceBetween){
-
+        backgroundColor = MaterialTheme.colors.surface
+    ){
+        Row(
+            modifier = Modifier.padding(24.dp),
+            horizontalArrangement = Arrangement.SpaceBetween
+        ){
             Text(text = recipeName)
             Text(text = recipeWeight)
         }

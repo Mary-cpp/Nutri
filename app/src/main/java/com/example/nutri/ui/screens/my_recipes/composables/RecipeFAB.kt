@@ -19,15 +19,14 @@ fun RecipeFAB(
 ){
     FloatingActionButton(onClick = { goToScreen() },
         modifier = Modifier.size(56.dp),
-
         backgroundColor = MaterialTheme.colors.primary,
-        elevation = FloatingActionButtonDefaults.elevation(4.dp)) {
-
+        elevation = FloatingActionButtonDefaults.elevation(4.dp)
+    ){
         Icon(
             ImageVector.vectorResource(id = R.drawable.add48px),
             contentDescription = "AddFAB",
             modifier = Modifier.size(24.dp),
-            tint = Color.White)
-
+            tint = Color.White
+        )
     }
 }

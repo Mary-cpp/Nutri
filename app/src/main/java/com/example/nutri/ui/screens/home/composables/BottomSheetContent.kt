@@ -6,7 +6,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -37,22 +36,19 @@ fun HomeBottomSheetContent(meals: List<Meal>){
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomePageBottomSheet(vm: StatisticsViewModel){
-
-    val scope = rememberCoroutineScope()
-    val bottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.HalfExpanded,
-            confirmStateChange = {
-                it != ModalBottomSheetValue.Hidden
-            })
-
-    ModalBottomSheetLayout(sheetContent = {
-
-        Surface(
-            modifier = Modifier.fillMaxWidth(),
-            color = MaterialTheme.colors.background
-        ) {
-            HomeBottomSheetContent(vm.meals.value)
-        }
+    val bottomSheetState
+    = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.HalfExpanded,
+        confirmStateChange = { bottomSheetValue -> bottomSheetValue != ModalBottomSheetValue.Hidden }
+    )
+    ModalBottomSheetLayout(
+        sheetContent = {
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = MaterialTheme.colors.background
+            ){
+                HomeBottomSheetContent(vm.meals.value)
+            }
     },
         sheetElevation = 0.dp,
         sheetState = bottomSheetState,

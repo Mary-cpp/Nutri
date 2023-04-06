@@ -18,17 +18,17 @@ import kotlinx.coroutines.CoroutineScope
 fun EditRecipePage(
     vm : EditRecipeViewModel = hiltViewModel()
 ){
-
-    val bottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden,
-            confirmStateChange = {
-                it != ModalBottomSheetValue.Expanded
-            })
+    val bottomSheetState
+    = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { bottomSheetValue -> bottomSheetValue != ModalBottomSheetValue.Expanded }
+    )
 
     val scope = rememberCoroutineScope()
-
-    IngredientsBottomSheet(bottomSheetState = bottomSheetState,
-        ingredientList = vm.ingredientList) {
+    IngredientsBottomSheet(
+        bottomSheetState = bottomSheetState,
+        ingredientList = vm.ingredientList
+    ){
         EditRecipePageContent(
             scope = scope,
             vm = vm,
@@ -47,11 +47,10 @@ fun EditRecipePageContent(
     getBack: () -> Unit,
     modalBottomSheetState: ModalBottomSheetState,
 ){
-    Scaffold(modifier = Modifier.fillMaxSize(),
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = { TopBarWithIcon("Edit", getBack) },
         floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
-        content = {
-            EditRecipeCard(vm = vm)
-        }
+        content = { EditRecipeCard(vm = vm) }
     )
 }

@@ -16,13 +16,14 @@ import com.example.nutri.domain.recipes.model.Ingredient
 
 @Composable
 fun IngredientEditCard(ingredient: Ingredient, deleteItem: () -> Unit) {
-    Card(modifier = Modifier
-        .fillMaxWidth()
-        .padding(bottom = 4.dp),
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 4.dp),
         backgroundColor = MaterialTheme.colors.primary,
         shape = RoundedCornerShape(8.dp),
-        content = {
-
+        content =
+        {
             Row (horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically){
                 Column {
@@ -30,20 +31,17 @@ fun IngredientEditCard(ingredient: Ingredient, deleteItem: () -> Unit) {
                         text = ingredient.ingredientName,
                         modifier = Modifier.padding(start = 16.dp, bottom = 10.dp, top = 16.dp)
                     )
-
                     Row {
                         Text(
                             text = ingredient.ingredientAmount.toString(),
                             modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
                         )
-
                         Text (
                             text = ingredient.ingredientUnits,
                             modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
                         )
                     }
                 }
-
                 Column (Modifier.padding(end = 16.dp)){
                     IconButton(
                         onClick = { deleteItem() },

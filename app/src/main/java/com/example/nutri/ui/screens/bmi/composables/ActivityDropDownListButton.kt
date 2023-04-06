@@ -44,8 +44,8 @@ fun ActivityDropDownListButton(
                 fontSize = MaterialTheme.typography.caption.fontSize
             )
         }
-
-        DropdownMenu(expanded = isExpanded.value,
+        DropdownMenu(
+            expanded = isExpanded.value,
             onDismissRequest = { isExpanded.value = false }) {
             menuItems.forEach{
                 DropdownMenuItem(onClick =

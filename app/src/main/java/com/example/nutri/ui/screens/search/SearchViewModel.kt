@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.example.nutri.core.MyNavController
-import com.example.nutri.core.NavigationViewModel
+import com.example.nutri.ui.navigation.NavControllerHolder
+import com.example.nutri.ui.navigation.NavigationViewModel
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.domain.statistics.Meal
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val useCase: LocalRecipesInteractor,
     private val useCaseMeal: MealInteractor,
-    navControllerProvider: MyNavController
+    navControllerProvider: NavControllerHolder
 ) : NavigationViewModel(navControllerProvider){
 
     private val tag = "SearchViewModel"
@@ -34,22 +34,16 @@ class SearchViewModel @Inject constructor(
     fun getRecipes(name: String) = viewModelScope.launch{
 
         Log.d(tag, "getRecipes     START")
+        if(name.isEmpty()){ return@launch }
 
-        var listOfRecipes: List<Recipe>? = emptyList()
-
-        if(name!=""){
-            listOfRecipes = useCase.getRecipesLike(name)
-        }
-
-        listOfRecipes?.let{
-            foundRecipes.value = it
-        }
+        val listOfRecipes: List<Recipe>? = useCase.getRecipesLike(name)
+        listOfRecipes?.let{ foundRecipes.value = it }
 
         Log.d(tag, "getRecipes     END")
     }
 
     fun addRecipeToMeal(id: String, mealName: String)
-            = CoroutineScope(Dispatchers.Main).launch{
+    = CoroutineScope(Dispatchers.Main).launch{
 
         val tag = "addRecipeToMeal"
         val recipe = useCase.getCommonRecipe(id)
@@ -60,6 +54,4 @@ class SearchViewModel @Inject constructor(
 
         useCaseMeal.addMeal(meal)
     }
-
-
 }

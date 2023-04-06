@@ -22,11 +22,9 @@ fun IngredientFAB(scope: CoroutineScope, bottomSheetState: ModalBottomSheetState
             }
         },
         modifier = Modifier.size(56.dp),
-
         backgroundColor = MaterialTheme.colors.primary,
         elevation = FloatingActionButtonDefaults.elevation(4.dp)
     ) {
-
         Icon(
             ImageVector.vectorResource(id = R.drawable.add48px),
             contentDescription = "AddFAB",

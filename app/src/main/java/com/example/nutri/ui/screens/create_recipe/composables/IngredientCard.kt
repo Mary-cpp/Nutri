@@ -26,13 +26,11 @@ fun IngredientCard(ingredient: Characteristics) {
                     text = ingredient.foodMatch,
                     modifier = Modifier.padding(start = 16.dp, bottom = 10.dp, top = 16.dp)
                 )
-
                 Row {
                     Text(
                         text = ingredient.quantity.toString(),
                         modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)
                     )
-
                     Text (
                         text = ingredient.measure,
                         modifier = Modifier.padding(start = 16.dp, bottom = 16.dp)

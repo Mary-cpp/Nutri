@@ -24,7 +24,6 @@ fun Labels(
             .horizontalScroll(ScrollState(0))
     ) {
         labels.forEach {
-
             Card(
                 modifier = Modifier.padding(end = 8.dp),
                 backgroundColor = backgroundColor,

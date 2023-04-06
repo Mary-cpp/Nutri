@@ -9,7 +9,9 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun TopBar(topBarText: String) {
-    TopAppBar(title = { Text(text = topBarText, color = Color.Black) },
+    TopAppBar(
+        title = { Text(text = topBarText, color = Color.Black) },
         backgroundColor = MaterialTheme.colors.background,
-        elevation = 0.dp)
+        elevation = 0.dp
+    )
 }

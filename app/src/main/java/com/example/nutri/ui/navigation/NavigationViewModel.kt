@@ -1,30 +1,30 @@
-package com.example.nutri.core
+package com.example.nutri.ui.navigation
 
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavOptions
-import com.example.nutri.ui.navigation.Screen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 open class NavigationViewModel @Inject constructor(
-    navControllerProvider: MyNavController
+    navControllerHolder: NavControllerHolder
 ) : ViewModel(), MainNavActions {
 
-    private val navController = navControllerProvider.navController
+    private val navController = navControllerHolder.navController
 
     private val navOptions = setNavOptions()
 
     private fun setNavOptions() : NavOptions {
 
+        //!!!!
         val optionsBuilder = NavOptions.Builder()
         return optionsBuilder.apply {
             setLaunchSingleTop(true)
             setRestoreState(true)
-/*            setPopUpTo(navController!!.graph.startDestinationId,
+            setPopUpTo(navController!!.graph.startDestinationId,
                 inclusive = false,
                 saveState = true
-            )*/
+            )
         }.build()
     }
 

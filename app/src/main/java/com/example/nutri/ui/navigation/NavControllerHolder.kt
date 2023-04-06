@@ -1,8 +1,8 @@
-package com.example.nutri.core
+package com.example.nutri.ui.navigation
 
 import androidx.navigation.NavHostController
 
-class MyNavController{
+class NavControllerHolder{
 
     var navController: NavHostController? = null
 }

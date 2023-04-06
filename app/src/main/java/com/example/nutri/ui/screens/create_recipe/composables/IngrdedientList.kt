@@ -27,9 +27,7 @@ fun Ingredients(ingredients : List<Characteristics>) {
         shape = NutriShape.largeRoundedCornerShape,
         elevation = 4.dp
     ) {
-
         Column(Modifier.padding(24.dp)) {
-
             Text(
                 text = "Ingredients",
                 modifier = Modifier
@@ -38,7 +36,6 @@ fun Ingredients(ingredients : List<Characteristics>) {
                 textAlign = TextAlign.Center,
                 fontSize = 24.sp
             )
-
             LazyColumn{
                 items(items = ingredients){ ingredient ->
                     IngredientCard(ingredient)

@@ -26,18 +26,16 @@ import kotlinx.coroutines.CoroutineScope
 fun CreateRecipePage(
     vm: CreateRecipeViewModel = hiltViewModel()) {
 
-    val bottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden,
-            confirmStateChange = {
-                it != ModalBottomSheetValue.Expanded
-            })
+    val bottomSheetState
+    = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { bottomSheetValue -> bottomSheetValue != ModalBottomSheetValue.Expanded })
 
     val scope = rememberCoroutineScope()
-
     IngredientsBottomSheet(
         ingredientList = vm.listOfIngredients,
         bottomSheetState = bottomSheetState
-    ) {
+    ){
         EditRecipeScreenContent(vm, scope, bottomSheetState, getBack = vm::navigateBack)
     }
 }
@@ -51,13 +49,12 @@ fun EditRecipeScreenContent(
     modalBottomSheetState: ModalBottomSheetState,
     getBack: () ->Unit
 ) {
-
-    Scaffold(modifier = Modifier.fillMaxSize(),
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = { TopBarWithIcon("Edit", getBack) },
         floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
-        content = {
-            RecipeEditCard( vm = vm, vm.recipeName)
-        })
+        content = { RecipeEditCard( vm = vm, vm.recipeName) }
+    )
 }
 
 @Composable
@@ -65,8 +62,8 @@ fun RecipeEditCard(
     vm: CreateRecipeViewModel,
     recipeName: MutableState<String>
 ){
-
-    Surface(modifier = Modifier
+    Surface(
+        modifier = Modifier
         .fillMaxWidth()
         .padding(start = 16.dp, top = 24.dp, end = 16.dp),
         color = MaterialTheme.colors.surface,
@@ -82,7 +79,8 @@ fun RecipeEditCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 
-                    TextField(modifier = Modifier
+                    TextField(
+                        modifier = Modifier
                         .padding(start = 24.dp, bottom = 16.dp)
                         .size(208.dp, 64.dp),
                         value = recipeName.value,
@@ -92,7 +90,6 @@ fun RecipeEditCard(
                         label = { Text("Title") })
 
                     Column{
-
                         IconButton(
                             onClick = { vm.onSaveButtonPressed() },
                             modifier = Modifier
@@ -112,7 +109,7 @@ fun RecipeEditCard(
                                     vm.ingredientsToString(vm.listOfIngredients
                                     ))
                             },
-                        modifier = Modifier
+                            modifier = Modifier
                             .align(Alignment.CenterHorizontally)
                             .background(Color.Transparent)
                         ) {
@@ -123,12 +120,9 @@ fun RecipeEditCard(
                         ) }
                     }
                 }
-
-                if (vm.listOfIngredients.isEmpty()) {
-                    EmptyIngredients()
-                } else {
-                    IngredientsToEdit(vm = vm)
-                }
+                if (vm.listOfIngredients.isEmpty()) { EmptyIngredients() }
+                else { IngredientsToEdit(vm = vm) }
             }
-        })
+        }
+    )
 }

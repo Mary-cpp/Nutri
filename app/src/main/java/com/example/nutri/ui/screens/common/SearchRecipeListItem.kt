@@ -22,7 +22,8 @@ fun RecipeSearchListItem(
     scope: CoroutineScope,
     bottomSheetState: ModalBottomSheetState
 ){
-    Card(modifier = Modifier
+    Card(
+        modifier = Modifier
         .fillMaxWidth(1f)
         .padding(2.dp)
         .clickable {
@@ -37,14 +38,16 @@ fun RecipeSearchListItem(
         backgroundColor = MaterialTheme.colors.primary,
         shape = NutriShape.smallRoundCornerShape
     ) {
-        Column() {
-            Text(text = recipe.name!!,
+        Column {
+            Text(
+                text = recipe.name!!,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(start = 32.dp, top = 16.dp, bottom = 10.dp, end = 16.dp),
-                fontSize = MaterialTheme.typography.subtitle1.fontSize)
-
-            Text(text = "Calories: ${recipe.calories}",
+                fontSize = MaterialTheme.typography.subtitle1.fontSize
+            )
+            Text(
+                text = "Calories: ${recipe.calories}",
                 modifier = Modifier
                     .padding(start = 32.dp, bottom = 24.dp),
                 fontSize = MaterialTheme.typography.subtitle2.fontSize

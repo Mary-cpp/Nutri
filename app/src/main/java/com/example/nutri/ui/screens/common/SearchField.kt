@@ -28,13 +28,12 @@ fun SearchField(
     val searchParameter = remember{ mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(searchParameter.value ){
-
         if(searchParameter.value.text != ""){
             vm?.getRecipes(searchParameter.value.text)
         }
     }
-
-    OutlinedTextField(modifier = Modifier.size(width = 304.dp, height = 64.dp),
+    OutlinedTextField(
+        modifier = Modifier.size(width = 304.dp, height = 64.dp),
         value = searchParameter.value,
         shape = RoundedCornerShape(16.dp),
         colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
@@ -46,7 +45,8 @@ fun SearchField(
                 .vectorResource(id = R.drawable.search48px),
                 contentDescription = "SearchIcon",
                 modifier = Modifier.size(32.dp)) },
-        label = { Text("Search for recipes") })
+        label = { Text("Search for recipes") }
+    )
 }
 
 @Composable
@@ -54,7 +54,8 @@ fun SearchFieldTest(){
 
     val searchParameter = remember{ mutableStateOf("") }
 
-    OutlinedTextField(modifier = Modifier.size(width = 304.dp, height = 64.dp),
+    OutlinedTextField(
+        modifier = Modifier.size(width = 304.dp, height = 64.dp),
         value = searchParameter.value,
         shape = RoundedCornerShape(16.dp),
         colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),

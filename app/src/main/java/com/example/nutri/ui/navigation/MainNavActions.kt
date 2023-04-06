@@ -1,4 +1,4 @@
-package com.example.nutri.core
+package com.example.nutri.ui.navigation
 
 interface MainNavActions{
 

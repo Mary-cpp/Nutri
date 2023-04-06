@@ -28,20 +28,19 @@ fun StatisticsCard(
             .size(160.dp)
             .padding(24.dp),
         backgroundColor = color.value,
-    ) {
+    ){
         Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
+        ){
             Text("Calories for today: ")
-
-            Row(horizontalArrangement = Arrangement.Center) {
-
-                Text(text = current.value.toString(),
+            Row(horizontalArrangement = Arrangement.Center){
+                Text(
+                    text = current.value.toString(),
                     fontSize = MaterialTheme.typography.subtitle1.fontSize
                 )
-                Text(text = " / $norm",
+                Text(
+                    text = " / $norm",
                     fontSize = MaterialTheme.typography.subtitle1.fontSize
                 )
             }

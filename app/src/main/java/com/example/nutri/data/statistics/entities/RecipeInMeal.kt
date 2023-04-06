@@ -28,4 +28,4 @@ class RecipeInMeal (
 
     @ColumnInfo(name = "id_recipe", index = true)
     val idRecipe: String
-    )
+)

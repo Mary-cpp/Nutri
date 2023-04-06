@@ -25,9 +25,6 @@ interface MealDAO {
     @Query("SELECT * FROM meals")
     suspend fun getMeals(): List<MealEntity>
 
-    @Query("SELECT * FROM meals WHERE date(date / 1000,'unixepoch') = date(:date / 1000,'unixepoch')")
-    suspend fun getMealsByDate(date: Date): List<MealEntity>
-
     @Query("SELECT * FROM meals WHERE date(date) = date(:date)")
     suspend fun getMealsByDateText(date: String): List<MealEntity>
     @Insert(onConflict = OnConflictStrategy.ABORT)
@@ -47,8 +44,6 @@ interface MealDAO {
 
     @Transaction
     suspend fun addCommonMeal(it: MealCommonEntity): Long{
-
-
         addMealCategory(it.mealCategory)
         val id = addMeal(it.meal)
         addRecipesInMeal(it.recipes)
@@ -63,15 +58,15 @@ interface MealDAO {
 
         val mealEntityList = getMeals()
 
-        if(mealEntityList.isNotEmpty()){
-            mealEntityList.forEach {
-                commonMealList.add(
-                    MealCommonEntity(
-                        it,
-                    getCategoryById(it.idCategory),
-                    getRecipesInMeal(it.id)
-                ) )
-            }
+        if(mealEntityList.isEmpty()) return commonMealList
+
+        mealEntityList.forEach {
+            commonMealList.add(
+                MealCommonEntity(
+                    it,
+                getCategoryById(it.idCategory),
+                getRecipesInMeal(it.id)
+            ) )
         }
 
         return commonMealList
@@ -83,15 +78,15 @@ interface MealDAO {
 
         val mealEntityList = getMealsByDateText(date = date)
 
-        if(mealEntityList.isNotEmpty()){
-            mealEntityList.forEach {
-                commonMealList.add(
-                    MealCommonEntity(
-                        it,
-                        getCategoryById(it.idCategory),
-                        getRecipesInMeal(it.id)
-                    ) )
-            }
+        if (mealEntityList.isEmpty()) return commonMealList
+
+        mealEntityList.forEach {
+            commonMealList.add(
+                MealCommonEntity(
+                    it,
+                    getCategoryById(it.idCategory),
+                    getRecipesInMeal(it.id)
+                ) )
         }
 
         return commonMealList

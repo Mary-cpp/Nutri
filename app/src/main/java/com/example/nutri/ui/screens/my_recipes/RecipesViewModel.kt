@@ -6,8 +6,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
-import com.example.nutri.core.MyNavController
-import com.example.nutri.core.NavigationViewModel
+import com.example.nutri.ui.navigation.NavControllerHolder
+import com.example.nutri.ui.navigation.NavigationViewModel
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class RecipesViewModel @Inject constructor(
     private var useCase: LocalRecipesInteractor,
-    navControllerProvider: MyNavController,
+    navControllerProvider: NavControllerHolder,
 ) : NavigationViewModel(navControllerProvider), DefaultLifecycleObserver {
 
     val recipeList : MutableState<List<Recipe>> = mutableStateOf(listOf())
@@ -28,7 +28,7 @@ class RecipesViewModel @Inject constructor(
         getSavedRecipes()
     }
 
-    fun getSavedRecipes() = viewModelScope.launch{
+    private fun getSavedRecipes() = viewModelScope.launch{
 
         Log.d(tag, "MyRecipes Screen Loaded        START")
 

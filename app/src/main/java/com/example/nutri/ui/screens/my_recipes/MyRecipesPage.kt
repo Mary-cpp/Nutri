@@ -12,14 +12,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.ui.screens.common.SearchFieldTest
 import com.example.nutri.ui.screens.common.TopBar
 import com.example.nutri.ui.screens.my_recipes.composables.RecipeFAB
 import com.example.nutri.ui.screens.my_recipes.composables.RecipesList
 import com.example.nutri.ui.screens.my_recipes.composables.SortAndFilter
-import com.example.nutri.ui.theme.NutriTheme
 
 const val TAG = "MyRecipesPage"
 @Composable
@@ -28,7 +26,7 @@ fun MyRecipesPage(
 ){
     Log.w(TAG, "$TAG loaded")
         Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = {  TopBar("MyRecipes") },
+        topBar = {  TopBar("My recipes") },
         floatingActionButton = { RecipeFAB(goToScreen = vm::navigateToNewRecipe) })
         { paddingValues ->
             Surface(modifier = Modifier
@@ -45,13 +43,9 @@ fun MyRecipesPage(
 
                 Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally){
-                    
                     SearchFieldTest()
-
                     SortAndFilter()
-
                     RecipesList(listOfRecipes = vm.recipeList.value, vm::navigateToRecipe)
-
                     Text(
                         modifier = Modifier.padding(top = 24.dp),
                         text = "Keep exploring :)",
@@ -59,14 +53,4 @@ fun MyRecipesPage(
                 }
             }
         }
-    }
-
-@Preview
-@Composable
-fun MyRecipesPagePreview(){
-    NutriTheme {
-        /*MyRecipesPage(
-            vm = MyRecipesViewModel(hiltViewModel())
-        )*/
-    }
 }

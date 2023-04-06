@@ -21,7 +21,6 @@ fun BottomNavigationBar(
 
     BottomNavigation(
         content = {
-
             menuItems.forEachIndexed { index, item ->
                 BottomNavigationItem(
                     modifier = Modifier.padding(top = 8.dp),

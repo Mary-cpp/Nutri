@@ -16,16 +16,14 @@ import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 
 @Composable
-fun MealBigCard(meal: Meal) {
+fun MealBigCard(meal: Meal){
 
-    Column(modifier = Modifier.padding(16.dp)) {
-
+    Column(modifier = Modifier.padding(16.dp)){
         Text(
             text = meal.name,
             fontSize = MaterialTheme.typography.h6.fontSize,
             modifier = Modifier.padding(bottom = 16.dp, start = 10.dp)
         )
-
         Card(
             modifier = Modifier.fillMaxWidth(),
             backgroundColor = MaterialTheme.colors.background,
@@ -47,13 +45,10 @@ fun MealBigCard(meal: Meal) {
 
 @Composable
 fun MealBigCardTest(){
-
     Column(modifier = Modifier.padding(16.dp)) {
-
         Text(text = "Breakfast",
             fontSize = MaterialTheme.typography.h6.fontSize,
             modifier = Modifier.padding(bottom = 16.dp, start = 10.dp))
-
         Card(modifier = Modifier.fillMaxWidth(),
             backgroundColor = MaterialTheme.colors.background,
             shape = NutriShape.mediumRoundedCornerShape,
