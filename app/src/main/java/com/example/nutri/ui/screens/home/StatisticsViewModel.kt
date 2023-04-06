@@ -13,6 +13,7 @@ import com.example.nutri.domain.bmi.model.User
 import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.domain.statistics.MealInteractor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -58,13 +59,14 @@ class StatisticsViewModel @Inject constructor(
                 meals.value = mealsFromDb
             }
 
-            getUserPlan()
+            user.value = getUserPlan().await()
             countCalories()
         }
     }
 
-    private fun getUserPlan() = viewModelScope.launch{
-       user.value = useCaseBmi.getCurrentUser()
+    private fun getUserPlan()
+    = viewModelScope.async{
+       useCaseBmi.getCurrentUser()
     }
 
     private fun countCalories() {
