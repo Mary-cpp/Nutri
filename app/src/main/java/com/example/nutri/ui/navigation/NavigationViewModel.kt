@@ -1,81 +1,27 @@
 package com.example.nutri.ui.navigation
 
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavOptions
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 open class NavigationViewModel @Inject constructor(
-    navControllerHolder: NavControllerHolder
+    val navControllerHolder: NavControllerHolder
 ) : ViewModel(), MainNavActions {
 
-    private val navController = navControllerHolder.navController
+    override fun navigateToHome() = navControllerHolder.navigateToRoute(Screen.Home.screenRoute)
 
-    private val navOptions = setNavOptions()
+    fun navigateBack() = navControllerHolder.navigateBack()
 
-    private fun setNavOptions() : NavOptions {
+    override fun navigateToRecipes() = navControllerHolder.navigateToRoute(Screen.MyRecipes.screenRoute)
 
-        //!!!!
-        val optionsBuilder = NavOptions.Builder()
-        return optionsBuilder.apply {
-            setLaunchSingleTop(true)
-            setRestoreState(true)
-            setPopUpTo(navController!!.graph.startDestinationId,
-                inclusive = false,
-                saveState = true
-            )
-        }.build()
-    }
+    override fun navigateToBmi() = navControllerHolder.navigateToRoute(Screen.BMI.screenRoute)
 
-    override fun navigateToHome() {
-        navController!!.navigate(
-            route = Screen.Home.screenRoute,
-            navOptions = navOptions,
-        )
-    }
+    override fun navigateToSearch() = navControllerHolder.navigateToRoute(Screen.SearchPage.screenRoute)
 
-    fun navigateBack(){
-        navController!!.navigateUp()
-    }
+    override fun navigateToNewRecipe() = navControllerHolder.navigateToRoute(Screen.CreateRecipe.screenRoute)
 
-    override fun navigateToRecipes() {
-        navController!!.navigate(
-            route = Screen.MyRecipes.screenRoute,
-            navOptions = navOptions
-        )
-    }
+    override fun navigateToRecipe(recipeId: String) = navControllerHolder.navigateWithArgs(Screen.Recipe.screenRoute, recipeId)
 
-    override fun navigateToBmi() {
-        navController!!.navigate(
-            route = Screen.BMI.screenRoute,
-            navOptions = navOptions
-        )
-    }
-
-    override fun navigateToSearch() {
-        navController!!.navigate(
-            route = Screen.SearchPage.screenRoute,
-            navOptions = navOptions
-        )
-    }
-
-    override fun navigateToNewRecipe() {
-        navController!!.navigate(
-            route = Screen.CreateRecipe.screenRoute,
-            navOptions = navOptions
-        )
-    }
-
-    override fun navigateToRecipe(recipeId: String) {
-        navController!!.navigate(
-            route = "${Screen.Recipe.screenRoute}/$recipeId"
-        )
-    }
-
-    override fun navigateToRecipeEditor(recipeId: String) {
-        navController!!.navigate(
-            route = "${Screen.EditRecipe.screenRoute}/$recipeId"
-        )
-    }
+    override fun navigateToRecipeEditor(recipeId: String) = navControllerHolder.navigateWithArgs(Screen.EditRecipe.screenRoute, recipeId)
 }
