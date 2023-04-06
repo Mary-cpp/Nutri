@@ -3,8 +3,9 @@ package com.example.nutri.ui.screens.search
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nutri.core.MyNavController
+import com.example.nutri.core.NavigationViewModel
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.domain.statistics.Meal
@@ -21,7 +22,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val useCase: LocalRecipesInteractor,
     private val useCaseMeal: MealInteractor,
-) : ViewModel() {
+    navControllerProvider: MyNavController
+) : NavigationViewModel(navControllerProvider){
 
     private val tag = "SearchViewModel"
 

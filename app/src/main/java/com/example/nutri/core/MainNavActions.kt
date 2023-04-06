@@ -1,6 +1,6 @@
 package com.example.nutri.core
 
-interface NavActions {
+interface MainNavActions{
 
     fun navigateToHome()
     fun navigateToRecipes()

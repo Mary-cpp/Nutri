@@ -71,7 +71,7 @@ fun NavigationGraph(
             CreateRecipePage()
         }
         composable(
-            route = Screen.EditRecipe.screenRoute,
+            route = "${Screen.EditRecipe.screenRoute}/{recipe_id}",
             arguments = listOf(navArgument("recipe_id"){type = NavType.StringType})
         ) { backStackEntry ->
 

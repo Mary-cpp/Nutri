@@ -4,8 +4,9 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.nutri.core.MyNavController
+import com.example.nutri.core.NavigationViewModel
 import com.example.nutri.data.recipe.remote.dto.Ingredient.Companion.mapToDomainIngredients
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.interactor.RecipeInteractor
@@ -18,8 +19,9 @@ import javax.inject.Inject
 @HiltViewModel
 class EditRecipeViewModel @Inject constructor(
     private var useCase: LocalRecipesInteractor,
-    private var useCaseAnalyze: RecipeInteractor
-) : ViewModel(){
+    private var useCaseAnalyze: RecipeInteractor,
+    navControllerProvider: MyNavController
+) : NavigationViewModel(navControllerProvider){
 
     private val tag = "CreateRecipeViewModel"
 

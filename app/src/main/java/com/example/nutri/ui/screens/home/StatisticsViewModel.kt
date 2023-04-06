@@ -5,10 +5,9 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.nutri.core.MyNavController
+import com.example.nutri.core.NavigationViewModel
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
 import com.example.nutri.domain.bmi.model.User
 import com.example.nutri.domain.statistics.Meal
@@ -24,7 +23,8 @@ val dateFormat= SimpleDateFormat("yyyy-MM-dd", Locale.US)
 class StatisticsViewModel @Inject constructor(
     private val useCaseMeal: MealInteractor,
     private val useCaseBmi: BmiInteractor,
-) : ViewModel(), DefaultLifecycleObserver{
+    navControllerProvider : MyNavController
+) : NavigationViewModel(navControllerProvider), DefaultLifecycleObserver{
 
     private val TAG = "StatisticsViewModel"
 

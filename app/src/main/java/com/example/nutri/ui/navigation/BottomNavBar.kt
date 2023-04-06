@@ -10,10 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 
 @Composable
 fun BottomNavigationBar(
-    navigateToScreen: (String) -> Unit
+    navController: NavController
 ) {
     val menuItems = listOf(Screen.MyRecipes, Screen.Home, Screen.BMI)
     val selectedItem = remember { mutableStateOf(1) }
@@ -40,7 +41,7 @@ fun BottomNavigationBar(
                     selected = selectedItem.value == index,
                     onClick = {
                         selectedItem.value = index
-                        navigateToScreen(item.screenRoute)
+                        navController.navigate(item.screenRoute)
                     },
                     selectedContentColor = MaterialTheme.colors.primary
                 )
