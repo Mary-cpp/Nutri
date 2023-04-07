@@ -3,7 +3,10 @@ package com.example.nutri.ui.screens.recipe
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -26,7 +29,7 @@ import com.example.nutri.ui.theme.NutriTheme
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RecipePage(
-    vm: RecipeViewModel,
+    vm: RecipeViewModel
 ) {
 
     Log.i("RecipePage", "Loaded")
@@ -36,7 +39,13 @@ fun RecipePage(
     Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = { TopBarWithIcon(topBarText = recipe.name!!, vm::navigateBack) },
         content = {
-            RecipeCard(recipe = recipe, vm::navigateToRecipeEditor)
+            Column(
+                modifier = Modifier.scrollable(
+                    state = rememberScrollState(),
+                    orientation = Orientation.Vertical,
+                    enabled = true)){
+                RecipeCard(recipe = recipe, vm::navigateToRecipeEditor)
+            }
         })
 }
 
@@ -46,7 +55,7 @@ fun RecipeCard(
     navigateToRecipeEditor: (String) -> Unit,) {
     Surface(modifier = Modifier
         .fillMaxWidth()
-        .padding(start = 16.dp, top = 24.dp, end = 16.dp),
+        .padding(16.dp),
         color = MaterialTheme.colors.surface,
         shape = NutriShape.largeRoundedCornerShape,
         elevation = 4.dp,
