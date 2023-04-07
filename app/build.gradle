@@ -7,6 +7,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+        storeFile file(compose_version)
+            storePassword compose_version
+            keyAlias compose_version
+            keyPassword compose_version
+        }
+    }
     namespace 'com.example.nutri'
     compileSdk 33
 
