@@ -6,6 +6,10 @@ import androidx.compose.ui.unit.dp
 
 object NutriShape {
 
+    val smallCardCornerShape: RoundedCornerShape
+        @Composable
+        get() = RoundedCornerShape(4.dp)
+
     val smallRoundedCornerShape : RoundedCornerShape
         @Composable
         get() = RoundedCornerShape(8.dp)
