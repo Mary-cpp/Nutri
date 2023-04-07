@@ -51,7 +51,7 @@ fun EditRecipeScreenContent(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopBarWithIcon("Edit", getBack) },
+        topBar = { TopBarWithIcon("New Recipe", getBack) },
         floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
         content = { RecipeEditCard( vm = vm, vm.recipeName) }
     )
@@ -66,7 +66,7 @@ fun RecipeEditCard(
         modifier = Modifier
         .fillMaxWidth()
         .padding(start = 16.dp, top = 24.dp, end = 16.dp),
-        color = MaterialTheme.colors.surface,
+        color = MaterialTheme.colors.secondaryVariant,
         shape = RoundedCornerShape(24.dp),
         elevation = 4.dp,
         content = {
@@ -79,15 +79,21 @@ fun RecipeEditCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
 
-                    TextField(
+                    OutlinedTextField(
                         modifier = Modifier
                         .padding(start = 24.dp, bottom = 16.dp)
                         .size(208.dp, 64.dp),
+                        singleLine = false,
                         value = recipeName.value,
                         shape = RoundedCornerShape(16.dp),
-                        colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            cursorColor = Color.White,
+                            disabledBorderColor = Color.White,
+                            focusedBorderColor = Color.White,
+                            unfocusedBorderColor = Color.White
+                        ),
                         onValueChange = { recipeName.value = it },
-                        label = { Text("Title") })
+                        label = { Text(text = "Title", color = Color.White) })
 
                     Column{
                         IconButton(
