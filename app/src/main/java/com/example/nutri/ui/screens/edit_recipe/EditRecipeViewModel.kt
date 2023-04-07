@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
@@ -21,19 +23,21 @@ class EditRecipeViewModel @Inject constructor(
     private var useCase: LocalRecipesInteractor,
     private var useCaseAnalyze: RecipeInteractor,
     navControllerProvider: NavControllerHolder
-) : NavigationViewModel(navControllerProvider){
+) : NavigationViewModel(navControllerProvider), DefaultLifecycleObserver{
 
     private val tag = "CreateRecipeViewModel"
 
     var ingredientList = mutableStateListOf<Ingredient>()
     val nameOnEdit = mutableStateOf("")
+    var id: String = ""
 
     private val recipeOnEdit = mutableStateOf(Recipe())
 
+    override fun onResume(owner: LifecycleOwner) {
+        onEditRecipePageLoaded(id)
+    }
+
     fun onEditRecipePageLoaded(id: String) = viewModelScope.launch{
-
-        ingredientList.clear()
-
         Log.d(tag, "onEditRecipePageLoaded     START")
         val fetchedRecipe = useCase.getCommonRecipe(id)
         recipeOnEdit.value = fetchedRecipe
