@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -59,28 +58,18 @@ fun NavigationGraph(
 
             MyRecipesPage(vm = vm)
         }
-        composable(Screen.SearchPage.screenRoute){
-            SearchPage()
-        }
-        composable(Screen.BMI.screenRoute){
-            BmiPage()
-        }
-        composable(
-            route = Screen.CreateRecipe.screenRoute,
-        ) {
-            CreateRecipePage()
-        }
+        composable(Screen.SearchPage.screenRoute){ SearchPage() }
+        composable(Screen.BMI.screenRoute){ BmiPage() }
+        composable(Screen.CreateRecipe.screenRoute){ CreateRecipePage() }
         composable(
             route = "${Screen.EditRecipe.screenRoute}/{recipe_id}",
             arguments = listOf(navArgument("recipe_id"){type = NavType.StringType})
         ) { backStackEntry ->
 
-            val vm = hiltViewModel<EditRecipeViewModel>().apply {
+            val vm = hiltViewModel<EditRecipeViewModel>()
+            backStackEntry.lifecycle.addObserver(vm)
+            vm.apply { id = backStackEntry.arguments?.getString("recipe_id") as String }
 
-                val id = backStackEntry.arguments?.getString("recipe_id") as String
-                Log.i(TAG, "onEditRecipePageLoaded")
-                onEditRecipePageLoaded(id)
-            }
             EditRecipePage(vm = vm)
         }
         composable(
@@ -88,16 +77,11 @@ fun NavigationGraph(
             arguments = listOf(navArgument("recipe_id"){type = NavType.StringType})
         ) { backStackEntry ->
 
-            var id: String
-            backStackEntry.arguments?.let{ bundle->
-                id = bundle.getString("recipe_id") as String
-                Log.d(TAG, id)
+            backStackEntry.arguments?.let { bundle ->
 
                 val vm = hiltViewModel<RecipeViewModel>()
-
-                LaunchedEffect(id){
-                    vm.onRecipeScreenLoading(id)
-                }
+                backStackEntry.lifecycle.addObserver(vm)
+                vm.apply { id = bundle.getString("recipe_id") as String }
 
                 RecipePage(vm = vm)
             }
