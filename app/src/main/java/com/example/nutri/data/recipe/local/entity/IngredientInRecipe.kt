@@ -8,16 +8,18 @@ import androidx.room.ForeignKey
     tableName = "recipe_ingredients",
     foreignKeys = [
         ForeignKey(
-        entity = RecipeEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["id_recipe"],
-            onDelete = ForeignKey.CASCADE
+            entity = RecipeEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["id_recipe"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
     ),
         ForeignKey(
-        entity = IngredientEntity::class,
-        parentColumns = ["id"],
-        childColumns = ["id_ingredient"],
-            onDelete = ForeignKey.CASCADE
+            entity = IngredientEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["id_ingredient"],
+            onDelete = ForeignKey.CASCADE,
+            onUpdate = ForeignKey.CASCADE
     )],
     primaryKeys = ["id_recipe", "id_ingredient"]
 )
