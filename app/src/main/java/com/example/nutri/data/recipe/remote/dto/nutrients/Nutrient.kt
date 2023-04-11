@@ -1,7 +1,26 @@
 package com.example.nutri.data.recipe.remote.dto.nutrients
 
-abstract class Nutrient{
-    abstract val label: String
-    abstract val quantity: Double
-    abstract val unit: String
+import com.google.gson.InstanceCreator
+import java.lang.reflect.Type
+
+interface Nutrient{
+    val label: String
+    val quantity: Double
+    val unit: String
+}
+
+open class BaseNutrient: Nutrient {
+    override val label: String = "1"
+    override val quantity: Double = 0.0
+    override val unit: String = "2"
+
+    override fun toString(): String {
+        return "$label $quantity $unit"
+    }
+}
+
+class BaseNutrientInstanceCreator : InstanceCreator<BaseNutrient>{
+    override fun createInstance(type: Type?): BaseNutrient {
+        return BaseNutrient()
+    }
 }
