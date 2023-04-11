@@ -20,12 +20,13 @@ import androidx.room.ForeignKey
         childColumns = ["nutrient_id"],
         onDelete = ForeignKey.CASCADE,
         onUpdate = ForeignKey.CASCADE
-    )]
+    )],
+    primaryKeys = ["recipe_id", "nutrient_id"]
 )
 class NutrientsInRecipe(
-    @ColumnInfo(name = "recipe_id")
+    @ColumnInfo(name = "recipe_id", index = true)
     val recipeId: String,
-    @ColumnInfo(name = "nutrient_id")
+    @ColumnInfo(name = "nutrient_id", index = true)
     val nutrientId: Int,
     val quantity: Double,
     val unit: String,

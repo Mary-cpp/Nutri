@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "nutrients")
 class NutrientEntity(
-    @PrimaryKey
-    val id : Int,
+    @PrimaryKey(autoGenerate = true)
+    val id : Int? = null,
     val label: String,
     val name: String,
 )
