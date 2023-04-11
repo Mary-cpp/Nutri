@@ -7,6 +7,7 @@ import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Recipe
+import com.example.nutri.ui.screens.common.NutrientsList
 import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.screens.create_recipe.composables.Ingredients
 import com.example.nutri.ui.screens.create_recipe.composables.Labels
@@ -55,12 +57,18 @@ fun RecipeCard(
     navigateToRecipeEditor: (String) -> Unit,) {
     Surface(modifier = Modifier
         .fillMaxWidth()
-        .padding(16.dp),
+        .wrapContentHeight()
+        .padding(16.dp)
+        .verticalScroll(rememberScrollState(), true),
         color = MaterialTheme.colors.surface,
         shape = NutriShape.largeRoundedCornerShape,
         elevation = 4.dp,
         content = {
-            Column(Modifier.padding(24.dp)) {
+            Column(
+                Modifier
+                    .padding(24.dp)
+                    .height(1200.dp)
+            ) {
 
                 Row(
                     modifier = Modifier
@@ -113,8 +121,82 @@ fun RecipeCard(
                     Labels(MaterialTheme.colors.secondaryVariant, NutriShape.smallRoundedCornerShape, recipe.cautions)
                 }
                 recipe.ingredients?.get(0)?.parsed?.let { Ingredients(it) }
+                
+                recipe.totalNutrients?.let{ nutrients ->
+                    NutrientsList(nutrients = nutrients)
+                }
             }
-        })
+        }
+    )
+}
+
+@Composable
+fun RecipeCardTest(
+    recipe: Recipe) {
+    Surface(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+        color = MaterialTheme.colors.surface,
+        shape = NutriShape.largeRoundedCornerShape,
+        elevation = 4.dp,
+        content = {
+            Column(Modifier.padding(24.dp)) {
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(0.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Text(
+                        text = "${recipe.calories.toString()} KCal",
+                        modifier = Modifier
+                            .padding(bottom = 18.dp)
+                            .align(Alignment.CenterVertically),
+                        fontSize = 24.sp
+                    )
+
+                    Column {
+                        IconButton(
+                            onClick = {},
+                            modifier = Modifier
+                                .align(Alignment.CenterHorizontally)
+                                .background(Color.Transparent)
+                        ) {
+                            Icon(
+                                imageVector = ImageVector.vectorResource(id = R.drawable.edit_square48px),
+                                modifier = Modifier.size(32.dp),
+                                contentDescription = "EditRecipe"
+                            )
+                        }
+                    }
+                }
+
+                Text(
+                    text = "Total weight: ${recipe.totalWeight.toString()}",
+                    modifier = Modifier.padding(bottom = 18.dp),
+                    fontSize = 16.sp
+                )
+
+                recipe.healthLabels?.let {
+                    Labels(MaterialTheme.colors.secondary, NutriShape.mediumRoundedCornerShape,
+                        it
+                    )
+                }
+
+                if (recipe.cautions != null) {
+                    Labels(MaterialTheme.colors.secondaryVariant, NutriShape.smallRoundedCornerShape, recipe.cautions)
+                }
+                recipe.ingredients?.get(0)?.parsed?.let { Ingredients(it) }
+
+                recipe.totalNutrients?.let{
+                    NutrientsList(nutrients = it)
+                }
+            }
+        }
+    )
 }
 
 
@@ -122,7 +204,7 @@ fun RecipeCard(
 @Composable
 fun RecipePagePreview() {
     NutriTheme {
-        /*RecipeCard(
-            recipe = Recipe.makeRecipe())*/
+        RecipeCardTest(
+            recipe = Recipe.makeRecipe())
     }
 }
