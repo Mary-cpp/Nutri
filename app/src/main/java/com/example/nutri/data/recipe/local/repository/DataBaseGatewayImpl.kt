@@ -196,7 +196,7 @@ class DataBaseGatewayImpl @Inject constructor(
             idIngredient = database.recipeDAO().getIngredientId(ingredient.foodMatch),
             amount = ingredient.quantity,
             units = ingredient.measure,
-            calories = ingredient.nutrients?.ENERCKCAL!!.quantity)
+            calories = ingredient.nutrients?.get("ENERCKCAL")!!.quantity)
     }
 
     fun mapLabels(

@@ -1,5 +1,7 @@
 package com.example.nutri.data.recipe.remote.dto
 
+import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
+
 data class Characteristics (
     val quantity: Double,
     val measure: String,
@@ -8,7 +10,7 @@ data class Characteristics (
     val foodId: String? = null,
     val weight: Double? = null,
     val retainedWeight: Double? = null,
-    val nutrients: TotalNutrients? = null,
+    val nutrients: Map<String, BaseNutrient>? = null,
     val measureUri: String? = null,
     val status: String? = null
 ) {

@@ -2,8 +2,7 @@ package com.example.nutri.domain.recipes.model
 
 import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.data.recipe.remote.dto.Ingredient
-import com.example.nutri.data.recipe.remote.dto.TotalNutrients
-import com.example.nutri.data.recipe.remote.dto.nutrients.TotalNutrientsKCal
+import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
 import com.google.gson.annotations.SerializedName
 
 data class Recipe (
@@ -15,12 +14,13 @@ data class Recipe (
     val dietLabels: List<String> = emptyList(),
     val healthLabels: List<String>? = null,
     val cautions: List<String>? = null,
-    val totalNutrients: TotalNutrients? = null,
-    val totalDaily: TotalNutrients? = null,
+    @SerializedName("totalNutrients")
+    val totalNutrients: Map<String, BaseNutrient>? = null,
+    val totalDaily: Map<String, BaseNutrient>? = null,
     val ingredients: List<Ingredient>? = null,
     @SerializedName("totalNutrientsKCal")
-    val totalNutrientsKCal: TotalNutrientsKCal? = null
-    ) {
+    val totalNutrientsKCal: Map<String, BaseNutrient>? = null
+) {
 
     companion object{
         fun makeRecipe() : Recipe {
