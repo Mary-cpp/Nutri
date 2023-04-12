@@ -30,6 +30,7 @@ data class Recipe (
                 name = "Recipe Name",
                 calories = 101100,
                 totalWeight = 0.0,
+                totalNutrients = mapOf("Nutrient" to BaseNutrient().setFields(label = "Nutrient INFO", quantity = 20.0, unit = "mg")),
                 dietLabels = listOf("label1", "label2", "label3"),
                 healthLabels = listOf("label1", "label2", "label3"),
                 cautions = listOf("caution1", "caution2", "caution3"),

@@ -1,8 +1,6 @@
 package com.example.nutri.ui.screens.common
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -22,14 +20,14 @@ fun NutrientCard(
     amount: String
 ){
     Surface(
-        modifier = Modifier.fillMaxWidth().padding(4.dp),
-        color =  com.example.nutri.ui.theme.TertiaryVariant,
-        shape = NutriShape.smallRoundCornerShape,
+        modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(4.dp),
+        color =  com.example.nutri.ui.theme.PrimaryVariant2,
+        shape = NutriShape.smallCardCornerShape,
         elevation = 2.dp
     ){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(4.dp)
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 4.dp)
         ){
             Text(text = name, color = Color.White, modifier = Modifier.padding( top=8.dp, bottom = 4.dp, start = 4.dp, end = 4.dp))
             Text(text = info, color = Color.White, modifier = Modifier.padding( top=4.dp, bottom = 8.dp, start = 4.dp, end = 4.dp))
