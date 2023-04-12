@@ -1,10 +1,15 @@
 package com.example.nutri.ui.screens.common
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
@@ -12,12 +17,24 @@ import com.example.nutri.ui.theme.NutriTheme
 
 @Composable
 fun NutrientsList(nutrients: Map<String, BaseNutrient>){
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth().padding(top = 16.dp)
-    ){
-        nutrients.forEach { (s, baseNutrient) ->
-            item(key = s, contentType = baseNutrient){
-                NutrientCard(name = s, info = baseNutrient.label, amount = "${baseNutrient.quantity} ${baseNutrient.unit}")
+
+    Column{
+        Text(
+            text = "Nutrients:",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp, bottom = 8.dp),
+            textAlign = TextAlign.Center,
+            fontSize = MaterialTheme.typography.body1.fontSize
+        )
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.fillMaxWidth()
+        ){
+            nutrients.forEach { (s, baseNutrient) ->
+                item(key = s, contentType = baseNutrient){
+                    NutrientCard(name = s, info = baseNutrient.label, amount = "${baseNutrient.quantity} ${baseNutrient.unit}")
+                }
             }
         }
     }
@@ -27,6 +44,6 @@ fun NutrientsList(nutrients: Map<String, BaseNutrient>){
 @Composable
 fun NutrientsListPreview(){
     NutriTheme {
-        NutrientsList(mapOf())
+        NutrientsList(mapOf("Nutrient" to BaseNutrient().setFields(label = "Nutrient INFO", quantity = 20.0, unit = "mg")))
     }
 }

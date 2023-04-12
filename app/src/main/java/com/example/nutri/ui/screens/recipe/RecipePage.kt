@@ -67,7 +67,7 @@ fun RecipeCard(
             Column(
                 Modifier
                     .padding(24.dp)
-                    .height(1200.dp)
+                    .height(1040.dp)
             ) {
 
                 Row(
