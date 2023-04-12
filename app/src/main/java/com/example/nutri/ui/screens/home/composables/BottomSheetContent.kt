@@ -20,12 +20,11 @@ fun HomeBottomSheetContent(meals: List<Meal>){
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(start = 16.dp, end  = 16.dp),
         shape = NutriShape.mealsListCornerShape,
         color = MaterialTheme.colors.primary
     ) {
         LazyColumn{
-
             items(meals){
                 MealBigCard(it)
             }
