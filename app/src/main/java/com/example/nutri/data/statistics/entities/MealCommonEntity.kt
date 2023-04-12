@@ -10,8 +10,8 @@ class MealCommonEntity(
 
     @Relation(
         entity = MealCategory::class,
-        parentColumn = "id",
-        entityColumn = "id_category")
+        parentColumn = "id_category",
+        entityColumn = "id")
     val mealCategory: MealCategory,
 
     @Relation(

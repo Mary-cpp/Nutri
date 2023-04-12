@@ -22,7 +22,7 @@ class RecipeEntityCommon(
     @Relation(
         entity = NutrientsInRecipe::class,
         parentColumn = "id",
-        entityColumn = "id_recipe"
+        entityColumn = "recipe_id"
     )
     val nutrientsInRecipe: List<NutrientsInRecipe>
 

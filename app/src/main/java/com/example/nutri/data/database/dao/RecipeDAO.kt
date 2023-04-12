@@ -54,28 +54,15 @@ interface RecipeDAO {
     @Insert(onConflict =OnConflictStrategy.REPLACE)
     suspend fun addLabelsForRecipe(labels: List<LabelsInRecipe>)
 
-
     @Transaction
-    @Query("SELECT * FROM recipe_labels WHERE id_recipe = :idRecipe")
-    suspend fun getRecipeWithLabels(idRecipe: String): List<LabelsInRecipe>
-
-
-    @Transaction
-    @Query("SELECT * FROM recipes")
-    suspend fun getCommonRecipe(recipeId: String) : RecipeEntityCommon{
-
-        return RecipeEntityCommon(
-            getRecipeById(recipeId),
-            getRecipeWithLabels(recipeId),
-            getRecipeIngredients(recipeId),
-            getRecipeNutrients(recipeId)
-        )
-    }
+    @Query("SELECT * FROM recipes WHERE id = :recipeId")
+    suspend fun getCommonRecipe(recipeId: String) : RecipeEntityCommon
 
     @Transaction
     suspend fun addCommonRecipe(
         recipe: RecipeEntityCommon,
-    ){
+    )
+    {
         addRecipeEntity(recipe.recipeEntity)
         addLabelsForRecipe(recipe.labels)
         addIngredientsOfRecipe(recipe.ingredientsInRecipe)
@@ -87,14 +74,6 @@ interface RecipeDAO {
 
     @Query("SELECT * FROM ingredients WHERE id = :idIngredient LIMIT 1")
     suspend fun getIngredientById(idIngredient: Int) : IngredientEntity
-
-    @Transaction
-    @Query("SELECT * FROM recipe_ingredients WHERE id_recipe = :idRecipe")
-    suspend fun getRecipeIngredients(idRecipe: String) : List<IngredientInRecipe>
-
-    @Transaction
-    @Query("SELECT * FROM nutrients_in_recipe WHERE recipe_id = :idRecipe")
-    suspend fun getRecipeNutrients(idRecipe: String) : List<NutrientsInRecipe>
 
     @Delete
     suspend fun deleteRecipe(model: RecipeEntity)

@@ -22,19 +22,11 @@ interface MealDAO {
     @Insert
     suspend fun addMeal(it: MealEntity): Long
 
-    @Query("SELECT * FROM meals")
-    suspend fun getMeals(): List<MealEntity>
-
-    @Query("SELECT * FROM meals WHERE date(date) = date(:date)")
-    suspend fun getMealsByDateText(date: String): List<MealEntity>
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun addRecipeInMeal(it: RecipeInMeal)
 
     @Query("SELECT * FROM meals WHERE id = :id")
     suspend fun getMealById(id: Int): MealEntity
-
-    @Query("SELECT * FROM recipes_in_meal WHERE id_meal = :idMeal")
-    suspend fun getRecipesInMeal(idMeal: String): List<RecipeInMeal>
 
     @Query("SELECT id FROM meals WHERE date = :date AND id_category = :idCategory")
     suspend fun getMealByDateAndCategory(date: String, idCategory: String) : String?
@@ -52,43 +44,10 @@ interface MealDAO {
     }
 
     @Transaction
-    suspend fun getCommonMeals(): List<MealCommonEntity>{
-
-        val commonMealList = mutableListOf<MealCommonEntity>()
-
-        val mealEntityList = getMeals()
-
-        if(mealEntityList.isEmpty()) return commonMealList
-
-        mealEntityList.forEach {
-            commonMealList.add(
-                MealCommonEntity(
-                    it,
-                getCategoryById(it.idCategory),
-                getRecipesInMeal(it.id)
-            ) )
-        }
-
-        return commonMealList
-    }
+    @Query("SELECT * FROM meals")
+    suspend fun getCommonMeals(): List<MealCommonEntity>
 
     @Transaction
-    suspend fun getCommonMealsByDate(date: String): List<MealCommonEntity>{
-        val commonMealList = mutableListOf<MealCommonEntity>()
-
-        val mealEntityList = getMealsByDateText(date = date)
-
-        if (mealEntityList.isEmpty()) return commonMealList
-
-        mealEntityList.forEach {
-            commonMealList.add(
-                MealCommonEntity(
-                    it,
-                    getCategoryById(it.idCategory),
-                    getRecipesInMeal(it.id)
-                ) )
-        }
-
-        return commonMealList
-    }
+    @Query("SELECT * FROM meals WHERE date(date) = date(:date)")
+    suspend fun getCommonMealsByDate(date: String): List<MealCommonEntity>
 }
