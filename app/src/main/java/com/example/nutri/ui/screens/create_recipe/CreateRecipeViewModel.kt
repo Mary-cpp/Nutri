@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.viewModelScope
+import com.example.nutri.core.ResultState
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
@@ -64,7 +65,7 @@ class CreateRecipeViewModel @Inject constructor(
             }
 
             val id = useCase.saveRecipe(recipe.value, recipeName.value)
-            Log.d(tag, "${useCase.getCommonRecipe(id)}")
+            Log.d(tag, "Saved recipe id: $id")
         }
 
         Log.w(tag, "Can't save empty recipe!!")
@@ -73,14 +74,15 @@ class CreateRecipeViewModel @Inject constructor(
     fun onAnalyzeButtonPressed(ingredientParam: String) = viewModelScope.launch{
         Log.d(tag, "onAnalyzeButtonPressed    START")
 
-        if (ingredientParam.isEmpty()){
-            throw IllegalArgumentException("Ingredient param is null")
-        }
-        else { recipe.value = useCaseAnalyze.retrieveRecipe(ingredientParam)
-
+        val analysisResult = useCaseAnalyze.retrieveRecipe(ingredientParam)
+        if (analysisResult is ResultState.Success){
+            recipe.value = analysisResult.value
             Log.d("Recipe: ", "\n ${recipe.value}")
-        }
-
+        } else showError()
         Log.d(tag, "END")
+    }
+
+    private fun showError() {
+        TODO("Not yet implemented")
     }
 }

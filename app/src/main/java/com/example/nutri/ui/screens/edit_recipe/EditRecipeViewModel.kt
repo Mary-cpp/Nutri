@@ -7,6 +7,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
+import com.example.nutri.core.ResultState
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
 import com.example.nutri.data.recipe.remote.dto.Ingredient.Companion.mapToDomainIngredients
@@ -51,20 +52,18 @@ class EditRecipeViewModel @Inject constructor(
         Log.d(tag, "onSaveButtonPressed     START")
 
         val result = analyzeEditedAsync(ingredientList).await()
-        result.id = recipeOnEdit.value.id
+        if (result is ResultState.Success){
+            result.value.id = recipeOnEdit.value.id
 
-        if (result.ingredients != null){
-            if (nameOnEdit.value.isEmpty()){
-                Log.d(tag, "Can't save recipe. Expected recipe name!")
+            if (result.value.ingredients != null){
+                if (nameOnEdit.value.isEmpty()){
+                    nameOnEdit.value = result.value.ingredients[0].text
+                }
 
-                //Toast.makeText(context, "Enter recipe's name", Toast.LENGTH_LONG).show()
-                nameOnEdit.value = result.ingredients[0].text
+                val id = useCase.saveRecipe(result.value, nameOnEdit.value)
+                Log.d(tag, "Saved recipe id: $id")
             }
-
-            val id = useCase.saveRecipe(result, nameOnEdit.value)
-            Log.d(tag, "${useCase.getCommonRecipe(id)}")
         }
-        Log.w(tag, "Can't save empty recipe!!")
     }
 
     private fun ingredientsToString(
