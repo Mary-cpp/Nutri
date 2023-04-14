@@ -6,10 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
-import com.example.nutri.ui.navigation.NavControllerHolder
-import com.example.nutri.ui.navigation.NavigationViewModel
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.model.Recipe
+import com.example.nutri.ui.navigation.NavControllerHolder
+import com.example.nutri.ui.navigation.NavigationViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,5 +35,13 @@ class RecipesViewModel @Inject constructor(
         recipeList.value = useCase.receiveRecipes()
 
         Log.d(tag, "MyRecipes Screen Loaded         END")
+    }
+
+    fun sortRecipes(param: Int) : List<Recipe>{
+        return when(param){
+            1 -> recipeList.value.sortedBy { it.name }
+            2 -> recipeList.value.sortedBy { it.calories }
+            else -> recipeList.value
+        }
     }
 }

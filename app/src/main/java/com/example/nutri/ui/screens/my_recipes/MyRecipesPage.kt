@@ -44,7 +44,7 @@ fun MyRecipesPage(
                 Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally){
                     SearchFieldTest()
-                    SortAndFilter()
+                    SortAndFilter(vm)
                     RecipesList(listOfRecipes = vm.recipeList.value, vm::navigateToRecipe)
                     Text(
                         modifier = Modifier.padding(top = 24.dp),
