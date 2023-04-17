@@ -22,7 +22,7 @@ fun NutrientCard(
     Surface(
         modifier = Modifier.fillMaxWidth().wrapContentHeight().padding(4.dp),
         color =  com.example.nutri.ui.theme.PrimaryVariant2,
-        shape = NutriShape.smallCardCornerShape,
+        shape = NutriShape.nutrientCardCornerShape,
         elevation = 2.dp
     ){
         Column(
@@ -41,7 +41,7 @@ fun NutrientCardTest(){
     Surface(
         modifier = Modifier.padding(4.dp),
         color =  MaterialTheme.colors.surface,
-        shape = NutriShape.smallCardCornerShape
+        shape = NutriShape.nutrientCardCornerShape
     ){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
