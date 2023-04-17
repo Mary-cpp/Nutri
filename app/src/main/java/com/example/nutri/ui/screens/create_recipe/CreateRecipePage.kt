@@ -14,6 +14,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nutri.R
+import com.example.nutri.ui.screens.common.NutrientsList
 import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.screens.create_recipe.composables.EmptyIngredients
 import com.example.nutri.ui.screens.create_recipe.composables.IngredientFAB
@@ -27,9 +28,8 @@ fun CreateRecipePage(
     vm: CreateRecipeViewModel = hiltViewModel()) {
 
     val bottomSheetState
-    = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        confirmStateChange = { bottomSheetValue -> bottomSheetValue != ModalBottomSheetValue.Expanded })
+    = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden,
+        confirmValueChange = { bottomSheetValue -> bottomSheetValue != ModalBottomSheetValue.Expanded })
 
     val scope = rememberCoroutineScope()
     IngredientsBottomSheet(
@@ -64,8 +64,8 @@ fun RecipeEditCard(
 ){
     Surface(
         modifier = Modifier
-        .fillMaxWidth()
-        .padding(start = 16.dp, top = 24.dp, end = 16.dp),
+            .fillMaxWidth()
+            .padding(start = 16.dp, top = 24.dp, end = 16.dp),
         color = MaterialTheme.colors.secondaryVariant,
         shape = RoundedCornerShape(24.dp),
         elevation = 4.dp,
@@ -81,8 +81,8 @@ fun RecipeEditCard(
 
                     OutlinedTextField(
                         modifier = Modifier
-                        .padding(start = 24.dp, bottom = 16.dp)
-                        .size(208.dp, 64.dp),
+                            .padding(start = 24.dp, bottom = 16.dp)
+                            .size(208.dp, 64.dp),
                         singleLine = false,
                         value = recipeName.value,
                         shape = RoundedCornerShape(16.dp),
@@ -116,8 +116,8 @@ fun RecipeEditCard(
                                     ))
                             },
                             modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                            .background(Color.Transparent)
+                                .align(Alignment.CenterHorizontally)
+                                .background(Color.Transparent)
                         ) {
                         Icon(
                             imageVector = ImageVector.vectorResource(id = R.drawable.search48px),
@@ -128,6 +128,10 @@ fun RecipeEditCard(
                 }
                 if (vm.listOfIngredients.isEmpty()) { EmptyIngredients() }
                 else { IngredientsToEdit(vm = vm) }
+
+                vm.recipe.value.totalNutrients?.let { nutrients ->
+                    NutrientsList(nutrients = nutrients)
+                }
             }
         }
     )
