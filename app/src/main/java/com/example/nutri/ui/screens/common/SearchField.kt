@@ -22,7 +22,7 @@ import com.example.nutri.ui.screens.search.SearchViewModel
 import com.example.nutri.ui.theme.NutriTheme
 
 @Composable
-fun SearchField(
+fun SearchTextField(
     vm: SearchViewModel? = null){
 
     val searchParameter = remember{ mutableStateOf(TextFieldValue("")) }
@@ -40,6 +40,7 @@ fun SearchField(
         onValueChange = {
             searchParameter.value = it
         },
+        singleLine = true,
         trailingIcon = {
             Icon(imageVector = ImageVector
                 .vectorResource(id = R.drawable.search48px),
