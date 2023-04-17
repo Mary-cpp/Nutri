@@ -34,7 +34,5 @@ fun HomePage(
 fun HomePageStatistics(
     vm: StatisticsViewModel){
 
-    vm.user.value?.let {
-        StatisticsCard(current = vm.myCalories, norm = it.plan!!.kcal, vm.statisticsCardColor)
-    }
+    StatisticsCard(current = vm.myCalories, norm = vm.user.value?.plan?.kcal, vm.statisticsCardColor)
 }

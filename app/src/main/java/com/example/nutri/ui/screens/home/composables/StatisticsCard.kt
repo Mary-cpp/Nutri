@@ -18,7 +18,7 @@ import com.example.nutri.ui.theme.NutriTheme
 @Composable
 fun StatisticsCard(
     current: MutableState<Int?>,
-    norm: Int,
+    norm: Int?,
     color: MutableState<androidx.compose.ui.graphics.Color>
 ){
     Card(
@@ -39,10 +39,12 @@ fun StatisticsCard(
                     text = current.value.toString(),
                     fontSize = MaterialTheme.typography.subtitle1.fontSize
                 )
-                Text(
-                    text = " / $norm",
-                    fontSize = MaterialTheme.typography.subtitle1.fontSize
-                )
+                norm?.let{
+                    Text(
+                        text = " / $norm",
+                        fontSize = MaterialTheme.typography.subtitle1.fontSize
+                    )
+                }
             }
         }
     }
