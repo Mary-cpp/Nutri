@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.ui.theme.NutriShape
@@ -19,7 +20,7 @@ import com.example.nutri.ui.theme.NutriTheme
 fun StatisticsCard(
     current: MutableState<Int?>,
     norm: Int?,
-    color: MutableState<androidx.compose.ui.graphics.Color>
+    color: MutableState<Color>
 ){
     Card(
         shape = NutriShape.smallRoundCornerShape,
@@ -33,16 +34,19 @@ fun StatisticsCard(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Text("Calories for today: ")
+            Text("Calories for today: ",
+                color = Color.White)
             Row(horizontalArrangement = Arrangement.Center){
                 Text(
                     text = current.value.toString(),
-                    fontSize = MaterialTheme.typography.subtitle1.fontSize
+                    fontSize = MaterialTheme.typography.subtitle1.fontSize,
+                    color = Color.White
                 )
                 norm?.let{
                     Text(
                         text = " / $norm",
-                        fontSize = MaterialTheme.typography.subtitle1.fontSize
+                        fontSize = MaterialTheme.typography.subtitle1.fontSize,
+                        color = Color.White
                     )
                 }
             }
