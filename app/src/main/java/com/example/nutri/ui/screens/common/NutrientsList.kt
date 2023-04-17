@@ -1,10 +1,11 @@
 package com.example.nutri.ui.screens.common
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
 import com.example.nutri.ui.theme.NutriTheme
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NutrientsList(nutrients: Map<String, BaseNutrient>){
 
@@ -27,8 +29,8 @@ fun NutrientsList(nutrients: Map<String, BaseNutrient>){
             textAlign = TextAlign.Center,
             fontSize = MaterialTheme.typography.body1.fontSize
         )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+        LazyVerticalStaggeredGrid(
+            columns = StaggeredGridCells.Fixed(2),
             modifier = Modifier.fillMaxWidth()
         ){
             nutrients.forEach { (s, baseNutrient) ->
