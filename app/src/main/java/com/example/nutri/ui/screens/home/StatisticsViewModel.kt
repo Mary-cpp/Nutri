@@ -41,27 +41,19 @@ class StatisticsViewModel @Inject constructor(
     private fun onStatisticsScreenLoaded() = viewModelScope.launch {
 
         var hasMeals = false
-        meals.value.forEach {
-            if (it.recipes.isNotEmpty())
-                hasMeals = true
-
-        }
+        meals.value.forEach { if (it.recipes.isNotEmpty()) hasMeals = true }
         if (!hasMeals) meals.value = createEmptyMealsList().toMutableStateList()
-
         Log.i(TAG, "Meals empty?: ${meals.value[0].recipes.isEmpty()}")
 
         var mealsFromDb : List<Meal> = listOf()
 
         try {mealsFromDb = useCaseMeal.getMeals(date = dateFormat.format(Date()))}
         catch(e: Exception){ Log.e(TAG, "Can not fetch meals from db", e ) }
-        finally{
-            if (mealsFromDb.isNotEmpty()){
-                meals.value = mealsFromDb
-            }
+        finally{ if (mealsFromDb.isNotEmpty()) meals.value = mealsFromDb }
 
-            user.value = getUserPlan().await()
-            countCalories()
-        }
+        try{ user.value = getUserPlan().await() }
+        catch(e: Exception) { Log.w(TAG, "Error fetching User DietPlan", e)}
+        finally{ countCalories() }
     }
 
     private fun getUserPlan()
