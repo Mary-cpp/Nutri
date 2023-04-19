@@ -36,9 +36,8 @@ fun HomeBottomSheetContent(meals: List<Meal>){
 @Composable
 fun HomePageBottomSheet(vm: StatisticsViewModel){
     val bottomSheetState
-    = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.HalfExpanded,
-        confirmStateChange = { bottomSheetValue -> bottomSheetValue != ModalBottomSheetValue.Hidden }
+    = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded,
+        confirmValueChange = { bottomSheetValue -> bottomSheetValue != ModalBottomSheetValue.Hidden }
     )
     ModalBottomSheetLayout(
         sheetContent = {
