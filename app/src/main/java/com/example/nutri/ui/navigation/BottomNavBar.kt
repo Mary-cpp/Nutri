@@ -39,7 +39,7 @@ fun BottomNavigationBar(
                     },
                     selected = selectedItem.value == index,
                     onClick = {
-                        if (selectedItem.value == index) return@BottomNavigationItem
+                        if (navController.currentDestination?.route!! == item.screenRoute) return@BottomNavigationItem
                         selectedItem.value = index
                         navController.navigate(item.screenRoute)
                     },
