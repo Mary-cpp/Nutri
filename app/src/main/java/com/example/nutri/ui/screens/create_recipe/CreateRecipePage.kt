@@ -1,6 +1,7 @@
 package com.example.nutri.ui.screens.create_recipe
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,10 +18,11 @@ import com.example.nutri.R
 import com.example.nutri.ui.screens.common.NutrientsList
 import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.screens.create_recipe.composables.EmptyIngredients
-import com.example.nutri.ui.screens.create_recipe.composables.IngredientFAB
 import com.example.nutri.ui.screens.create_recipe.composables.IngredientsBottomSheet
 import com.example.nutri.ui.screens.create_recipe.composables.IngredientsToEdit
+import com.example.nutri.ui.screens.home.composables.FAB
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -52,7 +54,19 @@ fun EditRecipeScreenContent(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { TopBarWithIcon("New Recipe", getBack) },
-        floatingActionButton = { IngredientFAB(scope, modalBottomSheetState) },
+        floatingActionButton = {
+            FAB(
+                onClick = {
+                    scope.launch {
+                        modalBottomSheetState.show()
+                    } },
+                color = MaterialTheme.colors.primary,
+                border = BorderStroke(2.dp, Color.White),
+                modifier = Modifier.wrapContentSize(),
+                iconRes = R.drawable.add48px,
+                text = "Add ingredient"
+            )
+        },
         content = { RecipeEditCard( vm = vm, vm.recipeName) }
     )
 }

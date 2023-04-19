@@ -1,10 +1,8 @@
 package com.example.nutri.ui.screens.my_recipes
 
 import android.util.Log
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Surface
@@ -12,10 +10,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.example.nutri.R
 import com.example.nutri.ui.screens.common.SearchFieldTest
 import com.example.nutri.ui.screens.common.TopBar
-import com.example.nutri.ui.screens.my_recipes.composables.RecipeFAB
+import com.example.nutri.ui.screens.home.composables.FAB
 import com.example.nutri.ui.screens.my_recipes.composables.RecipesList
 import com.example.nutri.ui.screens.my_recipes.composables.SortAndFilter
 
@@ -27,7 +27,14 @@ fun MyRecipesPage(
     Log.w(TAG, "$TAG loaded")
         Scaffold(modifier = Modifier.fillMaxSize(),
         topBar = {  TopBar("My recipes") },
-        floatingActionButton = { RecipeFAB(goToScreen = vm::navigateToNewRecipe) })
+        floatingActionButton = { FAB(
+            onClick = vm::navigateToNewRecipe,
+            color = MaterialTheme.colors.primary,
+            border = BorderStroke(2.dp, Color.White),
+            modifier = Modifier.wrapContentSize(),
+            iconRes = R.drawable.add48px,
+            text = "New Recipe"
+        )  })
         { paddingValues ->
             Surface(modifier = Modifier
                 .fillMaxSize()
