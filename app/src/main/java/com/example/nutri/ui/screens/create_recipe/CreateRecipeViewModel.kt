@@ -24,7 +24,7 @@ class CreateRecipeViewModel @Inject constructor(
     navControllerProvider: NavControllerHolder
 ) : NavigationViewModel(navControllerProvider){
 
-    private val tag = "CreateRecipeViewModel"
+    private val tag = this::class.simpleName
 
     var listOfIngredients = mutableStateListOf<Ingredient>()
 
@@ -83,6 +83,6 @@ class CreateRecipeViewModel @Inject constructor(
     }
 
     private fun showError() {
-        TODO("Not yet implemented")
+        Log.e(tag, "Error creating or analyzing recipe")
     }
 }
