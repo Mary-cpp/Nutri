@@ -6,9 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -65,6 +63,8 @@ fun BmiCalcCard(vm : BmiViewModel){
         val height = vm.userHeight
         val age = vm.userAge
 
+        var selectedItem by remember{ mutableStateOf('F') }
+
         Column(
             modifier = Modifier.padding(24.dp),
             verticalArrangement = Arrangement.SpaceEvenly
@@ -82,25 +82,39 @@ fun BmiCalcCard(vm : BmiViewModel){
                 horizontalArrangement = Arrangement.SpaceEvenly){
 
                 Button(
-                    onClick = { vm.userSex.value = 'F'},
+                    onClick = {
+                        selectedItem = 'F'
+                        vm.userSex.value = 'F'},
                     modifier = Modifier.size(width = 136.dp, height = 176.dp),
-                    elevation = ButtonDefaults.elevation(6.dp),
+                    elevation =
+                    if (selectedItem == 'F') ButtonDefaults.elevation(0.dp)
+                    else ButtonDefaults.elevation(16.dp),
                     shape = RoundedCornerShape(24.dp),
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary)
+                    colors =
+                    if (selectedItem == 'F') ButtonDefaults.buttonColors(com.example.nutri.ui.theme.SecondaryTinted)
+                    else ButtonDefaults.buttonColors(MaterialTheme.colors.secondary)
                 ) {
                     Text (text = "F",
+                        color = Color.White,
                         fontSize = MaterialTheme.typography.h3.fontSize)
                 }
 
                 Button(
-                    onClick = { vm.userSex.value = 'M'},
+                    onClick = {
+                        selectedItem = 'M'
+                        vm.userSex.value = 'M'},
                     modifier = Modifier.size(width = 136.dp, height = 176.dp),
-                    elevation = ButtonDefaults.elevation(6.dp),
+                    elevation =
+                    if (selectedItem == 'M') ButtonDefaults.elevation(0.dp)
+                    else ButtonDefaults.elevation(16.dp),
                     shape = RoundedCornerShape(24.dp),
-                    colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondaryVariant)
+                    colors =
+                    if (selectedItem == 'M') ButtonDefaults.buttonColors(com.example.nutri.ui.theme.TertiaryTinted)
+                    else ButtonDefaults.buttonColors(MaterialTheme.colors.secondaryVariant)
                 ) {
                     Text (
                         text = "M",
+                        color = Color.White,
                         fontSize = MaterialTheme.typography.h3.fontSize
                     )
                 }
@@ -113,7 +127,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                 OutlinedTextField(
                     value = weight.value.toString(),
                     onValueChange = {
-                        if (it.isNotEmpty()){
+                        if (it.isNotEmpty() && it != "0"){
                             weight.value = it.toInt()}
                         },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -156,8 +170,8 @@ fun BmiCalcCard(vm : BmiViewModel){
             }
             Row(
                 modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
+                    .fillMaxWidth()
+                    .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 OutlinedTextField(
