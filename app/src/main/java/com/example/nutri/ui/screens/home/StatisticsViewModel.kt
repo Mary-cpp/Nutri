@@ -3,15 +3,16 @@ package com.example.nutri.ui.screens.home
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.Color
-import androidx.lifecycle.*
-import com.example.nutri.ui.navigation.NavControllerHolder
-import com.example.nutri.ui.navigation.NavigationViewModel
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.viewModelScope
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
 import com.example.nutri.domain.bmi.model.User
 import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.domain.statistics.MealInteractor
+import com.example.nutri.ui.navigation.NavControllerHolder
+import com.example.nutri.ui.navigation.NavigationViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -39,11 +40,6 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private fun onStatisticsScreenLoaded() = viewModelScope.launch {
-
-        var hasMeals = false
-        meals.value.forEach { if (it.recipes.isNotEmpty()) hasMeals = true }
-        if (!hasMeals) meals.value = createEmptyMealsList().toMutableStateList()
-        Log.i(TAG, "Meals empty?: ${meals.value[0].recipes.isEmpty()}")
 
         var mealsFromDb : List<Meal> = listOf()
 
@@ -85,8 +81,6 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private fun createEmptyMealsList()
-    = listOf(Meal("Breakfast", mutableListOf(), dateFormat.format(Date())),
-        Meal("Lunch", mutableListOf(), dateFormat.format(Date())),
-        Meal("Dinner",mutableListOf(), dateFormat.format(Date()))
+    = listOf(Meal("Meals", mutableListOf(), dateFormat.format(Date()))
     )
 }
