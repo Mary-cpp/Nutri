@@ -53,8 +53,8 @@ fun RecipeBottomSheetContent(
             ) {
                 OutlinedTextField(
                     modifier = Modifier
-                    .padding(end = 8.dp)
-                    .size(width = 150.dp, height = 64.dp),
+                        .padding(end = 8.dp)
+                        .size(width = 150.dp, height = 64.dp),
                     value = ingredientAmount.value.toString(),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done,
@@ -113,6 +113,19 @@ fun DropDownListButton(
                 }
             }
         }
+    }
+}
+
+@Preview
+@Composable
+fun DropDownButtonPreview(){
+    NutriTheme {
+        DropDownListButton(
+            mutableString = remember { mutableStateOf("Hello") },
+            menuItems = listOf("Hi", "Ciao", "Привет"),
+            buttonSize = 100,
+            color = MaterialTheme.colors.primary
+        )
     }
 }
 
