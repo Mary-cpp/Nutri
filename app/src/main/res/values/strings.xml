@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">Nutri</string>
+
+    // Notifications
+    <string name="notification_action">com.example.nutri.NOTIFICATION</string>
+    <string name="notification_channel_name">NotificationChannel</string>
+    <string name="notification_channel_description">Channel for displaying notifications about meals and water consumption</string>
+
+    <string name="breakfast_notification_title">It\'s breakfast time</string>
+    <string name="breakfast_notification_description">Good morning! Don\'t forget to add your meal info</string>
+    <string name="lunch_notification_title">It\'s lunch time</string>
+    <string name="lunch_notification_description">Hi! Hope you have a good day :) Don\'t forget to add your meal info</string>
+    <string name="dinner_notification_title">It\'s dinner time</string>
+    <string name="dinner_notification_description">Don\'t forget to add your meal info. Have a good evening!</string>
+    <string name="brunch_notification_title">You haven\'t eaten for long time</string>
+    <string name="food_notification_text">Don\'t forget to add your meal info</string>
 </resources>
