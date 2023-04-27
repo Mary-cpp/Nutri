@@ -7,12 +7,15 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.util.Log
 import com.example.nutri.R
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class NotificationsHandler(
-    private val alarmManager: AlarmManager,
-    private val alarmIntent: Intent,
-    private val context: Context
+class NotificationsHandler @Inject constructor(
+    @ApplicationContext private val context: Context
 ) {
+
+    private val alarmManager: AlarmManager by lazy { context.getSystemService(Context.ALARM_SERVICE) as AlarmManager}
+    private val alarmIntent : Intent by lazy { Intent(context, AlarmReceiver::class.java) }
 
     fun setDefaultAlarms(){
         val contextWrapper = ContextWrapper(context)
@@ -53,8 +56,11 @@ class NotificationsHandler(
     fun cancelAlarm(notification : NotificationType)
     = alarmManager.cancel(notification.intent)
 
-    fun cancelAllAlarms()
-    = NotificationType.values().forEach { alarmManager.cancel(it.intent) }
+    fun cancelAllMealAlarms()
+    = NotificationType.values().forEach {
+        if (it == NotificationType.WATER) return@forEach
+        alarmManager.cancel(it.intent)
+    }
 }
 
 enum class NotificationType(
