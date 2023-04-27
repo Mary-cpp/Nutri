@@ -14,4 +14,5 @@ sealed class Screen(
     object EditRecipe : Screen ("Edit", screenRoute = "edit_recipe_page")
     object Recipe : Screen("Recipe", screenRoute = "recipe_details")
     object SearchPage : Screen("Search", screenRoute = "search_page")
+    object NotificationsConfigScreen : Screen("Notifications", screenRoute = "notifications_config_page")
 }
