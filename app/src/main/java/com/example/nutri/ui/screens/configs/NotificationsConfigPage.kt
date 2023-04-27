@@ -12,18 +12,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nutri.core.NotificationType
-import com.example.nutri.ui.screens.common.TopBar
+import com.example.nutri.ui.navigation.NavControllerHolder
+import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.theme.NutriTheme
 import java.util.Calendar
 
 @Composable
 fun NotificationsConfigPage(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    vm : NotificationsConfigViewModel = hiltViewModel()
 ){
     Scaffold(
         modifier = modifier.fillMaxWidth(),
-        topBar = { TopBar("Configurations") },
+        topBar = { TopBarWithIcon("Configurations", action = vm::navigateBack) },
     ) { paddingValues ->
         Surface(
             modifier = modifier
@@ -33,10 +36,10 @@ fun NotificationsConfigPage(
         ) {
             LazyColumn {
                 item {
-                    MealsNotifications()
+                    MealsNotifications(onSwitchStateChanged = vm::onMealNotificationSwitchStateChanged)
                 }
                 item{
-                    ConfigItemWithSwitch(text = "Water notifications")
+                    WaterNotifications(text = "Water notifications", onSwitchStateChanged = vm::onWaterNotificationsSwitchStateChanged)
                 }
             }
         }
@@ -44,7 +47,10 @@ fun NotificationsConfigPage(
 }
 
 @Composable
-fun ConfigItemWithSwitch(text: String){
+fun WaterNotifications(
+    onSwitchStateChanged: (Boolean) -> Unit,
+    text: String,
+){
 
     var switchState by remember { mutableStateOf(true) }
 
@@ -64,13 +70,18 @@ fun ConfigItemWithSwitch(text: String){
                 color = MaterialTheme.colors.onSurface,
                 fontSize = MaterialTheme.typography.subtitle1.fontSize
             )
-            Switch(checked = switchState, onCheckedChange = { switchState = !switchState})
+            Switch(checked = switchState, onCheckedChange = {
+                switchState = !switchState
+                onSwitchStateChanged.invoke(switchState)
+            })
         }
     }
 }
 
 @Composable
-fun MealsNotifications(){
+fun MealsNotifications(
+    onSwitchStateChanged: (Boolean) -> Unit,
+){
     var switchState by remember { mutableStateOf(true) }
 
     Column(
@@ -89,7 +100,10 @@ fun MealsNotifications(){
                 color = MaterialTheme.colors.onSurface,
                 fontSize = MaterialTheme.typography.subtitle1.fontSize
             )
-            Switch(checked = switchState, onCheckedChange = { switchState = !switchState})
+            Switch(checked = switchState, onCheckedChange = {
+                switchState = !switchState
+                onSwitchStateChanged.invoke(switchState)
+            })
         }
         MealTimeConfigurations()
     }
@@ -110,6 +124,7 @@ fun MealTimeConfigurations(){
             verticalArrangement = Arrangement.Center
         ){
             NotificationType.values().forEach { notificationType ->
+                if (notificationType == NotificationType.WATER) return@Surface
                 MealTimeConfigurator(mealName = notificationType.text)
             }
         }
@@ -127,8 +142,7 @@ fun MealTimeConfigurator(mealName: String){
     val timePickerDialog = TimePickerDialog(
         LocalContext.current,
         {_, mHour : Int, mMinute: Int ->
-            time = "$mHour:$mMinute"
-        }, hourOfDay, minute, false
+            time = "$mHour:$mMinute" }, hourOfDay, minute, false
     )
 
     Row(
@@ -157,6 +171,6 @@ fun MealTimeConfigurator(mealName: String){
 @Preview
 fun NotificationConfigPagePreview(){
     NutriTheme {
-        NotificationsConfigPage()
+        NotificationsConfigPage(vm = NotificationsConfigViewModel(LocalContext.current, NavControllerHolder()))
     }
 }
