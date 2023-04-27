@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
-import com.example.nutri.ui.screens.common.TopBar
+import com.example.nutri.ui.screens.common.HomeScreenTopBar
 import com.example.nutri.ui.screens.home.composables.FAB
 import com.example.nutri.ui.screens.home.composables.HomePageBottomSheet
 import com.example.nutri.ui.screens.home.composables.StatisticsCard
@@ -21,7 +21,7 @@ import com.example.nutri.ui.screens.home.composables.StatisticsCard
 fun HomePage(
     vm : StatisticsViewModel
 ) {
-    Scaffold(topBar = {TopBar(topBarText = "Home")},
+    Scaffold(topBar = { HomeScreenTopBar(topBarText = "Home", action = vm::navigateToNotificationsConfigs) },
         floatingActionButton = { FAB(
             onClick = vm::navigateToSearch,
             color = Color.Black,
