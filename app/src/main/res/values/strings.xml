@@ -13,5 +13,7 @@
     <string name="dinner_notification_title">It\'s dinner time</string>
     <string name="dinner_notification_description">Don\'t forget to add your meal info. Have a good evening!</string>
     <string name="brunch_notification_title">You haven\'t eaten for long time</string>
-    <string name="food_notification_text">Don\'t forget to add your meal info</string>
+    <string name="brunch_notification_description">Don\'t forget to add your meal info</string>
+    <string name="water_notification_title">Time to hydrate!</string>
+    <string name="water_notification_description">Have a glass of water and add your water info :)</string>
 </resources>
