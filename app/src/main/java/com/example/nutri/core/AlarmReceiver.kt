@@ -14,14 +14,17 @@ import com.example.nutri.R
 
 class AlarmReceiver : BroadcastReceiver() {
 
+    private val channelId = "0"
+    private val tag = this::class.simpleName
+
     override fun onReceive(p0: Context?, p1: Intent?) {
         p1?.let { intent ->
             if (p0 != null) {
 
-                Log.i(TAG, "Received intent")
+                Log.i(tag, "Received intent")
 
                 NotificationManagerCompat.from(p0).areNotificationsEnabled().apply {
-                    Log.i(TAG, "Notifications enabled: $this")
+                    Log.i(tag, "Notifications enabled: $this")
                 }
                 notifyUser(p0, intent)
             }
@@ -30,8 +33,8 @@ class AlarmReceiver : BroadcastReceiver() {
 
     private fun notifyUser(context: Context, intent: Intent){
 
-        //val title = intent.getStringExtra("notification_title") as String
-        //val description = intent.getStringExtra("notification_description") as String
+        val title = intent.getStringExtra("notification_title")
+        val description = intent.getStringExtra("notification_description")
 
         createNotificationChannel(context)
 
@@ -41,19 +44,14 @@ class AlarmReceiver : BroadcastReceiver() {
         )
 
         with(NotificationManagerCompat.from(context)){
-            //notificationId+=1
             notify(System.currentTimeMillis().toInt(), createNotification(
-                title = "title",
-                details = "description",
+                title = title!!,
+                details = description!!,
                 context = context,
                 notificationIntent = notificationPendingIntent,
             ))
         }
     }
-
-    val CHANNEL_ID = "0"
-    val TAG = this::class.simpleName
-    var notificationId = 0
 
     private fun createNotification(
         title: String,
@@ -61,9 +59,9 @@ class AlarmReceiver : BroadcastReceiver() {
         context: Context,
         notificationIntent: PendingIntent
     )
-    = NotificationCompat.Builder(context, CHANNEL_ID)
-        .setContentTitle("hello")
-        .setContentText("Hello from alarm manager")
+    = NotificationCompat.Builder(context, channelId)
+        .setContentTitle(title)
+        .setContentText(details)
         .setSmallIcon(R.drawable.home48px)
         .setContentIntent(notificationIntent)
         .build()
@@ -73,7 +71,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val descriptionText = context.resources.getString(R.string.notification_channel_description)
         val importance = NotificationManager.IMPORTANCE_DEFAULT
 
-        val channel = NotificationChannel(CHANNEL_ID, name, importance).apply { description = descriptionText }
+        val channel = NotificationChannel(channelId, name, importance).apply { description = descriptionText }
 
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
