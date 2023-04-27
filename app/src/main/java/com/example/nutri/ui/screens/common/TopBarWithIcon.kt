@@ -25,7 +25,7 @@ fun TopBarWithIcon(topBarText: String, action: () -> Unit) {
                 Icon(
                     imageVector = ImageVector.vectorResource(id = R.drawable.arrow_back48px),
                     contentDescription = "BackToListOfRecipes",
-                    modifier = Modifier.size(40.dp),
+                    modifier = Modifier.size(32.dp),
                     tint = Color.Black
                 )
             }
