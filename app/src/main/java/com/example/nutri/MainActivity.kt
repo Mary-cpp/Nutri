@@ -1,5 +1,6 @@
 package com.example.nutri
 
+import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -15,6 +16,7 @@ import com.example.nutri.core.NotificationsHandler
 import com.example.nutri.ui.navigation.BottomNavigationBar
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationGraph
+import com.example.nutri.ui.screens.configs.NUTRI_PREFERENCES
 import com.example.nutri.ui.theme.NutriTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -29,21 +31,23 @@ class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        val notificationPermission = android.Manifest.permission.POST_NOTIFICATIONS
+        if (ContextCompat.checkSelfPermission(this, notificationPermission) != PackageManager.PERMISSION_GRANTED){
+            Log.w(this::class.java.simpleName, "Notifications permission denied")
+            requestPermissions(arrayOf(notificationPermission), 112)
+        }
+
+        val sp = getSharedPreferences(NUTRI_PREFERENCES, Context.MODE_PRIVATE)
+
+        if (sp.getBoolean("isFirstRun", true)){
+            NotificationsHandler(context = this).setDefaultAlarms()
+            sp.edit().putBoolean("isFirstRun", false).apply()
+        }
+
         setContent {
             val navController: NavHostController = rememberNavController()
 
             navControllerHolder.navController = navController
-            val notificationPermission = android.Manifest.permission.POST_NOTIFICATIONS
-            if (ContextCompat.checkSelfPermission(this, notificationPermission) != PackageManager.PERMISSION_GRANTED){
-                Log.w("NUTRI", "Notifications permission denied")
-                requestPermissions(arrayOf(notificationPermission), 112)
-            }
-
-            NotificationsHandler(
-                context = this
-            ).setDefaultAlarms()
-
-            //setDefaultAlarms()
 
             NutriTheme {
                 Scaffold(
@@ -57,29 +61,4 @@ class MainActivity: ComponentActivity() {
             }
         }
     }
-/*
-    private fun setDefaultAlarms(){
-        val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val alarmIntent = Intent(this, AlarmReceiver::class.java)
-
-        NotificationType.values().forEach { notification ->
-            alarmIntent.apply {
-                action = getString(R.string.notification_action)
-                putExtra("notification_title", resources.getString(notification.title))
-                putExtra("notification_description", resources.getString(notification.description))
-            }
-
-            val pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_IMMUTABLE)
-            notification.intent = pendingIntent
-
-            alarmManager.setInexactRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                notification.triggerTimeInMillis,
-                1800*1000,
-                notification.intent
-            ).apply {
-                Log.w("ALARM MANAGER", "Enabled ${notification.text} alarm")
-            }
-        }
-    }*/
 }
