@@ -12,21 +12,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nutri.core.NotificationType
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.screens.common.TopBarWithIcon
 import com.example.nutri.ui.theme.NutriTheme
-import java.util.Calendar
 
 @Composable
 fun NotificationsConfigPage(
     modifier: Modifier = Modifier,
-    vm : NotificationsConfigViewModel = hiltViewModel()
+    vm : NotificationsConfigViewModel,
 ){
     Scaffold(
         modifier = modifier.fillMaxWidth(),
-        topBar = { TopBarWithIcon("Configurations", action = vm::navigateBack) },
+        topBar = { TopBarWithIcon("Notifications", action = vm::navigateBack) },
     ) { paddingValues ->
         Surface(
             modifier = modifier
@@ -36,10 +34,17 @@ fun NotificationsConfigPage(
         ) {
             LazyColumn {
                 item {
-                    MealsNotifications(onSwitchStateChanged = vm::onMealNotificationSwitchStateChanged)
+                    MealsNotifications(
+                        switchState = vm.areMealNotificationsEnabled,
+                        onSwitchStateChanged = vm::onMealNotificationSwitchStateChanged,
+                        onTimeSelected = vm::onMealNotificationTimeChanged
+                    )
                 }
                 item{
-                    WaterNotifications(text = "Water notifications", onSwitchStateChanged = vm::onWaterNotificationsSwitchStateChanged)
+                    WaterNotifications(
+                        switchState = vm.areWaterNotificationsEnabled,
+                        text = "Water notifications",
+                        onSwitchStateChanged = vm::onWaterNotificationsSwitchStateChanged)
                 }
             }
         }
@@ -48,12 +53,10 @@ fun NotificationsConfigPage(
 
 @Composable
 fun WaterNotifications(
+    switchState: MutableState<Boolean>,
     onSwitchStateChanged: (Boolean) -> Unit,
     text: String,
 ){
-
-    var switchState by remember { mutableStateOf(true) }
-
     Column(
         modifier = Modifier.padding(2.dp),
         verticalArrangement = Arrangement.Center
@@ -70,9 +73,9 @@ fun WaterNotifications(
                 color = MaterialTheme.colors.onSurface,
                 fontSize = MaterialTheme.typography.subtitle1.fontSize
             )
-            Switch(checked = switchState, onCheckedChange = {
-                switchState = !switchState
-                onSwitchStateChanged.invoke(switchState)
+            Switch(checked = switchState.value, onCheckedChange = {
+                switchState.value = !switchState.value
+                onSwitchStateChanged.invoke(switchState.value)
             })
         }
     }
@@ -80,10 +83,10 @@ fun WaterNotifications(
 
 @Composable
 fun MealsNotifications(
+    switchState: MutableState<Boolean>,
     onSwitchStateChanged: (Boolean) -> Unit,
+    onTimeSelected: (NotificationType, Int, Int) -> Unit,
 ){
-    var switchState by remember { mutableStateOf(true) }
-
     Column(
         modifier = Modifier.padding(2.dp),
         verticalArrangement = Arrangement.Center
@@ -100,17 +103,19 @@ fun MealsNotifications(
                 color = MaterialTheme.colors.onSurface,
                 fontSize = MaterialTheme.typography.subtitle1.fontSize
             )
-            Switch(checked = switchState, onCheckedChange = {
-                switchState = !switchState
-                onSwitchStateChanged.invoke(switchState)
+            Switch(checked = switchState.value, onCheckedChange = {
+                switchState.value = !switchState.value
+                onSwitchStateChanged.invoke(switchState.value)
             })
         }
-        MealTimeConfigurations()
+        MealTimeConfigurations(onTimeSelected)
     }
 }
 
 @Composable
-fun MealTimeConfigurations(){
+fun MealTimeConfigurations(
+    onTimeSelected: (NotificationType, Int, Int) -> Unit,
+){
     Surface(
         modifier = Modifier
             .fillMaxWidth()
@@ -124,25 +129,34 @@ fun MealTimeConfigurations(){
             verticalArrangement = Arrangement.Center
         ){
             NotificationType.values().forEach { notificationType ->
-                if (notificationType == NotificationType.WATER) return@Surface
-                MealTimeConfigurator(mealName = notificationType.text)
+                if (notificationType == NotificationType.WATER) return@forEach
+                MealTimeConfigurator(mealName = notificationType.text, onTimeSelected = onTimeSelected)
             }
         }
     }
 }
 
 @Composable
-fun MealTimeConfigurator(mealName: String){
+fun MealTimeConfigurator(
+    mealName: String,
+    onTimeSelected: (NotificationType, Int, Int) -> Unit,
+){
+    val mealNotificationType = NotificationType.valueOf(mealName.uppercase())
 
-    var time by remember { mutableStateOf("00:00") }
-
-    val hourOfDay = Calendar.getInstance()[Calendar.HOUR_OF_DAY]
-    val minute = Calendar.getInstance()[Calendar.MINUTE]
+    val minutes by remember { derivedStateOf {
+        if (mealNotificationType.triggerTimeMinutes in 0..9) "0${mealNotificationType.triggerTimeMinutes}"
+        else mealNotificationType.triggerTimeMinutes
+    }}
+    var time by remember { mutableStateOf("${mealNotificationType.triggerTimeHours}:$minutes") }
 
     val timePickerDialog = TimePickerDialog(
         LocalContext.current,
         {_, mHour : Int, mMinute: Int ->
-            time = "$mHour:$mMinute" }, hourOfDay, minute, false
+            onTimeSelected.invoke(mealNotificationType, mHour, mMinute)
+            time = "$mHour:$mMinute" },
+        mealNotificationType.triggerTimeHours,
+        mealNotificationType.triggerTimeMinutes,
+        false
     )
 
     Row(
