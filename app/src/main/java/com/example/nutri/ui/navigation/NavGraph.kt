@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.nutri.ui.screens.bmi.BmiPage
 import com.example.nutri.ui.screens.configs.NotificationsConfigPage
+import com.example.nutri.ui.screens.configs.NotificationsConfigViewModel
 import com.example.nutri.ui.screens.create_recipe.CreateRecipePage
 import com.example.nutri.ui.screens.edit_recipe.EditRecipePage
 import com.example.nutri.ui.screens.edit_recipe.EditRecipeViewModel
@@ -59,7 +60,11 @@ fun NavigationGraph(
 
             MyRecipesPage(vm = vm)
         }
-        composable(Screen.NotificationsConfigScreen.screenRoute){ NotificationsConfigPage()}
+        composable(Screen.NotificationsConfigScreen.screenRoute){ navEntry ->
+            val vm = hiltViewModel<NotificationsConfigViewModel>()
+            navEntry.lifecycle.addObserver(vm)
+            NotificationsConfigPage(vm = vm)
+        }
         composable(Screen.SearchPage.screenRoute){ SearchPage() }
         composable(Screen.BMI.screenRoute){ BmiPage() }
         composable(Screen.CreateRecipe.screenRoute){ CreateRecipePage() }
