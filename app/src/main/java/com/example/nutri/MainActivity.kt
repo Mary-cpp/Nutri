@@ -40,7 +40,7 @@ class MainActivity: ComponentActivity() {
         val sp = getSharedPreferences(NUTRI_PREFERENCES, Context.MODE_PRIVATE)
 
         if (sp.getBoolean("isFirstRun", true)){
-            NotificationsHandler(context = this).setDefaultAlarms()
+            NotificationsHandler(context = this).enableAlarms()
             sp.edit().putBoolean("isFirstRun", false).apply()
         }
 

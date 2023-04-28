@@ -69,7 +69,7 @@ class NotificationsConfigViewModel @Inject constructor(
         areMealNotificationsEnabled.value = state
         sp.edit().putBoolean(mealNotifIndicator, state).apply()
         when(state){
-            true -> { notificationsHandler.enableAlarms();Log.i(tag, "Enabled MEAL notifications") }
+            true -> { notificationsHandler.enableMealAlarms();Log.i(tag, "Enabled MEAL notifications") }
             false -> {notificationsHandler.cancelAllMealAlarms(); Log.i(tag, "Disabled MEAL notifications")}
         }
     }

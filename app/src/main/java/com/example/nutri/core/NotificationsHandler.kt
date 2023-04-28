@@ -5,9 +5,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
-import android.os.Build
 import android.util.Log
-import androidx.annotation.RequiresApi
 import com.example.nutri.R
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
@@ -21,52 +19,40 @@ class NotificationsHandler @Inject constructor(
 
     private val tag = this::class.java.simpleName
 
-    @RequiresApi(Build.VERSION_CODES.S)
-    fun setDefaultAlarms(){
+    private fun setIntentData(notification: NotificationType){
         val contextWrapper = ContextWrapper(context)
-
-        NotificationType.values().forEach { notification ->
-            alarmIntent.apply {
-                context
-                action = context.getString(R.string.notification_action)
-                putExtra("notification_title", contextWrapper.resources.getString(notification.title))
-                putExtra("notification_description", contextWrapper.getString(notification.description))
-            }
-
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-            notification.intent = pendingIntent
-
-            alarmManager.setInexactRepeating(
-                AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                getTimeInMillis(notification.triggerTimeHours, notification.triggerTimeMinutes),
-                AlarmManager.INTERVAL_DAY,
-                notification.intent
-            ).apply {
-                Log.w("ALARM MANAGER", "Enabled ${notification.text} alarm")
-            }
+        alarmIntent.apply {
+            context
+            action = context.getString(R.string.notification_action)
+            putExtra("notification_title", contextWrapper.resources.getString(notification.title))
+            putExtra("notification_description", contextWrapper.getString(notification.description))
         }
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        notification.intent = pendingIntent
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     fun enableAlarms(){
-        val contextWrapper = ContextWrapper(context)
-
         NotificationType.values().forEach { notification ->
-            alarmIntent.apply {
-                context
-                action = context.getString(R.string.notification_action)
-                putExtra(
-                    "notification_title",
-                    contextWrapper.resources.getString(notification.title)
-                )
-                putExtra(
-                    "notification_description",
-                    contextWrapper.getString(notification.description)
-                )
+            setIntentData(notification)
+            var interval = AlarmManager.INTERVAL_DAY
+            if (notification == NotificationType.WATER){
+                interval = AlarmManager.INTERVAL_HOUR
             }
-            val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
-            notification.intent = pendingIntent
+            alarmManager.setInexactRepeating(
+                AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                getTimeInMillis(notification.triggerTimeHours, notification.triggerTimeMinutes),
+                interval,
+                notification.intent
+            ).apply {
+                Log.w("ALARM MANAGER", "Enabled ${notification.text} alarm")
+            }
+        }
+    }
 
+    fun enableMealAlarms(){
+        NotificationType.values().forEach { notification ->
+            if (notification == NotificationType.WATER) return@forEach
+            setIntentData(notification)
             alarmManager.setInexactRepeating(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 getTimeInMillis(notification.triggerTimeHours, notification.triggerTimeMinutes),
@@ -77,27 +63,34 @@ class NotificationsHandler @Inject constructor(
             }
         }
     }
+
 
     fun setAlarm(
         notification : NotificationType,
     ){
         cancelAlarm(notification)
+        var interval = AlarmManager.INTERVAL_DAY
+        if (notification == NotificationType.WATER){
+            interval = AlarmManager.INTERVAL_HOUR
+        }
         alarmManager.setInexactRepeating(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
             getTimeInMillis(notification.triggerTimeHours, notification.triggerTimeMinutes),
-            1800*1000,
+            interval,
             notification.intent
         )
         Log.i(tag, "Changed ${notification.text} notification time on ${notification.triggerTimeHours}")
     }
 
-    fun cancelAlarm(notification : NotificationType)
-    = alarmManager.cancel(notification.intent)
+    fun cancelAlarm(notification : NotificationType){
+        setIntentData(notification)
+        alarmManager.cancel(notification.intent)
+    }
 
     fun cancelAllMealAlarms()
     = NotificationType.values().forEach {
         if (it == NotificationType.WATER) return@forEach
-        alarmManager.cancel(it.intent)
+        cancelAlarm(it)
     }
 }
 
