@@ -11,11 +11,13 @@ import com.example.nutri.data.bmi.entity.DietPlanEntity
 import com.example.nutri.data.bmi.entity.UserEntity
 import com.example.nutri.data.database.dao.MealDAO
 import com.example.nutri.data.database.dao.RecipeDAO
+import com.example.nutri.data.database.dao.WaterDAO
 import com.example.nutri.data.recipe.local.entity.*
-import com.example.nutri.data.statistics.Converter
+import com.example.nutri.data.statistics.DateConverter
 import com.example.nutri.data.statistics.entities.MealCategory
 import com.example.nutri.data.statistics.entities.MealEntity
 import com.example.nutri.data.statistics.entities.RecipeInMeal
+import com.example.nutri.domain.statistics.Water
 
 @Database(
     entities =
@@ -32,16 +34,18 @@ import com.example.nutri.data.statistics.entities.RecipeInMeal
         MealCategory::class,
         RecipeInMeal::class,
         NutrientEntity::class,
-        NutrientsInRecipe::class
+        NutrientsInRecipe::class,
+        Water::class,
     ],
-    version = 18,
+    version = 19,
     exportSchema = false)
-@TypeConverters(Converter::class)
+@TypeConverters(DateConverter::class)
 abstract class RecipeDatabase : RoomDatabase() {
 
     abstract fun recipeDAO() : RecipeDAO
     abstract fun userDAO() : UserDAO
     abstract fun mealDAO() : MealDAO
+    abstract fun waterDAO(): WaterDAO
 
     companion object {
 
