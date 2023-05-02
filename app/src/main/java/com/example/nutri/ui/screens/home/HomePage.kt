@@ -1,6 +1,7 @@
 package com.example.nutri.ui.screens.home
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,6 +17,7 @@ import com.example.nutri.ui.screens.common.HomeScreenTopBar
 import com.example.nutri.ui.screens.home.composables.FAB
 import com.example.nutri.ui.screens.home.composables.HomePageBottomSheet
 import com.example.nutri.ui.screens.home.composables.StatisticsCard
+import com.example.nutri.ui.screens.home.composables.WaterInfoCard
 
 @Composable
 fun HomePage(
@@ -43,7 +45,19 @@ fun HomePage(
 
 @Composable
 fun HomePageStatistics(
-    vm: StatisticsViewModel){
-
-    StatisticsCard(current = vm.myCalories, norm = vm.user.value?.plan?.kcal, vm.statisticsCardColor)
+    vm: StatisticsViewModel
+){
+    Column{
+        StatisticsCard(
+            current = vm.myCalories,
+            norm = vm.user.value?.plan?.kcal,
+            vm.statisticsCardColor
+        )
+        WaterInfoCard(
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp),
+            onRemove = vm::onWaterRemoveButtonClicked,
+            onAdd = vm::onWaterAddButtonClicked,
+            water = vm.water,
+        )
+    }
 }

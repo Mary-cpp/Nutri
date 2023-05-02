@@ -24,6 +24,7 @@ fun StatisticsCard(
 ){
     Card(
         shape = NutriShape.smallRoundCornerShape,
+        elevation = 4.dp,
         modifier = Modifier
             .fillMaxWidth()
             .size(160.dp)

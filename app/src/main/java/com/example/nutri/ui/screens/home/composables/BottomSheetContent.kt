@@ -1,5 +1,6 @@
 package com.example.nutri.ui.screens.home.composables
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -8,6 +9,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.ui.screens.home.HomePageStatistics
@@ -20,7 +22,7 @@ fun HomeBottomSheetContent(meals: List<Meal>){
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end  = 16.dp),
+            .padding(start = 16.dp, end = 16.dp),
         shape = NutriShape.mealsListCornerShape,
         color = MaterialTheme.colors.primary
     ) {
@@ -35,22 +37,23 @@ fun HomeBottomSheetContent(meals: List<Meal>){
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomePageBottomSheet(vm: StatisticsViewModel){
-    val bottomSheetState
-    = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Expanded,
-        confirmValueChange = { bottomSheetValue -> bottomSheetValue != ModalBottomSheetValue.Hidden }
-    )
-    ModalBottomSheetLayout(
+    BottomSheetScaffold(
+        scaffoldState = rememberBottomSheetScaffoldState(
+            bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed,)
+        ),
+        sheetPeekHeight = ((LocalConfiguration.current.screenHeightDp)/2).dp,
         sheetContent = {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 color = MaterialTheme.colors.background
             ){
-                HomeBottomSheetContent(vm.meals.value)
+                Column{
+                    HomeBottomSheetContent(vm.meals.value)
+                }
             }
     },
         sheetElevation = 0.dp,
-        sheetState = bottomSheetState,
-        scrimColor = Color.Transparent) {
+        contentColor = Color.Transparent) {
         HomePageStatistics(vm)
     }
 }
