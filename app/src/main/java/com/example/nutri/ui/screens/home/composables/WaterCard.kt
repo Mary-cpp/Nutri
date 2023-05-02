@@ -39,7 +39,7 @@ fun WaterInfoCard(
         color = MaterialTheme.colors.background,
     ){
         Row(
-            modifier = modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
                 .padding(16.dp),
@@ -57,7 +57,7 @@ fun WaterInfoCard(
                             .vectorResource(R.drawable.water_full48px),
                         tint = MaterialTheme.colors.primary,
                         contentDescription = "LowWaterIcon",
-                        modifier = modifier.clickable { onRemove.invoke() }
+                        modifier = Modifier.clickable { onRemove.invoke() }
                     )
                 }
             }
@@ -66,7 +66,7 @@ fun WaterInfoCard(
                     .vectorResource(R.drawable.water_low_48px),
                 tint = MaterialTheme.colors.primary,
                 contentDescription = "LowWaterIcon",
-                modifier = modifier.clickable { onAdd.invoke() }
+                modifier = Modifier.clickable { onAdd.invoke() }
             )
         }
     }
