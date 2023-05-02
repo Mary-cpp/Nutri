@@ -11,6 +11,8 @@ import com.example.nutri.domain.bmi.interactor.BmiInteractor
 import com.example.nutri.domain.bmi.model.User
 import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.domain.statistics.MealInteractor
+import com.example.nutri.domain.statistics.Water
+import com.example.nutri.domain.statistics.WaterUseCaseInteractor
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,6 +27,7 @@ val dateFormat= SimpleDateFormat("yyyy-MM-dd", Locale.US)
 class StatisticsViewModel @Inject constructor(
     private val useCaseMeal: MealInteractor,
     private val useCaseBmi: BmiInteractor,
+    private val useCaseWater: WaterUseCaseInteractor,
     navControllerProvider : NavControllerHolder
 ) : NavigationViewModel(navControllerProvider), DefaultLifecycleObserver{
 
@@ -34,9 +37,18 @@ class StatisticsViewModel @Inject constructor(
     val statisticsCardColor: MutableState<Color> = mutableStateOf(com.example.nutri.ui.theme.Tertiary)
     var user: MutableState<User?> = mutableStateOf(null)
     var meals: MutableState<List<Meal>> =  mutableStateOf(createEmptyMealsList())
+    var water: MutableState<Water> = mutableStateOf(Water(Date(), 1))
 
     override fun onResume(owner: LifecycleOwner) {
         onStatisticsScreenLoaded()
+    }
+
+    override fun onPause(owner: LifecycleOwner) {
+        viewModelScope.launch {
+            try{
+                useCaseWater.updateData(water.value)
+            } catch (tr: Throwable) {Log.e(TAG, "Cannot update water info", tr)}
+        }
     }
 
     private fun onStatisticsScreenLoaded() = viewModelScope.launch {
@@ -47,9 +59,26 @@ class StatisticsViewModel @Inject constructor(
         catch(e: Exception){ Log.e(TAG, "Can not fetch meals from db", e ) }
         finally{ if (mealsFromDb.isNotEmpty()) meals.value = mealsFromDb }
 
+        try {
+            water.value = useCaseWater.loadData(Date())
+            Log.i(TAG, "Water from db amount: ${water.value.amount}")
+        }
+        catch(tr: Throwable) { Log.e(TAG, "Cannot fetch water info from db", tr)}
+
         try{ user.value = getUserPlan().await() }
         catch(e: Exception) { Log.w(TAG, "Error fetching User DietPlan", e)}
         finally{ countCalories() }
+    }
+
+    fun onWaterAddButtonClicked() {
+        water.value = Water(Date(), water.value.amount+1)
+        Log.i(TAG, "Water added amount: ${water.value.amount}")
+    }
+    fun onWaterRemoveButtonClicked() {
+        if (water.value.amount > 0){
+            water.value = Water(Date(), water.value.amount-1)
+        }
+        Log.i(TAG, "Water removed amount: ${water.value.amount}")
     }
 
     private fun getUserPlan()
