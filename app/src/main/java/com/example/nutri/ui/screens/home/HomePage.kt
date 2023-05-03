@@ -23,7 +23,11 @@ import com.example.nutri.ui.screens.home.composables.WaterInfoCard
 fun HomePage(
     vm : StatisticsViewModel
 ) {
-    Scaffold(topBar = { HomeScreenTopBar(topBarText = "Home", action = vm::navigateToNotificationsConfigs) },
+    Scaffold(topBar = { HomeScreenTopBar(
+        topBarText = "Home",
+        actionCalendar = vm::onDateSelected,
+        actionNotifications = vm::navigateToNotificationsConfigs
+    ) },
         floatingActionButton = { FAB(
             onClick = vm::navigateToSearch,
             color = Color.Black,
