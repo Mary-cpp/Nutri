@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.statistics.Meal
 import com.example.nutri.ui.screens.home.HomePageStatistics
@@ -39,9 +40,9 @@ fun HomeBottomSheetContent(meals: List<Meal>){
 fun HomePageBottomSheet(vm: StatisticsViewModel){
     BottomSheetScaffold(
         scaffoldState = rememberBottomSheetScaffoldState(
-            bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed,)
+            bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
         ),
-        sheetPeekHeight = ((LocalConfiguration.current.screenHeightDp)/2).dp,
+        sheetPeekHeight = countSheetHeight(listOfMeals = vm.meals.value),
         sheetContent = {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
@@ -55,5 +56,20 @@ fun HomePageBottomSheet(vm: StatisticsViewModel){
         sheetElevation = 0.dp,
         contentColor = Color.Transparent) {
         HomePageStatistics(vm)
+    }
+}
+
+@Composable
+private fun countSheetHeight(listOfMeals: List<Meal>) : Dp {
+    val screenHalfSize : Dp = (LocalConfiguration.current.screenHeightDp/2).dp
+    val sheetPeekHeight : Dp = BottomSheetScaffoldDefaults.SheetPeekHeight
+    return if (listOfMeals.size == 1 ) sheetPeekHeight
+    else{
+        var dishesAmount = 0
+        listOfMeals.forEach {
+            dishesAmount += it.recipes.size
+        }
+        if (dishesAmount > 3) screenHalfSize
+        else sheetPeekHeight
     }
 }
