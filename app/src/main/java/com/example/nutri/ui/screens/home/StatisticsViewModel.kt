@@ -40,7 +40,7 @@ class StatisticsViewModel @Inject constructor(
     var water: MutableState<Water> = mutableStateOf(Water(Date(), 1))
 
     override fun onResume(owner: LifecycleOwner) {
-        onStatisticsScreenLoaded()
+        onStatisticsScreenLoaded(dateFormat.format(Date()))
     }
 
     override fun onPause(owner: LifecycleOwner) {
@@ -51,16 +51,19 @@ class StatisticsViewModel @Inject constructor(
         }
     }
 
-    private fun onStatisticsScreenLoaded() = viewModelScope.launch {
+    private fun onStatisticsScreenLoaded(date: String) = viewModelScope.launch {
 
         var mealsFromDb : List<Meal> = listOf()
 
-        try {mealsFromDb = useCaseMeal.getMeals(date = dateFormat.format(Date()))}
+        try {mealsFromDb = useCaseMeal.getMeals(date = date)}
         catch(e: Exception){ Log.e(TAG, "Can not fetch meals from db", e ) }
-        finally{ if (mealsFromDb.isNotEmpty()) meals.value = mealsFromDb }
+        finally{
+            if (mealsFromDb.isNotEmpty()) meals.value = mealsFromDb
+            else meals.value = createEmptyMealsList()
+        }
 
         try {
-            water.value = useCaseWater.loadData(Date())
+            water.value = useCaseWater.loadData(dateFormat.parse(date) as Date)
             Log.i(TAG, "Water from db amount: ${water.value.amount}")
         }
         catch(tr: Throwable) { Log.e(TAG, "Cannot fetch water info from db", tr)}
@@ -84,6 +87,13 @@ class StatisticsViewModel @Inject constructor(
     private fun getUserPlan()
     = viewModelScope.async{
        useCaseBmi.getCurrentUser()
+    }
+
+    fun onDateSelected(day: Int, month: Int, year: Int) = viewModelScope.launch{
+        Log.i(TAG, "Selected date: $day, $month, $year")
+        Log.i(TAG, "Formatted Date: ${dateFormat.format(Date())}")
+
+        onStatisticsScreenLoaded(date = dateFormat.format(dateFormat.parse("$year-$month-$day") as Date))
     }
 
     private fun countCalories() {
