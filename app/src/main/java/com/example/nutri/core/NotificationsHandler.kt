@@ -25,9 +25,9 @@ class NotificationsHandler @Inject constructor(
             context
             action = context.getString(R.string.notification_action)
             putExtra("notification_title", contextWrapper.resources.getString(notification.title))
-            putExtra("notification_description", contextWrapper.getString(notification.description))
+            putExtra("notification_description", contextWrapper.resources.getString(notification.description))
         }
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        val pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
         notification.intent = pendingIntent
     }
 
@@ -63,7 +63,6 @@ class NotificationsHandler @Inject constructor(
             }
         }
     }
-
 
     fun setAlarm(
         notification : NotificationType,

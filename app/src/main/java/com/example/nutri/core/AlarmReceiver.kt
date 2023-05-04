@@ -40,7 +40,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         val notificationIntent = Intent(context, MainActivity::class.java)
         val notificationPendingIntent = PendingIntent.getActivity(
-            context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            context, 0, notificationIntent, PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         with(NotificationManagerCompat.from(context)){
