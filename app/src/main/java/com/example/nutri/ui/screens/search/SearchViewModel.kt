@@ -25,16 +25,15 @@ class SearchViewModel @Inject constructor(
     navControllerProvider: NavControllerHolder
 ) : NavigationViewModel(navControllerProvider){
 
-    private val tag = "SearchViewModel"
-
     val selectedRecipeId = mutableStateOf("")
-
     val foundRecipes : MutableState<List<Recipe>> = mutableStateOf(listOf())
+
+    private val tag = "SearchViewModel"
 
     fun getRecipes(name: String) = viewModelScope.launch{
 
         Log.d(tag, "getRecipes     START")
-        if(name.isEmpty()){ return@launch }
+        if(name.isEmpty()) return@launch
 
         val listOfRecipes: List<Recipe>? = useCase.getRecipesLike(name)
         listOfRecipes?.let{ foundRecipes.value = it }
@@ -46,12 +45,12 @@ class SearchViewModel @Inject constructor(
     = CoroutineScope(Dispatchers.Main).launch{
 
         val tag = "addRecipeToMeal"
-        val recipe = useCase.getCommonRecipe(id)
 
-        Log.i(tag, "Recipe name: ${recipe.name}")
-
-        val meal = Meal(mealName, mutableListOf(recipe), dateFormat.format(Date()))
-
-        useCaseMeal.addMeal(meal)
+        useCase.getCommonRecipe(id).collect{ recipe ->
+            Log.i(tag, "Recipe name: ${recipe.name}")
+            useCaseMeal.addMeal(
+                Meal(mealName, mutableListOf(recipe), dateFormat.format(Date()))
+            )
+        }
     }
 }

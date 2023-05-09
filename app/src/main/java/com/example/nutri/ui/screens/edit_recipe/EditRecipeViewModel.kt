@@ -38,13 +38,15 @@ class EditRecipeViewModel @Inject constructor(
         onEditRecipePageLoaded(id)
     }
 
-    fun onEditRecipePageLoaded(id: String) = viewModelScope.launch{
+    private fun onEditRecipePageLoaded(id: String) = viewModelScope.launch{
         Log.d(tag, "onEditRecipePageLoaded     START")
-        val fetchedRecipe = useCase.getCommonRecipe(id)
-        recipeOnEdit.value = fetchedRecipe
-        nameOnEdit.value = fetchedRecipe.name.toString()
-
-        fetchedRecipe.ingredients?.get(0)?.let { ingredientList.addAll( it.mapToDomainIngredients()) }
+        useCase.getCommonRecipe(id).collect{ recipe->
+            recipeOnEdit.value = recipe
+            nameOnEdit.value = recipe.name as String
+            recipe.ingredients?.get(0)?.let{
+                ingredientList.addAll(it.mapToDomainIngredients())
+            }
+        }
     }
 
     fun onSaveEditedRecipeButtonPressed()

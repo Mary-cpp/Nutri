@@ -2,6 +2,7 @@ package com.example.nutri.domain.recipes.interactor
 
 import com.example.nutri.data.recipe.local.repository.DataBaseGateway
 import com.example.nutri.domain.recipes.model.Recipe
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LocalRecipeUseCase @Inject constructor(
@@ -16,7 +17,7 @@ class LocalRecipeUseCase @Inject constructor(
         return db.getLocalRecipesList()
     }
 
-    override suspend fun getCommonRecipe(recipeId: String): Recipe {
+    override suspend fun getCommonRecipe(recipeId: String): Flow<Recipe> {
         return db.getRecipe(recipeId = recipeId)
     }
 

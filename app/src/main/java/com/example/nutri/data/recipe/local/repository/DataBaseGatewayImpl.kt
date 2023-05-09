@@ -8,6 +8,10 @@ import com.example.nutri.data.recipe.remote.dto.Ingredient
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
 import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -82,20 +86,19 @@ class DataBaseGatewayImpl @Inject constructor(
         return recipes.toList()
     }
 
-    override suspend fun getRecipe(recipeId: String): Recipe {
+    override suspend fun getRecipe(recipeId: String): Flow<Recipe> {
         Log.d(TAG, "getRecipe    RecipeID: $recipeId    START")
 
-        val recipeFromCommon: Recipe
-
-        withContext(Dispatchers.IO){
-
-            val recipeEnt = database.recipeDAO().getCommonRecipe(recipeId = recipeId)
-            recipeFromCommon = mapCommonEntityToRecipe(recipeEnt)
-        }
+        val resultFlow = flow {
+            emit(database.recipeDAO().getCommonRecipe(recipeId = recipeId))
+        }.flowOn(Dispatchers.IO)
+            .transform {
+                emit(mapCommonEntityToRecipe(it))
+            }.flowOn(Dispatchers.IO)
 
         Log.d(TAG, "getRecipe    RecipeID: $recipeId    END")
 
-        return recipeFromCommon
+        return resultFlow
     }
 
     override suspend fun getRecipesWithNameLike(name: String): List<Recipe>? {

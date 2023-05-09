@@ -6,10 +6,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
-import com.example.nutri.ui.navigation.NavControllerHolder
-import com.example.nutri.ui.navigation.NavigationViewModel
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.model.Recipe
+import com.example.nutri.ui.navigation.NavControllerHolder
+import com.example.nutri.ui.navigation.NavigationViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +21,6 @@ class RecipeViewModel @Inject constructor(
 ) : NavigationViewModel(navControllerProvider), DefaultLifecycleObserver{
 
     val recipe: MutableState<Recipe> = mutableStateOf(Recipe())
-
     var id: String = ""
 
     val tag = "RecipeViewModel"
@@ -32,7 +31,9 @@ class RecipeViewModel @Inject constructor(
 
     private fun onRecipeScreenLoading(id: String) = viewModelScope.launch{
         Log.i(tag, "onRecipeScreenLoading START")
-        recipe.value = useCase.getCommonRecipe(id)
+        useCase.getCommonRecipe(id).collect{
+            recipe.value = it
+        }
 
         Log.i(tag, "onRecipeScreenLoading END")
     }
