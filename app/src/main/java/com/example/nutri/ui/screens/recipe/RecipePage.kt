@@ -42,11 +42,22 @@ fun RecipePage(
         topBar = { TopBarWithIcon(topBarText = recipe.name!!, vm::navigateBack) },
         content = {
             Column(
-                modifier = Modifier.scrollable(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 4.dp)
+                    .scrollable(
                     state = rememberScrollState(),
                     orientation = Orientation.Vertical,
-                    enabled = true)){
-                RecipeCard(recipe = recipe, vm::navigateToRecipeEditor)
+                    enabled = true),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+            ){
+                if (!vm.isLoading.value){
+                    RecipeCard(recipe = recipe, vm::navigateToRecipeEditor)
+                }
+                else{
+                    CircularProgressIndicator()
+                }
             }
         })
 }

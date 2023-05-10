@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
+import com.example.nutri.core.ResultState
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.NavControllerHolder
@@ -22,6 +23,7 @@ class RecipeViewModel @Inject constructor(
 
     val recipe: MutableState<Recipe> = mutableStateOf(Recipe())
     var id: String = ""
+    val isLoading: MutableState<Boolean> by lazy { mutableStateOf(true) }
 
     val tag = "RecipeViewModel"
 
@@ -31,9 +33,14 @@ class RecipeViewModel @Inject constructor(
 
     private fun onRecipeScreenLoading(id: String) = viewModelScope.launch{
         Log.i(tag, "onRecipeScreenLoading START")
-        useCase.getCommonRecipe(id).collect{
-            recipe.value = it
-        }
+        try{
+            useCase.getCommonRecipe(id).collect{ result ->
+                if (result is ResultState.Success){
+                    recipe.value = result.value
+                    isLoading.value = false
+                }
+            }
+        } catch (e: Throwable) {Log.e(tag, "Caught ${e.stackTrace}")}
 
         Log.i(tag, "onRecipeScreenLoading END")
     }

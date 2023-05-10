@@ -1,6 +1,7 @@
 package com.example.nutri.ui.screens.edit_recipe
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -30,6 +31,7 @@ class EditRecipeViewModel @Inject constructor(
 
     var ingredientList = mutableStateListOf<Ingredient>()
     val nameOnEdit = mutableStateOf("")
+    val isLoading: MutableState<Boolean> by lazy{ mutableStateOf(true) }
     var id: String = ""
 
     private val recipeOnEdit = mutableStateOf(Recipe())
@@ -40,11 +42,14 @@ class EditRecipeViewModel @Inject constructor(
 
     private fun onEditRecipePageLoaded(id: String) = viewModelScope.launch{
         Log.d(tag, "onEditRecipePageLoaded     START")
-        useCase.getCommonRecipe(id).collect{ recipe->
-            recipeOnEdit.value = recipe
-            nameOnEdit.value = recipe.name as String
-            recipe.ingredients?.get(0)?.let{
-                ingredientList.addAll(it.mapToDomainIngredients())
+        useCase.getCommonRecipe(id).collect{ result ->
+            if (result is ResultState.Success){
+                recipeOnEdit.value = result.value
+                nameOnEdit.value = result.value.name as String
+                result.value.ingredients?.get(0)?.let{
+                    ingredientList.addAll(it.mapToDomainIngredients())
+                }
+                isLoading.value = false
             }
         }
     }

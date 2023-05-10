@@ -2,11 +2,14 @@ package com.example.nutri.ui.screens.edit_recipe
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -67,6 +70,17 @@ fun EditRecipePageContent(
                 iconRes = R.drawable.add48px,
                 text = "Add ingredient"
             ) },
-        content = { EditRecipeCard(vm = vm) }
+        content = {
+            if (!vm.isLoading.value){
+                EditRecipeCard(vm = vm)
+            }
+            else{
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center,
+                ){ CircularProgressIndicator() }
+            }
+        }
     )
 }

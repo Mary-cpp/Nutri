@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.example.nutri.core.ResultState
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
@@ -26,6 +27,7 @@ class SearchViewModel @Inject constructor(
 ) : NavigationViewModel(navControllerProvider){
 
     val selectedRecipeId = mutableStateOf("")
+    //val isLoading: MutableState<Boolean> by lazy { mutableStateOf(true) }
     val foundRecipes : MutableState<List<Recipe>> = mutableStateOf(listOf())
 
     private val tag = "SearchViewModel"
@@ -47,10 +49,13 @@ class SearchViewModel @Inject constructor(
         val tag = "addRecipeToMeal"
 
         useCase.getCommonRecipe(id).collect{ recipe ->
-            Log.i(tag, "Recipe name: ${recipe.name}")
-            useCaseMeal.addMeal(
-                Meal(mealName, mutableListOf(recipe), dateFormat.format(Date()))
-            )
+            if (recipe is ResultState.Success){
+                Log.i(tag, "Recipe name: ${recipe.value.name}")
+                useCaseMeal.addMeal(
+                    Meal(mealName, mutableListOf(recipe.value), dateFormat.format(Date()))
+                )
+                //isLoading.value = false
+            }
         }
     }
 }
