@@ -1,6 +1,7 @@
 package com.example.nutri.data.recipe.local.repository
 
 import android.util.Log
+import com.example.nutri.core.ResultState
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.recipe.local.entity.*
 import com.example.nutri.data.recipe.remote.dto.Characteristics
@@ -8,10 +9,7 @@ import com.example.nutri.data.recipe.remote.dto.Ingredient
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
 import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.transform
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -86,9 +84,22 @@ class DataBaseGatewayImpl @Inject constructor(
         return recipes.toList()
     }
 
-    override suspend fun getRecipe(recipeId: String): Flow<Recipe> {
+    override suspend fun getRecipe(recipeId: String): Flow<ResultState<Recipe>> {
         Log.d(TAG, "getRecipe    RecipeID: $recipeId    START")
 
+        return try {
+            flow{
+                emit(database.recipeDAO().getCommonRecipe(recipeId))
+            }.flowOn(Dispatchers.IO)
+                .transform{ commonRecipe ->
+                    emit(ResultState.Success(mapCommonEntityToRecipe(commonRecipe)))
+                }.flowOn(Dispatchers.IO)
+        }
+        catch (thr: Throwable) {
+            Log.e(TAG, "Caught $thr")
+            flowOf( ResultState.Error(exception = thr))
+        }
+/*
         val resultFlow = flow {
             emit(database.recipeDAO().getCommonRecipe(recipeId = recipeId))
         }.flowOn(Dispatchers.IO)
@@ -98,7 +109,7 @@ class DataBaseGatewayImpl @Inject constructor(
 
         Log.d(TAG, "getRecipe    RecipeID: $recipeId    END")
 
-        return resultFlow
+        return resultFlow*/
     }
 
     override suspend fun getRecipesWithNameLike(name: String): List<Recipe>? {
