@@ -3,11 +3,10 @@ package com.example.nutri.ui.screens.my_recipes
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,20 +22,26 @@ const val TAG = "MyRecipesPage"
 @Composable
 fun MyRecipesPage(
     vm: RecipesViewModel
-){
+) {
+    val listOfRecipes by remember { vm.recipeList }
+    val isLoading by remember { vm.isDataLoading }
+
     Log.w(TAG, "$TAG loaded")
-        Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = {  TopBar("My recipes") },
-        floatingActionButton = { FAB(
-            onClick = vm::navigateToNewRecipe,
-            color = MaterialTheme.colors.primary,
-            border = BorderStroke(2.dp, Color.White),
-            modifier = Modifier.wrapContentSize(),
-            iconRes = R.drawable.add48px,
-            text = "New Recipe"
-        )  })
-        { paddingValues ->
-            Surface(modifier = Modifier
+    Scaffold(modifier = Modifier.fillMaxSize(),
+        topBar = { TopBar("My recipes") },
+        floatingActionButton = {
+            FAB(
+                onClick = vm::navigateToNewRecipe,
+                color = MaterialTheme.colors.primary,
+                border = BorderStroke(2.dp, Color.White),
+                modifier = Modifier.wrapContentSize(),
+                iconRes = R.drawable.add48px,
+                text = "New Recipe"
+            )
+        })
+    { paddingValues ->
+        Surface(
+            modifier = Modifier
                 .fillMaxSize()
                 .padding(
                     PaddingValues(
@@ -46,18 +51,30 @@ fun MyRecipesPage(
                         bottom = paddingValues.calculateBottomPadding()
                     )
                 ),
-                color = MaterialTheme.colors.background){
+            color = MaterialTheme.colors.background
+        ) {
 
-                Column(Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally){
-                    SearchFieldTest()
-                    SortAndFilter(vm)
-                    RecipesList(listOfRecipes = vm.recipeList.value, vm::navigateToRecipe)
+            Column(
+                Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                SearchFieldTest()
+                SortAndFilter(vm)
+                if (isLoading) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
+                    ) { CircularProgressIndicator() }
+                } else {
+                    RecipesList(listOfRecipes = listOfRecipes, vm::navigateToRecipe)
                     Text(
                         modifier = Modifier.padding(top = 24.dp),
                         text = "Keep exploring :)",
-                        color = MaterialTheme.colors.secondaryVariant)
+                        color = MaterialTheme.colors.secondaryVariant
+                    )
                 }
             }
         }
+    }
 }
