@@ -1,6 +1,5 @@
 package com.example.nutri.ui.screens.my_recipes.composables
 
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -17,9 +16,11 @@ import com.example.nutri.ui.screens.my_recipes.RecipesViewModel
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.launch
 
-enum class SortActions(val text: String, val value: Int){
-    NAME(text = "Sort by name", value = 1),
-    CALORIES(text = "Sort by calories", value = 2)
+enum class SortAction(val text: String){
+    NAME_ASC(text = "Sort by name"),
+    NAME_DESC(text = "Sort by name, descending"),
+    CALORIES_ASC(text = "Sort by calories"),
+    CALORIES_DESC(text = "Sort by calories, descending"),
 }
 
 @Composable
@@ -30,15 +31,14 @@ fun SortAndFilter(vm: RecipesViewModel){
         horizontalArrangement = Arrangement.SpaceEvenly){
         Box(contentAlignment = Alignment.Center){
             var sortButtonText by remember { mutableStateOf("Sort") }
-            var selectedSortFilter by remember { mutableStateOf<SortActions?>(null) }
+            var selectedSortFilter by remember { mutableStateOf<SortAction?>(null) }
             var isSortExpanded by remember { mutableStateOf(false)}
-            val sortMenuItems = SortActions.values()
+            val sortMenuItems = SortAction.values()
 
             LaunchedEffect(key1 = sortButtonText){
                 this.launch {
                     selectedSortFilter?.let{
-                        vm.recipeList.value = vm.sortRecipes(it.value)
-                        Log.i("SortAndFilter", "Sorting by ${it.text}")
+                        vm.onSortListSelectedItemChanged(it)
                     }
                 }
             }
@@ -55,7 +55,14 @@ fun SortAndFilter(vm: RecipesViewModel){
                         .size(32.dp)
                         .padding(end = 8.dp))
 
-                Text(text = sortButtonText, color = Color.Black, modifier = Modifier.padding(end = 16.dp))
+                Text(
+                    text = sortButtonText,
+                    color = Color.Black,
+                    modifier = Modifier.padding(end = 16.dp)
+                        .wrapContentWidth()
+                        .widthIn(min = 40.dp, max = 88.dp)
+                        .wrapContentHeight()
+                )
             }
         )
             DropdownMenu(
