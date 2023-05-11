@@ -9,7 +9,10 @@ import com.example.nutri.data.recipe.remote.dto.Ingredient
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
 import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -20,7 +23,6 @@ class DataBaseGatewayImpl @Inject constructor(
     ) : DataBaseGateway {
 
     val TAG: String = "DataBaseGatewayImpl"
-
 
     override suspend fun saveToLocal(recipe: Recipe, recipeName: String): String {
         Log.d(TAG, "saveToLocal         START")
@@ -62,54 +64,35 @@ class DataBaseGatewayImpl @Inject constructor(
         return recipeId
     }
 
-    override suspend fun getLocalRecipesList() : List<Recipe> {
-
+    override suspend fun getLocalRecipesList() : Flow<ResultState<List<Recipe>>> {
         Log.d(TAG, "getLocalRecipesList         START")
 
-        val entityRecipes: List<RecipeEntity>
-
-        withContext(Dispatchers.IO){
-            entityRecipes = database.recipeDAO().getRecipes()
+        return try {
+            database.recipeDAO().getRecipes()
+                .flowOn(Dispatchers.IO)
+                .map {
+                    ResultState.Success(value = it.map { recipeEntity -> mapToRecipe(recipeEntity) })
+                }.flowOn(Dispatchers.IO)
+        } catch (e: Exception) {
+            Log.e(TAG, "Caught ${e.stackTrace}")
+            flowOf(ResultState.Error(exception = e))
         }
-
-        // convert to domain Recipes
-        val recipes = mutableListOf<Recipe>()
-
-        entityRecipes.forEach {
-            recipes.add(mapToRecipe(it))
-        }
-
-        Log.d(TAG, "getLocalRecipesList        ${recipes.size} END")
-
-        return recipes.toList()
     }
 
     override suspend fun getRecipe(recipeId: String): Flow<ResultState<Recipe>> {
         Log.d(TAG, "getRecipe    RecipeID: $recipeId    START")
 
         return try {
-            flow{
-                emit(database.recipeDAO().getCommonRecipe(recipeId))
-            }.flowOn(Dispatchers.IO)
-                .transform{ commonRecipe ->
-                    emit(ResultState.Success(mapCommonEntityToRecipe(commonRecipe)))
+            database.recipeDAO().getCommonRecipe(recipeId)
+                .flowOn(Dispatchers.IO)
+                .map { commonRecipe ->
+                    ResultState.Success(mapCommonEntityToRecipe(commonRecipe))
                 }.flowOn(Dispatchers.IO)
         }
-        catch (thr: Throwable) {
-            Log.e(TAG, "Caught $thr")
-            flowOf( ResultState.Error(exception = thr))
+        catch (e: Exception) {
+            Log.e(TAG, "Caught $e")
+            flowOf( ResultState.Error(exception = e))
         }
-/*
-        val resultFlow = flow {
-            emit(database.recipeDAO().getCommonRecipe(recipeId = recipeId))
-        }.flowOn(Dispatchers.IO)
-            .transform {
-                emit(mapCommonEntityToRecipe(it))
-            }.flowOn(Dispatchers.IO)
-
-        Log.d(TAG, "getRecipe    RecipeID: $recipeId    END")
-
-        return resultFlow*/
     }
 
     override suspend fun getRecipesWithNameLike(name: String): List<Recipe>? {

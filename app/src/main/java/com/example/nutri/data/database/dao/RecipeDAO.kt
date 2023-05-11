@@ -2,12 +2,13 @@ package com.example.nutri.data.database.dao
 
 import androidx.room.*
 import com.example.nutri.data.recipe.local.entity.*
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface RecipeDAO {
 
     @Query("SELECT * FROM recipes")
-    suspend fun getRecipes(): List<RecipeEntity>
+    fun getRecipes(): Flow<List<RecipeEntity>>
 
     @Query("SELECT * FROM recipes WHERE name LIKE '%' || :name || '%'")
     suspend fun getRecipesWithNameLike(name: String): List<RecipeEntity>?
@@ -56,7 +57,7 @@ interface RecipeDAO {
 
     @Transaction
     @Query("SELECT * FROM recipes WHERE id = :recipeId")
-    suspend fun getCommonRecipe(recipeId: String) : RecipeEntityCommon
+    fun getCommonRecipe(recipeId: String) : Flow<RecipeEntityCommon>
 
     @Transaction
     suspend fun addCommonRecipe(
