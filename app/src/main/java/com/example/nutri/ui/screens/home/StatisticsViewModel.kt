@@ -57,13 +57,18 @@ class StatisticsViewModel @Inject constructor(
         useCaseMeal.getMeals(date)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError {
-                Log.e(TAG, "Caught ${it.stackTrace}")
+                Log.e(TAG, "Caught ${it.message}")
             }
-            .subscribe { mealsFromDb ->
-                if (mealsFromDb.isEmpty()) meals.value = createEmptyMealsList()
-                else meals.value = mealsFromDb
-                Log.i(TAG, "Meals list size: ${mealsFromDb.size}")
-            }
+            .subscribe(
+                { mealsFromDb : List<Meal> ->
+                    if (mealsFromDb.isEmpty()) meals.value = createEmptyMealsList()
+                    else meals.value = mealsFromDb
+                    Log.i(TAG, "Meals list size: ${mealsFromDb.size}")
+                },
+                { tr : Throwable ->
+                    Log.e(TAG, "Error fetching meal data from db", tr)
+                }
+            )
 
         try {
             water.value = useCaseWater.loadData(dateFormat.parse(date) as Date)

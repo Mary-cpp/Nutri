@@ -127,11 +127,9 @@ class MealDatabaseGatewayImpl(
                         }.toMutableList()
                     )
                 })
-                    .doOnError {
-                        Log.e(TAG, "Error mapping data from db: ${it.stackTrace}")
-                    }
-            }
-            .doOnComplete {
+            }.doOnError {
+                Log.e(TAG, "Error mapping data from db: ${it.stackTrace}")
+                Flowable.just(emptyList<Meal>())
             }
     }
 }
