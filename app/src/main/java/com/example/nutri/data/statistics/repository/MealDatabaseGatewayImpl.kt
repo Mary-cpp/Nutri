@@ -7,8 +7,9 @@ import com.example.nutri.data.statistics.entities.MealCategory
 import com.example.nutri.data.statistics.entities.MealCommonEntity
 import com.example.nutri.data.statistics.entities.MealEntity
 import com.example.nutri.data.statistics.entities.RecipeInMeal
-import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.domain.statistics.Meal
+import io.reactivex.rxjava3.core.Flowable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.*
@@ -114,52 +115,27 @@ class MealDatabaseGatewayImpl(
         }
     }
 
-    override suspend fun getMealsList(date: String?): List<Meal> {
-
+    override fun getMealsList(date: String): Flowable<List<Meal>> {
         Log.d(tag, "getMealsList START")
 
-        var mealsList : MutableList<Meal>
-
-        withContext(Dispatchers.IO){
-
-            var commonMeals = database.mealDAO().getCommonMeals()
-
-            date?.let{
-                Log.d(tag, "Date: $it")
-
-                commonMeals = database.mealDAO().getCommonMealsByDate(it)
-            }
-
-
-            mealsList = mutableListOf()
-
-            commonMeals.forEach {
-
-                val recipes = mutableListOf<Recipe>()
-
-                it.recipes.forEach { recipeInMeal ->
-                    recipes.add(
-                        DataBaseGatewayImpl(
-                            database
-                        ).mapToRecipe(
-                            database
-                                .recipeDAO()
-                                .getRecipeById(recipeInMeal.idRecipe)
-                        )
+        return database.mealDAO().getCommonMealsByDate(date)
+            .subscribeOn(Schedulers.io())
+            .switchMap { commonMeals ->
+                Log.i(tag, commonMeals.size.toString())
+                if (commonMeals.isEmpty()) Flowable.just(emptyList<Meal>())
+                Flowable.just(commonMeals.map {
+                    Meal(
+                        name = it.mealCategory.text,
+                        date = it.meal.date,
+                        recipes = it.recipes.map { recipe ->
+                            DataBaseGatewayImpl(database).mapToRecipe(
+                                database.recipeDAO().getRecipeById(recipe.idRecipe)
+                            )
+                        }.toMutableList()
                     )
-                }
-
-
-                mealsList.add(Meal(
-                    name = it.mealCategory.text,
-                    date = it.meal.date,
-                    recipes = recipes
-                ))
+                })
             }
-        }
-        Log.d(tag, "Meal listSize = ${mealsList.size}")
-        Log.d(tag, "getMealsList END")
-
-        return mealsList.toList()
+            .doOnComplete {
+            }
     }
 }

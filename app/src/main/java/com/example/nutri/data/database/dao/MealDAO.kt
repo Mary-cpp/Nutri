@@ -5,6 +5,7 @@ import com.example.nutri.data.statistics.entities.MealCategory
 import com.example.nutri.data.statistics.entities.MealCommonEntity
 import com.example.nutri.data.statistics.entities.MealEntity
 import com.example.nutri.data.statistics.entities.RecipeInMeal
+import io.reactivex.rxjava3.core.Flowable
 import java.util.*
 
 @Dao
@@ -44,10 +45,6 @@ interface MealDAO {
     }
 
     @Transaction
-    @Query("SELECT * FROM meals")
-    suspend fun getCommonMeals(): List<MealCommonEntity>
-
-    @Transaction
     @Query("SELECT * FROM meals WHERE date(date) = date(:date)")
-    suspend fun getCommonMealsByDate(date: String): List<MealCommonEntity>
+    fun getCommonMealsByDate(date: String): Flowable<List<MealCommonEntity>>
 }
