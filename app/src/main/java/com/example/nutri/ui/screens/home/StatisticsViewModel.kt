@@ -16,6 +16,7 @@ import com.example.nutri.domain.statistics.WaterUseCaseInteractor
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -53,14 +54,16 @@ class StatisticsViewModel @Inject constructor(
 
     private fun onStatisticsScreenLoaded(date: String) = viewModelScope.launch {
 
-        var mealsFromDb : List<Meal> = listOf()
-
-        try {mealsFromDb = useCaseMeal.getMeals(date = date)}
-        catch(e: Exception){ Log.e(TAG, "Can not fetch meals from db", e ) }
-        finally{
-            if (mealsFromDb.isNotEmpty()) meals.value = mealsFromDb
-            else meals.value = createEmptyMealsList()
-        }
+        useCaseMeal.getMeals(date)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnError {
+                Log.e(TAG, "Caught ${it.stackTrace}")
+            }
+            .subscribe { mealsFromDb ->
+                if (mealsFromDb.isEmpty()) meals.value = createEmptyMealsList()
+                else meals.value = mealsFromDb
+                Log.i(TAG, "Meals list size: ${mealsFromDb.size}")
+            }
 
         try {
             water.value = useCaseWater.loadData(dateFormat.parse(date) as Date)
