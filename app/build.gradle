@@ -60,6 +60,7 @@ android {
 
 dependencies {
 
+    def rx_version = "3.0.0"
     def work_version = "2.8.1"
     def room_version = "2.5.1"
     def retrofit_version = "2.9.0"
@@ -80,6 +81,12 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+
+    // RxJava
+    implementation "io.reactivex.rxjava3:rxjava:$rx_version"
+    implementation "io.reactivex.rxjava3:rxandroid:$rx_version"
+    // Room usage with RxJava
+    implementation "androidx.room:room-rxjava3:$room_version"
 
     //JetpackCompose
     implementation "androidx.compose.foundation:foundation:$compose_version"
