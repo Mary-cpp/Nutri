@@ -10,6 +10,4 @@ interface MealDataBaseGateway{
     fun getMealsList(date: String) : Flowable<List<Meal>>
 
     suspend fun addRecipeInMeal(meal: Meal)
-
-    suspend fun saveMealList(list: List<Meal>)
 }

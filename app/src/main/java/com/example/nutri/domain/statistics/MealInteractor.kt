@@ -6,6 +6,5 @@ interface MealInteractor {
 
     suspend fun saveMeal(meal: Meal) : Int
     fun getMeals(date: String) : Flowable<List<Meal>>
-    suspend fun saveMealsList(meals: List<Meal>)
     suspend fun addMeal(meal: Meal)
 }

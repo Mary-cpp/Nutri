@@ -8,6 +8,7 @@ import com.example.nutri.data.statistics.entities.MealCommonEntity
 import com.example.nutri.data.statistics.entities.MealEntity
 import com.example.nutri.data.statistics.entities.RecipeInMeal
 import com.example.nutri.domain.statistics.Meal
+import com.example.nutri.ui.screens.my_recipes.TAG
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
@@ -83,7 +84,6 @@ class MealDatabaseGatewayImpl(
                 )
         }
 
-
         if (dbMealId == null){
             saveMeal(meal)
         }
@@ -105,13 +105,6 @@ class MealDatabaseGatewayImpl(
             database
                 .mealDAO()
                 .addRecipesInMeal(recipesInMeal)
-        }
-    }
-
-    override suspend fun saveMealList(list: List<Meal>) {
-
-        list.forEach {
-            saveMeal(it)
         }
     }
 
