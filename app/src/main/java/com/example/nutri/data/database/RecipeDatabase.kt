@@ -37,7 +37,7 @@ import com.example.nutri.domain.statistics.Water
         NutrientsInRecipe::class,
         Water::class,
     ],
-    version = 19,
+    version = 20,
     exportSchema = false)
 @TypeConverters(DateConverter::class)
 abstract class RecipeDatabase : RoomDatabase() {
