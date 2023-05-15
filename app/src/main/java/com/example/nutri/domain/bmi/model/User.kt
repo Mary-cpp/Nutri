@@ -1,7 +1,7 @@
 package com.example.nutri.domain.bmi.model
 
 class User (
-    val id: Int? = 0,
+    val id: String? = "0",
     val sex: Char,
     val height: Float,
     val heightMeasure: String,

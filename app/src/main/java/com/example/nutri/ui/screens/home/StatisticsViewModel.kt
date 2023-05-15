@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
+import com.example.nutri.core.ResultState
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
 import com.example.nutri.domain.bmi.model.User
 import com.example.nutri.domain.statistics.Meal
@@ -17,7 +18,6 @@ import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
@@ -76,9 +76,14 @@ class StatisticsViewModel @Inject constructor(
         }
         catch(tr: Throwable) { Log.e(TAG, "Cannot fetch water info from db", tr)}
 
-        try{ user.value = getUserPlan().await() }
-        catch(e: Exception) { Log.w(TAG, "Error fetching User DietPlan", e)}
-        finally{ countCalories() }
+        useCaseBmi.getCurrentUser().collect{ result ->
+            when (result){
+                is ResultState.Success<User> -> user.value = result.value
+                is ResultState.Loading -> {}
+                is ResultState.Error -> Log.e(TAG, "Error fetching user info from db", result.exception)
+            }
+            countCalories()
+        }
     }
 
     fun onWaterAddButtonClicked() {
@@ -90,11 +95,6 @@ class StatisticsViewModel @Inject constructor(
             water.value = Water(Date(), water.value.amount-1)
         }
         Log.i(TAG, "Water removed amount: ${water.value.amount}")
-    }
-
-    private fun getUserPlan()
-    = viewModelScope.async{
-       useCaseBmi.getCurrentUser()
     }
 
     fun onDateSelected(day: Int, month: Int, year: Int) = viewModelScope.launch{
@@ -115,9 +115,7 @@ class StatisticsViewModel @Inject constructor(
             }
         }
         user.value?.plan?.let {
-
             Log.i(TAG, "Changing card color")
-
             if (todayCalories >= it.kcal){
                 statisticsCardColor.value = com.example.nutri.ui.theme.Error
             }

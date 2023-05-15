@@ -1,8 +1,10 @@
 package com.example.nutri.domain.bmi.interactor
 
+import com.example.nutri.core.ResultState
 import com.example.nutri.data.bmi.repository.UserDataBaseGateway
 import com.example.nutri.domain.bmi.model.DietPlan
 import com.example.nutri.domain.bmi.model.User
+import kotlinx.coroutines.flow.Flow
 
 class BmiInteractorImpl(
     val counter: CountBMI,
@@ -16,7 +18,7 @@ class BmiInteractorImpl(
         saver.saveToLocal(user)
     }
 
-    override suspend fun getCurrentUser(): User? {
+    override suspend fun getCurrentUser(): Flow<ResultState<User>> {
         return saver.getLastUser()
     }
 }
