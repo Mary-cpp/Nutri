@@ -24,5 +24,5 @@ class DietPlanEntity (
     val fats: Int? = null,
 
     @ColumnInfo(name = "user_id", index = true)
-    val userId: Int
+    val userId: String
 )
