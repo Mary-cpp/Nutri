@@ -2,7 +2,7 @@ package com.example.nutri.domain.recipes.interactor
 
 
 import com.example.nutri.core.ResultState
-import com.example.nutri.data.recipe.remote.repository.ApiGateway
+import com.example.nutri.domain.recipes.ApiGateway
 import com.example.nutri.domain.recipes.model.Recipe
 import javax.inject.Inject
 

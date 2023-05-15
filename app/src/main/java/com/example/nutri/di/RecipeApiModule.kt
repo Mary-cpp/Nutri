@@ -1,6 +1,6 @@
 package com.example.nutri.di
 
-import com.example.nutri.data.recipe.remote.repository.ApiGateway
+import com.example.nutri.domain.recipes.ApiGateway
 import com.example.nutri.data.recipe.remote.repository.ApiGatewayImpl
 import com.example.nutri.domain.recipes.interactor.ReceiveRecipeFromApiUseCase
 import com.example.nutri.domain.recipes.interactor.RecipeInteractor

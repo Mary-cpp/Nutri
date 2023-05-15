@@ -1,7 +1,7 @@
 package com.example.nutri.domain.recipes.interactor
 
 import com.example.nutri.core.ResultState
-import com.example.nutri.data.recipe.local.repository.DataBaseGateway
+import com.example.nutri.domain.recipes.DataBaseGateway
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.screens.my_recipes.composables.SortAction
 import kotlinx.coroutines.Dispatchers
@@ -30,7 +30,7 @@ class LocalRecipeUseCase @Inject constructor(
         return db.deleteRecipe(recipe)
     }
 
-    override suspend fun getRecipesLike(name: String): List<Recipe>? {
+    override suspend fun getRecipesWithNameLike(name: String): List<Recipe>? {
         return db.getRecipesWithNameLike(name)
     }
 

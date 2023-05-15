@@ -17,7 +17,7 @@ import com.example.nutri.data.statistics.DateConverter
 import com.example.nutri.data.statistics.entities.MealCategory
 import com.example.nutri.data.statistics.entities.MealEntity
 import com.example.nutri.data.statistics.entities.RecipeInMeal
-import com.example.nutri.domain.statistics.Water
+import com.example.nutri.domain.statistics.model.Water
 
 @Database(
     entities =

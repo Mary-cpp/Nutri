@@ -1,6 +1,6 @@
 package com.example.nutri.data.statistics.repository
 
-import com.example.nutri.domain.statistics.Meal
+import com.example.nutri.domain.statistics.model.Meal
 import io.reactivex.rxjava3.core.Flowable
 
 interface MealDataBaseGateway{

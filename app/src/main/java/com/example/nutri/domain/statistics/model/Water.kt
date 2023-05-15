@@ -1,4 +1,4 @@
-package com.example.nutri.domain.statistics
+package com.example.nutri.domain.statistics.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

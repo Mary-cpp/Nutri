@@ -1,4 +1,4 @@
-package com.example.nutri.data.bmi.repository
+package com.example.nutri.domain.bmi
 
 import com.example.nutri.core.ResultState
 import com.example.nutri.domain.bmi.model.User

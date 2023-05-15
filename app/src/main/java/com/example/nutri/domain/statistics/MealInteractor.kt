@@ -1,5 +1,6 @@
 package com.example.nutri.domain.statistics
 
+import com.example.nutri.domain.statistics.model.Meal
 import io.reactivex.rxjava3.core.Flowable
 
 interface MealInteractor {

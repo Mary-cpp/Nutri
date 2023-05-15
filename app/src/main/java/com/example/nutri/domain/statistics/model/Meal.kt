@@ -1,4 +1,4 @@
-package com.example.nutri.domain.statistics
+package com.example.nutri.domain.statistics.model
 
 import com.example.nutri.domain.recipes.model.Recipe
 

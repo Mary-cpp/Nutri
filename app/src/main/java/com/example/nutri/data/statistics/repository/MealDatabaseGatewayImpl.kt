@@ -7,7 +7,7 @@ import com.example.nutri.data.statistics.entities.MealCategory
 import com.example.nutri.data.statistics.entities.MealCommonEntity
 import com.example.nutri.data.statistics.entities.MealEntity
 import com.example.nutri.data.statistics.entities.RecipeInMeal
-import com.example.nutri.domain.statistics.Meal
+import com.example.nutri.domain.statistics.model.Meal
 import com.example.nutri.ui.screens.my_recipes.TAG
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers

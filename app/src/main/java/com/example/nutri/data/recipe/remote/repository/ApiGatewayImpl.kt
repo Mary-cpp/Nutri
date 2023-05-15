@@ -5,6 +5,7 @@ import com.example.nutri.core.ResultState
 import com.example.nutri.data.api.EdamamService
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrientInstanceCreator
+import com.example.nutri.domain.recipes.ApiGateway
 import com.example.nutri.domain.recipes.model.Recipe
 import com.google.gson.GsonBuilder
 import kotlinx.coroutines.Dispatchers

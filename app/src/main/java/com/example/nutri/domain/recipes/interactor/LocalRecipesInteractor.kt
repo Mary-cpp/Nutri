@@ -11,6 +11,6 @@ interface LocalRecipesInteractor {
     suspend fun receiveRecipes(): Flow<ResultState<List<Recipe>>>
     suspend fun getCommonRecipe(recipeId : String) : Flow<ResultState<Recipe>>
     suspend fun deleteRecipe(recipe:Recipe)
-    suspend fun getRecipesLike(name: String): List<Recipe>?
+    suspend fun getRecipesWithNameLike(name: String): List<Recipe>?
     fun sortRecipesBy(sortAction: SortAction, list: List<Recipe>) : Flow<List<Recipe>>
 }

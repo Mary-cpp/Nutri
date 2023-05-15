@@ -10,9 +10,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.nutri.core.ResultState
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
 import com.example.nutri.domain.bmi.model.User
-import com.example.nutri.domain.statistics.Meal
+import com.example.nutri.domain.statistics.model.Meal
 import com.example.nutri.domain.statistics.MealInteractor
-import com.example.nutri.domain.statistics.Water
+import com.example.nutri.domain.statistics.model.Water
 import com.example.nutri.domain.statistics.WaterUseCaseInteractor
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
@@ -126,6 +126,7 @@ class StatisticsViewModel @Inject constructor(
     }
 
     private fun createEmptyMealsList()
-    = listOf(Meal("Meals", mutableListOf(), dateFormat.format(Date()))
+    = listOf(
+        Meal("Meals", mutableListOf(), dateFormat.format(Date()))
     )
 }

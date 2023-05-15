@@ -1,6 +1,7 @@
 package com.example.nutri.domain.statistics
 
 import com.example.nutri.data.statistics.repository.MealDataBaseGateway
+import com.example.nutri.domain.statistics.model.Meal
 import io.reactivex.rxjava3.core.Flowable
 
 class MealInteractorImpl(val db: MealDataBaseGateway) : MealInteractor

@@ -7,6 +7,7 @@ import com.example.nutri.data.recipe.local.entity.*
 import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.data.recipe.remote.dto.Ingredient
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
+import com.example.nutri.domain.recipes.DataBaseGateway
 import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

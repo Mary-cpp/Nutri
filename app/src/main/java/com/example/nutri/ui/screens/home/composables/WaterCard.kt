@@ -19,7 +19,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
-import com.example.nutri.domain.statistics.Water
+import com.example.nutri.domain.statistics.model.Water
 import com.example.nutri.ui.theme.NutriTheme
 
 @OptIn(ExperimentalAnimationApi::class)

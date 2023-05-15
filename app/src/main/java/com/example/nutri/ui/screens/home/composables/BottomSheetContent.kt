@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.nutri.domain.statistics.Meal
+import com.example.nutri.domain.statistics.model.Meal
 import com.example.nutri.ui.screens.home.HomePageStatistics
 import com.example.nutri.ui.screens.home.StatisticsViewModel
 import com.example.nutri.ui.theme.NutriShape
