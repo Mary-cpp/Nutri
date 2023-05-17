@@ -7,11 +7,13 @@ import com.example.nutri.data.statistics.entities.MealCategory
 import com.example.nutri.data.statistics.entities.MealCommonEntity
 import com.example.nutri.data.statistics.entities.MealEntity
 import com.example.nutri.data.statistics.entities.RecipeInMeal
+import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.domain.statistics.model.Meal
 import com.example.nutri.ui.screens.my_recipes.TAG
 import io.reactivex.rxjava3.core.Flowable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import java.util.*
 
@@ -121,9 +123,12 @@ class MealDatabaseGatewayImpl(
                         name = it.mealCategory.text,
                         date = it.meal.date,
                         recipes = it.recipes.map { recipe ->
-                            DataBaseGatewayImpl(database).mapToRecipe(
-                                database.recipeDAO().getRecipeById(recipe.idRecipe)
-                            )
+                            var result: Recipe
+                            runBlocking {
+                                result = DataBaseGatewayImpl(database).mapCommonEntityToRecipe(
+                                database.recipeDAO().getCommonRecipeEntity(recipe.idRecipe)
+                            ) }
+                            result
                         }.toMutableList()
                     )
                 })
