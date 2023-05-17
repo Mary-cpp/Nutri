@@ -257,7 +257,7 @@ class DataBaseGatewayImpl @Inject constructor(
         )
     }
 
-    private suspend fun mapCommonEntityToRecipe(
+    suspend fun mapCommonEntityToRecipe(
         recipe: RecipeEntityCommon
     ) : Recipe {
 
@@ -273,16 +273,15 @@ class DataBaseGatewayImpl @Inject constructor(
             healthLabels = labels[0],
             cautions = labels[1],
             dietLabels = labels[2],
-            ingredients = mapLocalIngredients(recipe.ingredientsInRecipe)
+            ingredients = mapIngredientEntity(recipe.ingredientsInRecipe)
         )
     }
 
-    private suspend fun mapLocalIngredients( ingredients: List<IngredientInRecipe>) : List<Ingredient>{
+    private suspend fun mapIngredientEntity(ingredients: List<IngredientInRecipe>) : List<Ingredient>{
 
         val listOfIngredients : MutableList<Characteristics> = mutableListOf()
         val text = StringBuilder()
         ingredients.forEach {
-
             val ingredientName = database.recipeDAO().getIngredientById(it.idIngredient).name
             text.append("$ingredientName ${it.amount}${it.units}")
 
