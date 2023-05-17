@@ -4,7 +4,19 @@ import com.example.nutri.domain.bmi.model.DietPlan
 import com.example.nutri.domain.bmi.model.User
 
 class CountBmiImpl: CountBMI {
-    override fun invoke(user: User): DietPlan = DietPlan(kcal = avg(user))
+
+    /**
+     * Daily calories intake is calculated as average between the results of Harris-Benedict and Sen-Jeor equations
+     *
+     * Daily fat intake is calculated as 25% of energy of daily calories intake, divided by 9 (1g of fat = 9 kcal)
+     * Daily carbs intake is calculated as 55% of energy of daily calories intake, divided by 4 (1g of fat = 4 kcal)
+     * Daily proteins intake is calculated as 0,8g per 1 kg of weight
+     * **/
+
+    override fun invoke(user: User): DietPlan {
+        val kcal = avg(user)
+        return DietPlan(kcal = kcal, fats = (kcal*0.25f)/9, carbs = (kcal*0.55f)/4, proteins = user.weight*0.8f)
+    }
 
     private fun avg(user: User) : Int
     {
