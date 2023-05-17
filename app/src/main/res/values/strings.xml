@@ -16,4 +16,8 @@
     <string name="brunch_notification_description">Don\'t forget to add your meal info</string>
     <string name="water_notification_title">Time to hydrate!</string>
     <string name="water_notification_description">Have a glass of water and add your water info :)</string>
+    <string name="water">Water intake</string>
+    <string name="proteins">proteins</string>
+    <string name="fats">fats</string>
+    <string name="carbs">carbohydrates</string>
 </resources>
