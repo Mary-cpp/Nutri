@@ -28,7 +28,7 @@ class BmiViewModel @Inject constructor(
     val user: MutableState<User?> = mutableStateOf(null)
 
 
-    fun countPlan() = viewModelScope.launch{
+    fun onCalculateButtonClicked() = viewModelScope.launch{
         user.value = User(
             sex = userSex.value,
             height = userHeight.value.toFloat(),
@@ -46,7 +46,7 @@ class BmiViewModel @Inject constructor(
         Log.d("COUNT_PLAN", user.value!!.plan!!.kcal.toString())
     }
 
-    fun usePlan() = viewModelScope.launch {
+    fun onUsePlanTextClicked() = viewModelScope.launch {
         userUseCase.saveUser(user.value!!)
     }
 }

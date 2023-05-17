@@ -211,7 +211,7 @@ fun BmiCalcCard(vm : BmiViewModel){
 
             Button(
                 onClick = {
-                    vm.countPlan() },
+                    vm.onCalculateButtonClicked() },
                 elevation = ButtonDefaults.elevation(6.dp),
                 modifier = Modifier
                     .fillMaxWidth()

@@ -18,6 +18,6 @@ fun TrackUser(
         textAlign = TextAlign.Center,
         modifier = Modifier
             .padding(8.dp)
-            .clickable{ vm.apply { usePlan() } }
+            .clickable{ vm.apply { onUsePlanTextClicked() } }
     )
 }
