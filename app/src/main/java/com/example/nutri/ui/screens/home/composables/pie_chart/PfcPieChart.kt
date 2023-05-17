@@ -1,8 +1,9 @@
-package com.example.nutri.ui.screens.home.composables
+package com.example.nutri.ui.screens.home.composables.pie_chart
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
+import androidx.compose.material.SliderDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -10,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.bmi.model.DietPlan
-import com.example.nutri.ui.screens.home.composables.pie_chart.SimpleSliceDrawer
 import com.example.nutri.ui.theme.NutriTheme
 
 @Composable
@@ -45,7 +45,7 @@ fun ChartThickness(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp, start = 24.dp, end = 24.dp),
+            .padding(top = 24.dp, start = 64.dp, end = 64.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
@@ -58,7 +58,11 @@ fun ChartThickness(
         Slider(
             value = thickness,
             onValueChange = { onValueUpdated(it) },
-            valueRange = 10f.rangeTo(100f)
+            valueRange = 10f.rangeTo(100f),
+            colors = SliderDefaults.colors(
+                thumbColor = com.example.nutri.ui.theme.Tertiary,
+                activeTrackColor = com.example.nutri.ui.theme.Tertiary
+            )
         )
     }
 }
