@@ -14,10 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
 import com.example.nutri.ui.screens.common.HomeScreenTopBar
-import com.example.nutri.ui.screens.home.composables.FAB
-import com.example.nutri.ui.screens.home.composables.HomePageBottomSheet
-import com.example.nutri.ui.screens.home.composables.StatisticsCard
-import com.example.nutri.ui.screens.home.composables.WaterInfoCard
+import com.example.nutri.ui.screens.home.composables.*
 
 @Composable
 fun HomePage(
@@ -63,5 +60,6 @@ fun HomePageStatistics(
             onAdd = vm::onWaterAddButtonClicked,
             water = vm.water,
         )
+        PfcPieChart(data = vm.pfc.value)
     }
 }
