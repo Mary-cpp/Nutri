@@ -9,11 +9,12 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import com.example.nutri.core.ResultState
 import com.example.nutri.domain.bmi.interactor.BmiInteractor
+import com.example.nutri.domain.bmi.model.DietPlan
 import com.example.nutri.domain.bmi.model.User
-import com.example.nutri.domain.statistics.model.Meal
 import com.example.nutri.domain.statistics.MealInteractor
-import com.example.nutri.domain.statistics.model.Water
 import com.example.nutri.domain.statistics.WaterUseCaseInteractor
+import com.example.nutri.domain.statistics.model.Meal
+import com.example.nutri.domain.statistics.model.Water
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -36,6 +37,7 @@ class StatisticsViewModel @Inject constructor(
 
     val myCalories: MutableState<Int?> = mutableStateOf(0)
     val statisticsCardColor: MutableState<Color> = mutableStateOf(com.example.nutri.ui.theme.Tertiary)
+    val pfc: MutableState<DietPlan> = mutableStateOf(DietPlan(0,0f,0f,0f))
     var user: MutableState<User?> = mutableStateOf(null)
     var meals: MutableState<List<Meal>> =  mutableStateOf(createEmptyMealsList())
     var water: MutableState<Water> = mutableStateOf(Water(Date(), 1))
@@ -62,7 +64,11 @@ class StatisticsViewModel @Inject constructor(
             .subscribe(
                 { mealsFromDb : List<Meal> ->
                     if (mealsFromDb.isEmpty()) meals.value = createEmptyMealsList()
-                    else meals.value = mealsFromDb
+                    else {
+                        meals.value = mealsFromDb
+                        pfc.value = useCaseBmi.countNutritionData(meals.value)
+                        onDailyIntakeCounted()
+                    }
                     Log.i(TAG, "Meals list size: ${mealsFromDb.size}")
                 },
                 { tr : Throwable ->
@@ -82,7 +88,6 @@ class StatisticsViewModel @Inject constructor(
                 is ResultState.Loading -> {}
                 is ResultState.Error -> Log.e(TAG, "Error fetching user info from db", result.exception)
             }
-            countCalories()
         }
     }
 
@@ -104,25 +109,16 @@ class StatisticsViewModel @Inject constructor(
         onStatisticsScreenLoaded(date = dateFormat.format(dateFormat.parse("$year-$month-$day") as Date))
     }
 
-    private fun countCalories() {
-
-        var todayCalories = 0
-        meals.value.forEach{ meal->
-            if(meal.recipes.isNotEmpty()){
-                meal.recipes.forEach {
-                    todayCalories += it.calories?.toInt() ?: 0
-                }
-            }
-        }
+    private fun onDailyIntakeCounted() {
         user.value?.plan?.let {
             Log.i(TAG, "Changing card color")
-            if (todayCalories >= it.kcal){
+            if (pfc.value.kcal >= it.kcal){
                 statisticsCardColor.value = com.example.nutri.ui.theme.Error
             }
             else statisticsCardColor.value = com.example.nutri.ui.theme.PrimaryVariant
         }
-        Log.i(TAG, "Today's calories $todayCalories")
-        myCalories.value = todayCalories
+        Log.i(TAG, "Today's calories ${pfc.value.kcal}")
+        myCalories.value = pfc.value.kcal
     }
 
     private fun createEmptyMealsList()
