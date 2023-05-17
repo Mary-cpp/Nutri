@@ -1,9 +1,6 @@
 package com.example.nutri.ui.screens.home.composables
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -31,8 +28,11 @@ fun RecipeInMealCard(
             horizontalArrangement = Arrangement.SpaceBetween
         ){
             recipe.name?.let{
-                Text(text = recipe.name)
-                Text(text = "${recipe.totalWeight}g")
+                Text(
+                    modifier = Modifier.wrapContentHeight().widthIn(max = 200.dp),
+                    text = recipe.name
+                )
+                Text(text = "${recipe.calories} kcal")
             }
         }
     }
