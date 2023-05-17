@@ -2,19 +2,19 @@ package com.example.nutri.ui.screens.home.composables
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,41 +33,50 @@ fun WaterInfoCard(
     val isFullWaterVisible by remember { derivedStateOf { water.value.amount > 0 }}
 
     Surface(
-        modifier = modifier.padding(4.dp).wrapContentHeight(),
+        modifier = modifier
+            .padding(4.dp)
+            .wrapContentHeight(),
         shape = RoundedCornerShape(12.dp),
-        elevation = 4.dp,
+        elevation = 2.dp,
         color = MaterialTheme.colors.background,
     ){
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            repeat(water.value.amount){
-                AnimatedVisibility(
-                    visible = isFullWaterVisible,
-                    enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f))
-                            + fadeIn() + expandVertically(expandFrom = Alignment.CenterVertically),
-                    exit = scaleOut() + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
-                ) {
-                    Icon(
-                        imageVector = ImageVector
-                            .vectorResource(R.drawable.water_full48px),
-                        tint = MaterialTheme.colors.primary,
-                        contentDescription = "LowWaterIcon",
-                        modifier = Modifier.clickable { onRemove.invoke() }
-                    )
-                }
-            }
-            Icon(
-                imageVector = ImageVector
-                    .vectorResource(R.drawable.water_low_48px),
-                tint = MaterialTheme.colors.primary,
-                contentDescription = "LowWaterIcon",
-                modifier = Modifier.clickable { onAdd.invoke() }
+        Column(verticalArrangement = Arrangement.SpaceBetween) {
+            Text(
+                modifier = modifier.padding(top = 16.dp),
+                color = Color.Black,
+                text = LocalContext.current.resources.getString(R.string.water)
             )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                repeat(water.value.amount){
+                    AnimatedVisibility(
+                        visible = isFullWaterVisible,
+                        enter = scaleIn(transformOrigin = TransformOrigin(0f, 0f))
+                                + fadeIn() + expandVertically(expandFrom = Alignment.CenterVertically),
+                        exit = scaleOut() + shrinkVertically(shrinkTowards = Alignment.CenterVertically)
+                    ) {
+                        Icon(
+                            imageVector = ImageVector
+                                .vectorResource(R.drawable.water_full48px),
+                            tint = MaterialTheme.colors.primary,
+                            contentDescription = "LowWaterIcon",
+                            modifier = Modifier.clickable { onRemove.invoke() }
+                        )
+                    }
+                }
+                Icon(
+                    imageVector = ImageVector
+                        .vectorResource(R.drawable.water_low_48px),
+                    tint = MaterialTheme.colors.primary,
+                    contentDescription = "LowWaterIcon",
+                    modifier = Modifier.clickable { onAdd.invoke() }
+                )
+            }
         }
     }
 }
@@ -81,7 +90,9 @@ fun WaterInfoCardTest(
     val isFullWaterVisible by remember { derivedStateOf { waterAmount > 0 }}
 
     Surface(
-        modifier = modifier.padding(4.dp).wrapContentHeight(),
+        modifier = modifier
+            .padding(4.dp)
+            .wrapContentHeight(),
         shape = RoundedCornerShape(12.dp),
         elevation = 4.dp,
         color = MaterialTheme.colors.background,

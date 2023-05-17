@@ -23,7 +23,7 @@ fun HomeBottomSheetContent(meals: List<Meal>){
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 16.dp, end = 16.dp),
+            .padding(top = 4.dp, start = 16.dp, end = 16.dp),
         shape = NutriShape.mealsListCornerShape,
         color = MaterialTheme.colors.primary
     ) {
@@ -42,7 +42,7 @@ fun HomePageBottomSheet(vm: StatisticsViewModel){
         scaffoldState = rememberBottomSheetScaffoldState(
             bottomSheetState = rememberBottomSheetState(initialValue = BottomSheetValue.Collapsed)
         ),
-        sheetPeekHeight = countSheetHeight(listOfMeals = vm.meals.value),
+        //sheetPeekHeight = countSheetHeight(listOfMeals = vm.meals.value),
         sheetContent = {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
