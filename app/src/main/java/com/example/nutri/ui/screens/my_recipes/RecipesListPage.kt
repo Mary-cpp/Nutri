@@ -2,17 +2,27 @@ package com.example.nutri.ui.screens.my_recipes
 
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
-import com.example.nutri.ui.screens.common.SearchFieldTest
+import com.example.nutri.ui.screens.common.SearchTextField
 import com.example.nutri.ui.screens.common.TopBar
 import com.example.nutri.ui.screens.home.composables.FAB
 import com.example.nutri.ui.screens.my_recipes.composables.RecipesList
@@ -21,14 +31,14 @@ import com.example.nutri.ui.screens.my_recipes.composables.SortAndFilter
 const val TAG = "MyRecipesPage"
 @Composable
 fun MyRecipesPage(
-    vm: RecipesViewModel
+    vm: RecipesListViewModel
 ) {
     val listOfRecipes by remember { vm.recipeList }
     val isLoading by remember { vm.isDataLoading }
 
     Log.w(TAG, "$TAG loaded")
     Scaffold(modifier = Modifier.fillMaxSize(),
-        topBar = { TopBar("My recipes") },
+        topBar = { TopBar(LocalContext.current.getString(R.string.recipes)) },
         floatingActionButton = {
             FAB(
                 onClick = vm::navigateToNewRecipe,
@@ -36,7 +46,7 @@ fun MyRecipesPage(
                 border = BorderStroke(2.dp, Color.White),
                 modifier = Modifier.wrapContentSize(),
                 iconRes = R.drawable.add48px,
-                text = "New Recipe"
+                text = LocalContext.current.getString(R.string.new_recipe)
             )
         })
     { paddingValues ->
@@ -58,7 +68,7 @@ fun MyRecipesPage(
                 Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                SearchFieldTest()
+                SearchTextField()
                 SortAndFilter(vm)
                 if (isLoading) {
                     Column(
@@ -70,7 +80,7 @@ fun MyRecipesPage(
                     RecipesList(listOfRecipes = listOfRecipes, vm::navigateToRecipe)
                     Text(
                         modifier = Modifier.padding(top = 24.dp),
-                        text = "Keep exploring :)",
+                        text = LocalContext.current.getString(R.string.keep_exploring),
                         color = MaterialTheme.colors.secondaryVariant
                     )
                 }

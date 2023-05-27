@@ -2,7 +2,7 @@ package com.example.nutri.domain.gateway
 
 import com.example.nutri.data.database.RecipeDatabase
 import com.example.nutri.data.database.dao.RecipeDAO
-import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
+import com.example.nutri.data.recipe.local.repository.RecipeDatabaseGatewayImpl
 import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.runBlocking
 import org.junit.jupiter.api.AfterEach
@@ -12,7 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
 import org.mockito.Mockito
 
-internal class DataBaseGatewayImplTest {
+internal class RecipeDatabaseGatewayImplTest {
 
     private val database = Mockito.mock(RecipeDatabase::class.java)
     private val dao = Mockito.mock(RecipeDAO::class.java)
@@ -35,7 +35,7 @@ internal class DataBaseGatewayImplTest {
         Mockito.`when`(dao.addLabels(listOf())).thenReturn(Unit)
 
         val expected = argument*3
-        val actual = DataBaseGatewayImpl(database)
+        val actual = RecipeDatabaseGatewayImpl(database)
             .mapLabels(createRecipeWithLabels(argument))
 
         assertEquals(expected, actual)

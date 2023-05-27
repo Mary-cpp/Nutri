@@ -6,7 +6,7 @@ import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.unit.dp
 import com.example.nutri.domain.recipes.model.Ingredient
-import com.example.nutri.ui.screens.RecipeBottomSheetContent
+import com.example.nutri.ui.screens.create_recipe.RecipeBottomSheetContent
 import com.example.nutri.ui.theme.NutriShape
 
 @OptIn(ExperimentalMaterialApi::class)

@@ -10,13 +10,16 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.nutri.R
 import com.example.nutri.domain.bmi.model.ActivityType
-import com.example.nutri.ui.screens.DropDownListButton
+import com.example.nutri.ui.screens.bmi.composables.ActivityDropDownListButton
+import com.example.nutri.ui.screens.create_recipe.DropDownListButton
 import com.example.nutri.ui.screens.bmi.composables.DietResultCard
 import com.example.nutri.ui.screens.bmi.composables.TrackUser
 import com.example.nutri.ui.screens.common.TopBar
@@ -30,7 +33,7 @@ fun BmiPage(
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         contentColor = Color.White,
-        topBar = { TopBar("BMI Calculator") },
+        topBar = { TopBar(LocalContext.current.resources.getString(R.string.bmi_calc)) },
         content = {
             Surface(
                 Modifier
@@ -71,7 +74,7 @@ fun BmiCalcCard(vm : BmiViewModel){
         ){
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = "Choose your gender",
+                text = LocalContext.current.resources.getString(R.string.gender),
                 fontSize = MaterialTheme.typography.h5.fontSize,
                 textAlign = TextAlign.Center
             )
@@ -85,7 +88,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                     onClick = {
                         selectedItem = 'F'
                         vm.userSex.value = 'F'},
-                    modifier = Modifier.size(width = 136.dp, height = 176.dp),
+                    modifier = Modifier.size(width = 136.dp, height = 120.dp),
                     elevation =
                     if (selectedItem == 'F') ButtonDefaults.elevation(0.dp)
                     else ButtonDefaults.elevation(16.dp),
@@ -96,14 +99,14 @@ fun BmiCalcCard(vm : BmiViewModel){
                 ) {
                     Text (text = "F",
                         color = Color.White,
-                        fontSize = MaterialTheme.typography.h3.fontSize)
+                        fontSize = MaterialTheme.typography.h4.fontSize)
                 }
 
                 Button(
                     onClick = {
                         selectedItem = 'M'
                         vm.userSex.value = 'M'},
-                    modifier = Modifier.size(width = 136.dp, height = 176.dp),
+                    modifier = Modifier.size(width = 136.dp, height = 120.dp),
                     elevation =
                     if (selectedItem == 'M') ButtonDefaults.elevation(0.dp)
                     else ButtonDefaults.elevation(16.dp),
@@ -115,7 +118,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                     Text (
                         text = "M",
                         color = Color.White,
-                        fontSize = MaterialTheme.typography.h3.fontSize
+                        fontSize = MaterialTheme.typography.h4.fontSize
                     )
                 }
             }
@@ -134,7 +137,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                     shape = NutriShape.smallRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(MaterialTheme.colors.primary),
                     modifier = Modifier.size(width = 136.dp, height = 64.dp),
-                    label = { Text( "Weight")}
+                    label = { Text( LocalContext.current.getString(R.string.weight))}
                 )
 
                 DropDownListButton(
@@ -142,7 +145,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                     color = MaterialTheme.colors.primary,
                     shape = NutriShape.smallRoundCornerShape,
                     menuItems = listOf("kg", "lbs"),
-                    buttonSize = 48)
+                    buttonSize = 56)
             }
 
             Row(modifier = Modifier.padding(8.dp)){
@@ -158,7 +161,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                     shape = NutriShape.smallRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(MaterialTheme.colors.primary),
                     modifier = Modifier.size(width = 136.dp, height = 64.dp),
-                    label = { Text( "Height")}
+                    label = { Text( LocalContext.current.getString(R.string.height))}
                 )
 
                 DropDownListButton(
@@ -166,7 +169,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                     color = MaterialTheme.colors.primary,
                     shape = NutriShape.smallRoundCornerShape,
                     menuItems = listOf("m", "ft"),
-                    buttonSize = 48)
+                    buttonSize = 64)
             }
             Row(
                 modifier = Modifier
@@ -184,7 +187,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                     shape = NutriShape.smallRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(MaterialTheme.colors.primary),
                     modifier = Modifier.size(width = 88.dp, height = 64.dp),
-                    label = { Text( "Age")}
+                    label = { Text( LocalContext.current.getString(R.string.age))}
                 )
             }
 
@@ -193,13 +196,14 @@ fun BmiCalcCard(vm : BmiViewModel){
                 val activityType = vm.userActivity
 
                 Text(
-                    text = "Activity type:",
+                    text = LocalContext.current.getString(R.string.activity_type),
                     fontSize = MaterialTheme.typography.subtitle2.fontSize
                 )
 
+                val stringValue = LocalContext.current.getString(activityType.value.text)
                 ActivityDropDownListButton(
                     mutableString = remember {
-                        mutableStateOf( activityType.value.text)
+                        mutableStateOf( stringValue)
                     },
                     color = MaterialTheme.colors.background,
                     shape = NutriShape.smallRoundCornerShape,
@@ -219,7 +223,7 @@ fun BmiCalcCard(vm : BmiViewModel){
                 shape = RoundedCornerShape(16.dp)
             ) {
                 Text(
-                    text = "Calculate",
+                    text = LocalContext.current.getString(R.string.calculate),
                     modifier = Modifier.padding(8.dp),
                     textAlign = TextAlign.Center,
                     fontSize = MaterialTheme.typography.subtitle2.fontSize)

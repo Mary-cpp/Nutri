@@ -8,8 +8,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.screens.common.RecipesListForSearch
 import com.example.nutri.ui.screens.common.RecipesListForSearchTest
@@ -43,7 +45,7 @@ fun SearchPageContent(
             Text(
                 modifier = Modifier
                     .clickable { vm.navigateToNewRecipe() },
-                text = "Didn't find desired Recipe? Create!"
+                text = LocalContext.current.getString(R.string.recipe_not_found)
             )
         }
     }
@@ -61,7 +63,7 @@ fun SearchPageTest(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SearchTextField()
-            RecipesListForSearchTest(listOfRecipes = listOf(Recipe.makeRecipe(),Recipe.makeRecipe()))
+            RecipesListForSearchTest(listOfRecipes = listOf(Recipe.createEmpty(),Recipe.createEmpty()))
             Text(
                 text = "Didn't find desired Recipe? Create!"
             )

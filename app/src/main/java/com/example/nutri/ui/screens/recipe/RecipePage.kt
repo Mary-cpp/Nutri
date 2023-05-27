@@ -14,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -116,8 +117,9 @@ fun RecipeCard(
                     }
                 }
 
+                val weight = "${LocalContext.current.resources.getString(R.string.total_weight)} ${recipe.totalWeight.toString()}"
                 Text(
-                    text = "Total weight: ${recipe.totalWeight.toString()}",
+                    text = weight,
                     modifier = Modifier.padding(bottom = 18.dp),
                     fontSize = 16.sp
                 )
@@ -185,8 +187,9 @@ fun RecipeCardTest(
                     }
                 }
 
+                val weight = "${LocalContext.current.resources.getString(R.string.total_weight)} ${recipe.totalWeight.toString()}"
                 Text(
-                    text = "Total weight: ${recipe.totalWeight.toString()}",
+                    text = weight,
                     modifier = Modifier.padding(bottom = 18.dp),
                     fontSize = 16.sp
                 )
@@ -216,6 +219,6 @@ fun RecipeCardTest(
 fun RecipePagePreview() {
     NutriTheme {
         RecipeCardTest(
-            recipe = Recipe.makeRecipe())
+            recipe = Recipe.createEmpty())
     }
 }

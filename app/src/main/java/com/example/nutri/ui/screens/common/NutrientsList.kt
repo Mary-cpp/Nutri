@@ -10,9 +10,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.nutri.R
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
 import com.example.nutri.ui.theme.NutriTheme
 
@@ -22,7 +24,7 @@ fun NutrientsList(nutrients: Map<String, BaseNutrient>){
 
     Column{
         Text(
-            text = "Nutrients:",
+            text = LocalContext.current.resources.getString(R.string.nutrients),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp, bottom = 8.dp),

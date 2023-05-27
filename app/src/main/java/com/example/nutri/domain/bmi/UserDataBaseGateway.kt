@@ -6,6 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface UserDataBaseGateway {
 
-    suspend fun saveToLocal(user: User): String
-    suspend fun getLastUser() : Flow<ResultState<User>>
+    suspend fun saveUserInfo(user: User): String
+    suspend fun getLastUserInfo() : Flow<ResultState<User>>
 }

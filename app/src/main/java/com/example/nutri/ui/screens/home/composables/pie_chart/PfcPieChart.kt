@@ -30,9 +30,9 @@ fun PfcPieChart(data: DietPlan){
                 .height(100.dp),
             sliceDrawer = SimpleSliceDrawer(sliceThickness = thickness)
         )
-        ChartThickness(thickness = thickness, onValueUpdated = { newValue ->
+        /*ChartThickness(thickness = thickness, onValueUpdated = { newValue ->
             thickness = newValue
-        })
+        })*/
 
     }
 }

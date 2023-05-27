@@ -2,9 +2,9 @@
     <string name="app_name">Nutri</string>
 
     // Notifications
-    <string name="notification_action">com.example.nutri.NOTIFICATION</string>
-    <string name="notification_channel_name">NotificationChannel</string>
-    <string name="notification_channel_description">Channel for displaying notifications about meals and water consumption</string>
+    <string name="notification_action" translatable="false">com.example.nutri.NOTIFICATION</string>
+    <string name="notification_channel_name" translatable="false">NotificationChannel</string>
+    <string name="notification_channel_description" translatable="false">Channel for displaying notifications about meals and water consumption</string>
 
     <string name="breakfast_notification_title">It\'s breakfast time</string>
     <string name="breakfast_notification_description">Good morning! Don\'t forget to add your meal info</string>
@@ -19,5 +19,47 @@
     <string name="water">Water intake</string>
     <string name="proteins">proteins</string>
     <string name="fats">fats</string>
+    <string name="new_recipe">New recipe</string>
     <string name="carbs">carbohydrates</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="no_ingredients">No ingredients added</string>
+    <string name="add_ingredient">Add ingredient</string>
+    <string name="sort">Sort</string>
+    <string name="filter">Filter</string>
+    <string name="search">Search for recipes</string>
+    <string name="home">Home</string>
+    <string name="calories">Calories for today</string>
+    <string name="no_meals">Nothing for today :c</string>
+    <string name="recipe_not_found">Didn\'t find desired recipe? Create</string>
+    <string name="calculate">Calculate</string>
+    <string name="gender">Choose your gender</string>
+    <string name="height">Height</string>
+    <string name="weight">Weight</string>
+    <string name="age">Age</string>
+    <string name="bmi_calc">BMI Calculator</string>
+    <string name="activity_type">Activity type:</string>
+    <string name="title">Title</string>
+    <string name="ingredient_name">Ingredient name</string>
+    <string name="amount">Amount</string>
+    <string name="recipes">Saved recipes</string>
+    <string name="keep_exploring">Keep exploring :)</string>
+    <string name="bmi_short">BMI</string>
+    <string name="recipes_short">Recipes</string>
+    <string name="notifications">Notifications</string>
+    <string name="recipe">Recipe</string>
+    <string name="edit_recipe">Edit</string>
+    <string name="notifications_meals">Meal notifications</string>
+    <string name="notifications_water">Water notifications</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="dinner">Dinner</string>
+    <string name="lunch">Lunch</string>
+    <string name="Brunch">Brunch</string>
+    <string name="water_notif">Water</string>
+    <string name="type_sedentary">Sedentary</string>
+    <string name="type_moderate">Moderate</string>
+    <string name="type_light">Light Active</string>
+    <string name="type_very_active">Very Active</string>
+    <string name="type_extra_active">Extra active</string>
+    <string name="total_weight">Total weight:</string>
+    <string name="nutrients">Nutrients:</string>
 </resources>

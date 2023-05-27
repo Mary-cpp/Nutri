@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,8 @@ fun EditRecipeCard(vm: EditRecipeViewModel){
                 ){
                     TextField(modifier = Modifier
                         .padding(start = 24.dp, bottom = 16.dp)
-                        .size(208.dp, 64.dp),
+                        .wrapContentHeight()
+                        .widthIn(max = 208.dp),
                         value = name.value,
                         shape = RoundedCornerShape(16.dp),
                         colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
@@ -84,7 +86,7 @@ fun IngredientsToEdit(
     ){
         Column(Modifier.padding(24.dp)){
             Text(
-                text = "Ingredients",
+                text = LocalContext.current.getString(R.string.ingredients),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp),

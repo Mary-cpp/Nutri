@@ -1,5 +1,6 @@
 package com.example.nutri.di
 
+import android.content.Context
 import com.example.nutri.domain.bmi.UserDataBaseGateway
 import com.example.nutri.data.bmi.repository.UserDatabaseGatewayImpl
 import com.example.nutri.data.database.RecipeDatabase
@@ -10,6 +11,7 @@ import com.example.nutri.domain.bmi.interactor.CountBmiImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
 @InstallIn(SingletonComponent::class)
@@ -30,7 +32,8 @@ object BmiModule {
 
     @Provides
     fun provideDatabaseGateway(
-        database: RecipeDatabase
+        database: RecipeDatabase,
+        @ApplicationContext context: Context
     ) : UserDataBaseGateway
-    = UserDatabaseGatewayImpl(database = database)
+    = UserDatabaseGatewayImpl(database = database, context = context)
 }

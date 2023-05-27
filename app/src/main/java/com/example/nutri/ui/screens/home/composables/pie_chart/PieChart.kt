@@ -91,7 +91,7 @@ fun ChartInfo(
     val carbsString = LocalContext.current.resources.getString(com.example.nutri.R.string.carbs)
 
     Row(
-        modifier = Modifier.padding(top = 32.dp),
+        modifier = Modifier.padding(top = 16.dp, bottom = 32.dp),
         horizontalArrangement = Arrangement.SpaceAround,
         verticalAlignment = Alignment.CenterVertically,
     ) {

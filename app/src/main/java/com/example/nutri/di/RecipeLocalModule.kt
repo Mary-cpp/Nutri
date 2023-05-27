@@ -2,8 +2,8 @@ package com.example.nutri.di
 
 import android.content.Context
 import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.domain.recipes.DataBaseGateway
-import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
+import com.example.nutri.domain.recipes.RecipeDatabaseGateway
+import com.example.nutri.data.recipe.local.repository.RecipeDatabaseGatewayImpl
 import com.example.nutri.domain.recipes.interactor.LocalRecipeUseCase
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
 import dagger.Module
@@ -20,7 +20,7 @@ object RecipeLocalModule {
 
     @Provides
     fun provideUseCase(
-        dataBaseGatewayImpl: DataBaseGatewayImpl
+        dataBaseGatewayImpl: RecipeDatabaseGatewayImpl
     ) : LocalRecipesInteractor {
         return LocalRecipeUseCase(db = dataBaseGatewayImpl
         )
@@ -29,8 +29,8 @@ object RecipeLocalModule {
     @Provides
     fun provideDbGateway(
         database: RecipeDatabase
-    ): DataBaseGateway {
-        return DataBaseGatewayImpl(
+    ): RecipeDatabaseGateway {
+        return RecipeDatabaseGatewayImpl(
             database = database
         )
     }

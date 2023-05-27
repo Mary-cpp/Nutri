@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -53,7 +54,9 @@ fun EditRecipeScreenContent(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopBarWithIcon("New Recipe", getBack) },
+        topBar = { TopBarWithIcon(
+            topBarText = LocalContext.current.getString(R.string.new_recipe),
+            action = getBack) },
         floatingActionButton = {
             FAB(
                 onClick = {
@@ -64,7 +67,7 @@ fun EditRecipeScreenContent(
                 border = BorderStroke(2.dp, Color.White),
                 modifier = Modifier.wrapContentSize(),
                 iconRes = R.drawable.add48px,
-                text = "Add ingredient"
+                text = LocalContext.current.getString(R.string.add_ingredient)
             )
         },
         content = { RecipeEditCard( vm = vm, vm.recipeName) }
@@ -107,7 +110,9 @@ fun RecipeEditCard(
                             unfocusedBorderColor = Color.White
                         ),
                         onValueChange = { recipeName.value = it },
-                        label = { Text(text = "Title", color = Color.White) })
+                        label = { Text(
+                            text = LocalContext.current.getString(R.string.title),
+                            color = Color.White) })
 
                     Column{
                         IconButton(

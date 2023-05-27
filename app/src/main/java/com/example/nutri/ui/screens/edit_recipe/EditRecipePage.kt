@@ -12,6 +12,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.nutri.R
@@ -57,7 +58,7 @@ fun EditRecipePageContent(
 ){
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { TopBarWithIcon("Edit", getBack) },
+        topBar = { TopBarWithIcon(LocalContext.current.getString(R.string.edit_recipe), getBack) },
         floatingActionButton = {
             FAB(
                 onClick = {
@@ -68,7 +69,7 @@ fun EditRecipePageContent(
                 border = BorderStroke(2.dp, Color.White),
                 modifier = Modifier.wrapContentSize(),
                 iconRes = R.drawable.add48px,
-                text = "Add ingredient"
+                text = LocalContext.current.resources.getString(R.string.add_ingredient)
             ) },
         content = {
             if (!vm.isLoading.value){

@@ -22,7 +22,7 @@ import com.example.nutri.ui.screens.edit_recipe.EditRecipeViewModel
 import com.example.nutri.ui.screens.home.HomePage
 import com.example.nutri.ui.screens.home.StatisticsViewModel
 import com.example.nutri.ui.screens.my_recipes.MyRecipesPage
-import com.example.nutri.ui.screens.my_recipes.RecipesViewModel
+import com.example.nutri.ui.screens.my_recipes.RecipesListViewModel
 import com.example.nutri.ui.screens.recipe.RecipePage
 import com.example.nutri.ui.screens.recipe.RecipeViewModel
 import com.example.nutri.ui.screens.search.SearchPage
@@ -51,11 +51,11 @@ fun NavigationGraph(
 
             HomePage(vm = vm)
         }
-        composable(Screen.MyRecipes.screenRoute) { navEntry->
+        composable(Screen.RecipesList.screenRoute) { navEntry->
 
             Log.i(TAG, "To ${navEntry.destination.route}")
 
-            val vm = hiltViewModel<RecipesViewModel>()
+            val vm = hiltViewModel<RecipesListViewModel>()
             navEntry.lifecycle.addObserver(vm)
 
             MyRecipesPage(vm = vm)

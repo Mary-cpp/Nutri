@@ -15,7 +15,7 @@ open class NavigationViewModel @Inject constructor(
 
     fun navigateBack() = navControllerHolder.navigateBack()
 
-    override fun navigateToRecipes() = navControllerHolder.navigateToRoute(Screen.MyRecipes.screenRoute)
+    override fun navigateToRecipes() = navControllerHolder.navigateToRoute(Screen.RecipesList.screenRoute)
 
     override fun navigateToBmi() = navControllerHolder.navigateToRoute(Screen.BMI.screenRoute)
 

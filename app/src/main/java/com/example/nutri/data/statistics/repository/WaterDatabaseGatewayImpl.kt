@@ -11,7 +11,7 @@ import javax.inject.Inject
 class WaterDatabaseGatewayImpl @Inject constructor(
     val database: RecipeDatabase
 ): WaterDatabaseGateway{
-    override suspend fun getWaterDataFromDb(date: Date): Water {
+    override suspend fun getWaterInfoByDate(date: Date): Water {
         return withContext(Dispatchers.IO){ database.waterDAO().getWaterInfoByDate(date) ?: Water(Date()) }
     }
 

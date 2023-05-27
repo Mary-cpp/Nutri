@@ -4,11 +4,11 @@ import com.example.nutri.core.ResultState
 import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.flow.Flow
 
-interface DataBaseGateway {
+interface RecipeDatabaseGateway {
 
-    suspend fun saveToLocal(recipe: Recipe, recipeName: String): String
-    suspend fun getLocalRecipesList(): Flow<ResultState<List<Recipe>>>
-    suspend fun getRecipe(recipeId: String) : Flow<ResultState<Recipe>>
+    suspend fun saveRecipeInfo(recipe: Recipe, recipeName: String): String
+    suspend fun getRecipesListFlow(): Flow<ResultState<List<Recipe>>>
+    suspend fun getRecipeById(id: String) : Flow<ResultState<Recipe>>
     suspend fun getRecipesWithNameLike(name: String) : List<Recipe>?
     suspend fun deleteRecipe(recipe: Recipe)
 }

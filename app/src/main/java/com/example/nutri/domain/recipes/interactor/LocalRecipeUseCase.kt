@@ -1,7 +1,7 @@
 package com.example.nutri.domain.recipes.interactor
 
 import com.example.nutri.core.ResultState
-import com.example.nutri.domain.recipes.DataBaseGateway
+import com.example.nutri.domain.recipes.RecipeDatabaseGateway
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.screens.my_recipes.composables.SortAction
 import kotlinx.coroutines.Dispatchers
@@ -11,19 +11,19 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 class LocalRecipeUseCase @Inject constructor(
-    private val db: DataBaseGateway
+    private val db: RecipeDatabaseGateway
     ): LocalRecipesInteractor {
 
     override suspend fun saveRecipe(recipe: Recipe, recipeName: String): String {
-        return db.saveToLocal(recipe, recipeName)
+        return db.saveRecipeInfo(recipe, recipeName)
     }
 
     override suspend fun receiveRecipes() : Flow<ResultState<List<Recipe>>> {
-        return db.getLocalRecipesList()
+        return db.getRecipesListFlow()
     }
 
     override suspend fun getCommonRecipe(recipeId: String): Flow<ResultState<Recipe>> {
-        return db.getRecipe(recipeId = recipeId)
+        return db.getRecipeById(id = recipeId)
     }
 
     override suspend fun deleteRecipe(recipe: Recipe) {

@@ -8,6 +8,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -16,7 +17,7 @@ import androidx.navigation.NavController
 fun BottomNavigationBar(
     navController: NavController
 ) {
-    val menuItems = listOf(Screen.MyRecipes, Screen.Home, Screen.BMI)
+    val menuItems = listOf(Screen.RecipesList, Screen.Home, Screen.BMI)
     val selectedItem = remember { mutableStateOf(1) }
 
     BottomNavigation(
@@ -28,12 +29,12 @@ fun BottomNavigationBar(
                         Icon(
                             imageVector = ImageVector.vectorResource(id = item.icon!!),
                             modifier = Modifier.size(24.dp),
-                            contentDescription = item.title
+                            contentDescription = LocalContext.current.getString(item.title)
                         )
                     },
                     label = {
                         Text(
-                            text = item.title,
+                            text = LocalContext.current.getString(item.title),
                             fontSize = MaterialTheme.typography.caption.fontSize
                         )
                     },

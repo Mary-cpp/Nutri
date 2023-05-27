@@ -6,9 +6,13 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.core.content.ContextCompat
 import com.example.nutri.MainActivity
 import com.example.nutri.R
 
@@ -17,6 +21,7 @@ class AlarmReceiver : BroadcastReceiver() {
     private val channelId = "0"
     private val tag = this::class.simpleName
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onReceive(p0: Context?, p1: Intent?) {
         p1?.let { intent ->
             if (p0 != null) {
@@ -31,6 +36,7 @@ class AlarmReceiver : BroadcastReceiver() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun notifyUser(context: Context, intent: Intent){
 
         val title = intent.getStringExtra("notification_title")
@@ -44,12 +50,15 @@ class AlarmReceiver : BroadcastReceiver() {
         )
 
         with(NotificationManagerCompat.from(context)){
-            notify(System.currentTimeMillis().toInt(), createNotification(
-                title = title!!,
-                details = description!!,
-                context = context,
-                notificationIntent = notificationPendingIntent,
-            ))
+            val notificationPermission = android.Manifest.permission.POST_NOTIFICATIONS
+            if (ContextCompat.checkSelfPermission(context, notificationPermission) != PackageManager.PERMISSION_GRANTED) {
+                notify(System.currentTimeMillis().toInt(), createNotification(
+                    title = title!!,
+                    details = description!!,
+                    context = context,
+                    notificationIntent = notificationPendingIntent,
+                ))
+            }
         }
     }
 

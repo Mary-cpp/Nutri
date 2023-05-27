@@ -98,7 +98,7 @@ fun getTimeInMillis(hours: Int, minutes: Int) : Long{
 }
 
 enum class NotificationType(
-    val text: String,
+    val text: Int,
     val title: Int,
     val description: Int,
     var intent: PendingIntent? = null,
@@ -106,31 +106,31 @@ enum class NotificationType(
     var triggerTimeMinutes: Int = 0,
 ){
     BREAKFAST(
-        text = "Breakfast",
+        text = R.string.breakfast,
         title = R.string.breakfast_notification_title,
         description = R.string.breakfast_notification_description,
         triggerTimeHours = 9,
     ),
     LUNCH(
-        text = "Lunch",
+        text = R.string.lunch,
         title = R.string.lunch_notification_title,
         description = R.string.lunch_notification_description,
         triggerTimeHours = 14,
     ),
     DINNER(
-        text = "Dinner",
+        text = R.string.dinner,
         title = R.string.dinner_notification_title,
         description = R.string.dinner_notification_description,
         triggerTimeHours = 18
     ),
     BRUNCH(
-        text = "Brunch",
+        text = R.string.Brunch,
         title = R.string.brunch_notification_title,
         description = R.string.brunch_notification_description,
         triggerTimeHours = 12,
     ),
     WATER(
-        text = "Water",
+        text = R.string.water_notif,
         title = R.string.water_notification_title,
         description = R.string.water_notification_description,
         triggerTimeHours = 9

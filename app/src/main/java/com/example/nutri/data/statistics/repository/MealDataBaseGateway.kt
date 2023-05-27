@@ -5,9 +5,9 @@ import io.reactivex.rxjava3.core.Flowable
 
 interface MealDataBaseGateway{
 
-    suspend fun saveMeal(meal: Meal): Int
+    suspend fun saveMealInfo(meal: Meal): Int
 
-    fun getMealsList(date: String) : Flowable<List<Meal>>
+    fun getMealsListFlowByDate(date: String) : Flowable<List<Meal>>
 
     suspend fun addRecipeInMeal(meal: Meal)
 }

@@ -23,7 +23,7 @@ data class Recipe (
 ) {
 
     companion object{
-        fun makeRecipe() : Recipe {
+        fun createEmpty() : Recipe {
             return Recipe(
                 id = "1011101010",
                 uri = "some uri",

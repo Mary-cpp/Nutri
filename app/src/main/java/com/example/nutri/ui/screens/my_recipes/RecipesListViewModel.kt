@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class RecipesViewModel @Inject constructor(
+class RecipesListViewModel @Inject constructor(
     private var useCase: LocalRecipesInteractor,
     navControllerProvider: NavControllerHolder,
 ) : NavigationViewModel(navControllerProvider), DefaultLifecycleObserver {

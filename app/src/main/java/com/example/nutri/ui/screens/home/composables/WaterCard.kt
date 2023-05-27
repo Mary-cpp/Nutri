@@ -11,7 +11,6 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
@@ -43,7 +42,7 @@ fun WaterInfoCard(
         Column(verticalArrangement = Arrangement.SpaceBetween) {
             Text(
                 modifier = modifier.padding(top = 16.dp),
-                color = Color.Black,
+                color = com.example.nutri.ui.theme.Tertiary,
                 text = LocalContext.current.resources.getString(R.string.water)
             )
             Row(
@@ -63,7 +62,7 @@ fun WaterInfoCard(
                         Icon(
                             imageVector = ImageVector
                                 .vectorResource(R.drawable.water_full48px),
-                            tint = MaterialTheme.colors.primary,
+                            tint = com.example.nutri.ui.theme.Tertiary,
                             contentDescription = "LowWaterIcon",
                             modifier = Modifier.clickable { onRemove.invoke() }
                         )
@@ -71,8 +70,8 @@ fun WaterInfoCard(
                 }
                 Icon(
                     imageVector = ImageVector
-                        .vectorResource(R.drawable.water_low_48px),
-                    tint = MaterialTheme.colors.primary,
+                        .vectorResource(R.drawable.add48px),
+                    tint = com.example.nutri.ui.theme.Tertiary,
                     contentDescription = "LowWaterIcon",
                     modifier = Modifier.clickable { onAdd.invoke() }
                 )
@@ -122,7 +121,7 @@ fun WaterInfoCardTest(
             }
             Icon(
                 imageVector = ImageVector
-                    .vectorResource(R.drawable.water_low_48px),
+                    .vectorResource(R.drawable.add48px),
                 tint = MaterialTheme.colors.primary,
                 contentDescription = "LowWaterIcon",
                 modifier = modifier.clickable { waterAmount++ }

@@ -7,7 +7,7 @@ import com.example.nutri.data.recipe.local.entity.*
 import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.data.recipe.remote.dto.Ingredient
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
-import com.example.nutri.domain.recipes.DataBaseGateway
+import com.example.nutri.domain.recipes.RecipeDatabaseGateway
 import com.example.nutri.domain.recipes.model.Recipe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,13 +19,13 @@ import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
-class DataBaseGatewayImpl @Inject constructor(
+class RecipeDatabaseGatewayImpl @Inject constructor(
     val database: RecipeDatabase
-    ) : DataBaseGateway {
+    ) : RecipeDatabaseGateway {
 
     val TAG: String = "DataBaseGatewayImpl"
 
-    override suspend fun saveToLocal(recipe: Recipe, recipeName: String): String {
+    override suspend fun saveRecipeInfo(recipe: Recipe, recipeName: String): String {
         Log.d(TAG, "saveToLocal         START")
 
         // Creating ID for new recipe
@@ -65,7 +65,7 @@ class DataBaseGatewayImpl @Inject constructor(
         return recipeId
     }
 
-    override suspend fun getLocalRecipesList() : Flow<ResultState<List<Recipe>>> {
+    override suspend fun getRecipesListFlow() : Flow<ResultState<List<Recipe>>> {
         Log.d(TAG, "getLocalRecipesList         START")
 
         return try {
@@ -80,11 +80,11 @@ class DataBaseGatewayImpl @Inject constructor(
         }
     }
 
-    override suspend fun getRecipe(recipeId: String): Flow<ResultState<Recipe>> {
-        Log.d(TAG, "getRecipe    RecipeID: $recipeId    START")
+    override suspend fun getRecipeById(id: String): Flow<ResultState<Recipe>> {
+        Log.d(TAG, "getRecipe    RecipeID: $id    START")
 
         return try {
-            database.recipeDAO().getCommonRecipe(recipeId)
+            database.recipeDAO().getCommonRecipe(id)
                 .flowOn(Dispatchers.IO)
                 .map { commonRecipe ->
                     ResultState.Success(mapCommonEntityToRecipe(commonRecipe))

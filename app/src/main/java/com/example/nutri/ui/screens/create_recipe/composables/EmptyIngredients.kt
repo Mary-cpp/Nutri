@@ -9,8 +9,10 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.nutri.R
 
 @Composable
 fun EmptyIngredients(){
@@ -24,14 +26,14 @@ fun EmptyIngredients(){
     ) {
         Column(Modifier.padding(24.dp)) {
             Text(
-                text = "Ingredients",
+                text = LocalContext.current.getString(R.string.ingredients),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp),
                 textAlign = TextAlign.Center,
                 fontSize = MaterialTheme.typography.h5.fontSize
             )
-            Text(text = "No ingredients added",
+            Text(text = LocalContext.current.getString(R.string.no_ingredients),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp),

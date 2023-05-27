@@ -11,6 +11,7 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
 import com.example.nutri.ui.screens.common.HomeScreenTopBar
@@ -25,7 +26,7 @@ fun HomePage(
     vm : StatisticsViewModel
 ) {
     Scaffold(topBar = { HomeScreenTopBar(
-        topBarText = "Home",
+        topBarText = LocalContext.current.getString(R.string.home),
         actionCalendar = vm::onDateSelected,
         actionNotifications = vm::navigateToNotificationsConfigs
     ) },

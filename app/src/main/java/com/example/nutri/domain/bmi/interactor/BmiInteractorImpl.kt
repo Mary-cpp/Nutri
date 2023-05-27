@@ -37,10 +37,10 @@ class BmiInteractorImpl(
     }
 
     override suspend fun saveUser(user: User) {
-        saver.saveToLocal(user)
+        saver.saveUserInfo(user)
     }
 
     override suspend fun getCurrentUser(): Flow<ResultState<User>> {
-        return saver.getLastUser()
+        return saver.getLastUserInfo()
     }
 }

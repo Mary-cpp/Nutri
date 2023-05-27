@@ -8,11 +8,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
-import com.example.nutri.ui.screens.my_recipes.RecipesViewModel
+import com.example.nutri.ui.screens.my_recipes.RecipesListViewModel
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.launch
 
@@ -24,13 +25,14 @@ enum class SortAction(val text: String){
 }
 
 @Composable
-fun SortAndFilter(vm: RecipesViewModel){
+fun SortAndFilter(vm: RecipesListViewModel){
     Row (modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
         horizontalArrangement = Arrangement.SpaceEvenly){
         Box(contentAlignment = Alignment.Center){
-            var sortButtonText by remember { mutableStateOf("Sort") }
+            val sort = LocalContext.current.getString(R.string.sort)
+            var sortButtonText by remember { mutableStateOf(sort) }
             var selectedSortFilter by remember { mutableStateOf<SortAction?>(null) }
             var isSortExpanded by remember { mutableStateOf(false)}
             val sortMenuItems = SortAction.values()
@@ -60,7 +62,7 @@ fun SortAndFilter(vm: RecipesViewModel){
                     color = Color.Black,
                     modifier = Modifier.padding(end = 16.dp)
                         .wrapContentWidth()
-                        .widthIn(min = 40.dp, max = 88.dp)
+                        .widthIn(min = 40.dp, max = 96.dp)
                         .wrapContentHeight()
                 )
             }
@@ -91,7 +93,7 @@ fun SortAndFilter(vm: RecipesViewModel){
                 modifier = Modifier
                     .size(32.dp)
                     .padding(end = 8.dp))
-            Text(text = "Filter", color = Color.Black)
+            Text(text = LocalContext.current.getString(R.string.filter), color = Color.Black)
         }
     }
 }

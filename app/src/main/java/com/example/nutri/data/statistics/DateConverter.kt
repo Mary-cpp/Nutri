@@ -7,8 +7,8 @@ import java.util.*
 class DateConverter {
 
     @TypeConverter
-    fun fromDate (value: String) : Date = dateFormat.parse(value) ?: Date()
+    fun toDate (value: String) : Date = dateFormat.parse(value) ?: Date()
 
     @TypeConverter
-    fun toDate (date: Date) : String = dateFormat.format(date)
+    fun fromDate (date: Date) : String = dateFormat.format(date)
 }

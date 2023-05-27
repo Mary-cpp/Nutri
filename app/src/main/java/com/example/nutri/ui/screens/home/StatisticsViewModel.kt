@@ -19,9 +19,11 @@ import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 val dateFormat= SimpleDateFormat("yyyy-MM-dd", Locale.US)
@@ -42,6 +44,8 @@ class StatisticsViewModel @Inject constructor(
     var meals: MutableState<List<Meal>> =  mutableStateOf(createEmptyMealsList())
     var water: MutableState<Water> = mutableStateOf(Water(Date(), 1))
 
+    private var cDisposable : CompositeDisposable = CompositeDisposable()
+
     override fun onResume(owner: LifecycleOwner) {
         onStatisticsScreenLoaded(dateFormat.format(Date()))
     }
@@ -52,11 +56,12 @@ class StatisticsViewModel @Inject constructor(
                 useCaseWater.updateData(water.value)
             } catch (tr: Throwable) {Log.e(TAG, "Cannot update water info", tr)}
         }
+        cDisposable.dispose()
     }
 
     private fun onStatisticsScreenLoaded(date: String) = viewModelScope.launch {
 
-        useCaseMeal.getMeals(date)
+        val userFlow = useCaseMeal.getMeals(date)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnError {
                 Log.e(TAG, "Caught ${it.message}")
@@ -67,7 +72,7 @@ class StatisticsViewModel @Inject constructor(
                     else {
                         meals.value = mealsFromDb
                         pfc.value = useCaseBmi.countNutritionData(meals.value)
-                        onDailyIntakeCounted()
+                        changeCardColor()
                     }
                     Log.i(TAG, "Meals list size: ${mealsFromDb.size}")
                 },
@@ -75,6 +80,7 @@ class StatisticsViewModel @Inject constructor(
                     Log.e(TAG, "Error fetching meal data from db", tr)
                 }
             )
+        cDisposable.add(userFlow)
 
         try {
             water.value = useCaseWater.loadData(dateFormat.parse(date) as Date)
@@ -109,7 +115,7 @@ class StatisticsViewModel @Inject constructor(
         onStatisticsScreenLoaded(date = dateFormat.format(dateFormat.parse("$year-$month-$day") as Date))
     }
 
-    private fun onDailyIntakeCounted() {
+    private fun changeCardColor() {
         user.value?.plan?.let {
             Log.i(TAG, "Changing card color")
             if (pfc.value.kcal >= it.kcal){

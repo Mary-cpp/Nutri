@@ -1,5 +1,7 @@
 package com.example.nutri.data.bmi.repository
 
+import android.content.Context
+import android.util.Log
 import com.example.nutri.core.ResultState
 import com.example.nutri.data.bmi.entity.ActivityTypeEntity
 import com.example.nutri.data.bmi.entity.DietPlanEntity
@@ -9,20 +11,26 @@ import com.example.nutri.domain.bmi.UserDataBaseGateway
 import com.example.nutri.domain.bmi.model.ActivityType
 import com.example.nutri.domain.bmi.model.DietPlan
 import com.example.nutri.domain.bmi.model.User
+import com.example.nutri.ui.screens.my_recipes.TAG
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.withContext
 import java.util.*
+import javax.inject.Inject
 
-class UserDatabaseGatewayImpl(
-    val database: RecipeDatabase
+class UserDatabaseGatewayImpl @Inject constructor(
+    val database: RecipeDatabase,
+    @ApplicationContext val context: Context,
 ) : UserDataBaseGateway {
 
-    override suspend fun saveToLocal(user: User): String {
+    override suspend fun saveUserInfo(user: User): String {
         val userId: String = UUID.randomUUID().toString()
         withContext(Dispatchers.IO){
+            val activity = context.resources.getString(user.activityType.text)
+            database.userDAO().addActivityType(ActivityTypeEntity(text = activity, id = null))
             database.userDAO().addUserInfo(
-                activityType = ActivityTypeEntity(text = user.activityType.text, id = null),
+                activityType = ActivityTypeEntity(text = activity, id = null),
                 user = mapUserToEntity(user, userId),
                 dietPlan = DietPlanEntity(id = null, kcal = user.plan!!.kcal, userId = userId)
             )
@@ -30,12 +38,17 @@ class UserDatabaseGatewayImpl(
         return userId
     }
 
-    override suspend fun getLastUser(): Flow<ResultState<User>> {
+    override suspend fun getLastUserInfo(): Flow<ResultState<User>> {
 
         return try {
             database.userDAO().getLastUser()
                 .transform { dbUser ->
                     dbUser?.let{
+                        var activityType = ActivityType.LIGHT
+                        ActivityType.values().forEach{ actType ->
+                            val type = context.resources.getString(actType.text)
+                            if (it.activityTypeEntity.text == type) activityType = actType
+                        }
                         emit(ResultState.Success(
                             User(
                                 id = it.userEntity.id,
@@ -46,7 +59,7 @@ class UserDatabaseGatewayImpl(
                                 weightMeasure = it.userEntity.weightUnit,
                                 age = it.userEntity.age,
                                 plan = DietPlan(kcal = it.dietPlanEntity.kcal),
-                                activityType = ActivityType.valueOf(it.activityTypeEntity.text),
+                                activityType = activityType,
                             )
                         ))
                     }
@@ -60,7 +73,10 @@ class UserDatabaseGatewayImpl(
         user: User,
         id : String,
     ) : UserEntity
-    = UserEntity(
+    { 
+        val activity = context.resources.getString(user.activityType.text)
+        Log.i(TAG, activity)
+        return UserEntity(
         id = id,
         height = user.height,
         heightUnit = user.heightMeasure,
@@ -68,7 +84,9 @@ class UserDatabaseGatewayImpl(
         weightUnit = user.weightMeasure,
         age = user.age,
         sex = user.sex,
-        activityTypeId = database.userDAO().getActivityTypeId(user.activityType.text)
+        activityTypeId = database.userDAO().getActivityTypeId(activity)
     )
+    }
+    
 }
 

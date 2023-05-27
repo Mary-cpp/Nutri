@@ -10,9 +10,11 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.nutri.R
 import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.ui.theme.NutriShape
 
@@ -29,7 +31,7 @@ fun Ingredients(ingredients : List<Characteristics>) {
     ) {
         Column(Modifier.padding(24.dp)) {
             Text(
-                text = "Ingredients",
+                text = LocalContext.current.resources.getString(R.string.ingredients),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp),

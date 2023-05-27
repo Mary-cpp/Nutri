@@ -2,7 +2,7 @@ package com.example.nutri.data.statistics.repository
 
 import android.util.Log
 import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.data.recipe.local.repository.DataBaseGatewayImpl
+import com.example.nutri.data.recipe.local.repository.RecipeDatabaseGatewayImpl
 import com.example.nutri.data.statistics.entities.MealCategory
 import com.example.nutri.data.statistics.entities.MealCommonEntity
 import com.example.nutri.data.statistics.entities.MealEntity
@@ -22,7 +22,7 @@ class MealDatabaseGatewayImpl(
 ) : MealDataBaseGateway {
 
     private val tag = "MealDatabaseGatewayImpl"
-    override suspend fun saveMeal(meal: Meal): Int {
+    override suspend fun saveMealInfo(meal: Meal): Int {
 
         val mealUId = UUID.randomUUID().toString()
         val mealCategoryUId = UUID.randomUUID().toString()
@@ -87,7 +87,7 @@ class MealDatabaseGatewayImpl(
         }
 
         if (dbMealId == null){
-            saveMeal(meal)
+            saveMealInfo(meal)
         }
         else{
             val recipesInMeal = mutableListOf<RecipeInMeal>()
@@ -110,7 +110,7 @@ class MealDatabaseGatewayImpl(
         }
     }
 
-    override fun getMealsList(date: String): Flowable<List<Meal>> {
+    override fun getMealsListFlowByDate(date: String): Flowable<List<Meal>> {
         Log.d(tag, "getMealsList START")
 
         return database.mealDAO().getCommonMealsByDate(date)
@@ -125,7 +125,7 @@ class MealDatabaseGatewayImpl(
                         recipes = it.recipes.map { recipe ->
                             var result: Recipe
                             runBlocking {
-                                result = DataBaseGatewayImpl(database).mapCommonEntityToRecipe(
+                                result = RecipeDatabaseGatewayImpl(database).mapCommonEntityToRecipe(
                                 database.recipeDAO().getCommonRecipeEntity(recipe.idRecipe)
                             ) }
                             result

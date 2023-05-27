@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.nutri.R
 import com.example.nutri.core.NotificationType
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.screens.common.TopBarWithIcon
@@ -24,7 +25,7 @@ fun NotificationsConfigPage(
 ){
     Scaffold(
         modifier = modifier.fillMaxWidth(),
-        topBar = { TopBarWithIcon("Notifications", action = vm::navigateBack) },
+        topBar = { TopBarWithIcon(LocalContext.current.getString(R.string.notifications), action = vm::navigateBack) },
     ) { paddingValues ->
         Surface(
             modifier = modifier
@@ -43,7 +44,7 @@ fun NotificationsConfigPage(
                 item{
                     WaterNotifications(
                         switchState = vm.areWaterNotificationsEnabled,
-                        text = "Water notifications",
+                        text = LocalContext.current.getString(R.string.notifications_water),
                         onSwitchStateChanged = vm::onWaterNotificationsSwitchStateChanged)
                 }
             }
@@ -99,7 +100,7 @@ fun MealsNotifications(
         ) {
             Text(
                 modifier = Modifier.padding(12.dp),
-                text = "Meal notifications",
+                text = LocalContext.current.getString(R.string.notifications_meals),
                 color = MaterialTheme.colors.onSurface,
                 fontSize = MaterialTheme.typography.subtitle1.fontSize
             )
@@ -130,7 +131,10 @@ fun MealTimeConfigurations(
         ){
             NotificationType.values().forEach { notificationType ->
                 if (notificationType == NotificationType.WATER) return@forEach
-                MealTimeConfigurator(mealName = notificationType.text, onTimeSelected = onTimeSelected)
+                MealTimeConfigurator(
+                    mealName = LocalContext.current.resources.getString(notificationType.text),
+                    onTimeSelected = onTimeSelected
+                )
             }
         }
     }
@@ -141,7 +145,11 @@ fun MealTimeConfigurator(
     mealName: String,
     onTimeSelected: (NotificationType, Int, Int) -> Unit,
 ){
-    val mealNotificationType = NotificationType.valueOf(mealName.uppercase())
+    var mealNotificationType = NotificationType.BREAKFAST
+    NotificationType.values().forEach {
+        val title = LocalContext.current.resources.getString(it.text)
+        if (title == mealName) mealNotificationType = it
+    }
 
     val minutes by remember { derivedStateOf {
         if (mealNotificationType.triggerTimeMinutes in 0..9) "0${mealNotificationType.triggerTimeMinutes}"

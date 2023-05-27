@@ -1,4 +1,4 @@
-package com.example.nutri.ui.screens
+package com.example.nutri.ui.screens.create_recipe
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -12,10 +12,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.nutri.R
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 
@@ -32,7 +34,7 @@ fun RecipeBottomSheetContent(
     ){
         Column(modifier = Modifier.padding(20.dp)){
             Text(
-                text = "Add new ingredient",
+                text = LocalContext.current.getString(R.string.add_ingredient),
                 modifier = Modifier.padding(16.dp),
                 fontSize = MaterialTheme.typography.h5.fontSize
             )
@@ -45,7 +47,7 @@ fun RecipeBottomSheetContent(
                 colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 onValueChange = { ingredientName.value = it },
-                label = { Text("Ingredient name") })
+                label = { Text(LocalContext.current.getString(R.string.ingredient_name)) })
 
             Row(
                 modifier = Modifier.padding(start = 16.dp, bottom = 16.dp),
@@ -66,7 +68,7 @@ fun RecipeBottomSheetContent(
                             ingredientAmount.value = it.toInt()
                         }
                         catch (_: java.lang.NumberFormatException){ }},
-                    label = { Text("Amount") }
+                    label = { Text(LocalContext.current.getString(R.string.amount)) }
                 )
                 DropDownListButton(
                     mutableString = ingredientUnits,
