@@ -9,10 +9,12 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.nutri.R
 import com.example.nutri.ui.theme.NutriShape
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.launch
@@ -31,7 +33,8 @@ fun SearchPage(
             }
         )
 
-    val mealName: MutableState<String> = remember{ mutableStateOf("Select meal")}
+    val selectMeal = LocalContext.current.getString(R.string.select_meal)
+    val mealName: MutableState<String> = remember{ mutableStateOf(selectMeal)}
 
     ModalBottomSheetLayout(
         sheetContent = {
@@ -62,7 +65,11 @@ fun MealBottomSheetContent(
     bottomSheetState: ModalBottomSheetState
 ){
     val tag = "MealBottomSheetContent"
-    val mealNames = listOf("Breakfast", "Lunch", "Dinner")
+    val selectMeal = LocalContext.current.getString(R.string.select_meal)
+    val breakfast = LocalContext.current.getString(R.string.breakfast)
+    val lunch = LocalContext.current.getString(R.string.lunch)
+    val dinner = LocalContext.current.getString(R.string.dinner)
+    val mealNames = listOf(breakfast, lunch, dinner)
     val scope = rememberCoroutineScope()
 
     Column (
@@ -91,7 +98,7 @@ fun MealBottomSheetContent(
                         .clickable {
                             mealName.value = it
 
-                            if (mealName.value != "Select meal") {
+                            if (mealName.value != selectMeal) {
                                 scope.launch {
                                     vm.addRecipeToMeal(
                                         id = vm.selectedRecipeId.value,

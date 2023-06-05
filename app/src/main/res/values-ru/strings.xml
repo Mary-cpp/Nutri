@@ -57,4 +57,9 @@
     <string name="type_extra_active">Повышенная активность</string>
     <string name="total_weight">Общий вес:</string>
     <string name="nutrients">Нутриенты:</string>
+    <string name="select_meal">Выберите прием пищи:</string>
+    <string name="sort_name">По названию</string>
+    <string name="sort_name_desc">По названию, убывающая</string>
+    <string name="sort_calories">По калориям</string>
+    <string name="sort_calories_desc">По калориям, убывающая</string>
 </resources>

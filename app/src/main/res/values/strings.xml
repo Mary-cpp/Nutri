@@ -62,4 +62,9 @@
     <string name="type_extra_active">Extra active</string>
     <string name="total_weight">Total weight:</string>
     <string name="nutrients">Nutrients:</string>
+    <string name="select_meal">Select meal:</string>
+    <string name="sort_name">Sort by name</string>
+    <string name="sort_name_desc">Sort by name, descending</string>
+    <string name="sort_calories">Sort by calories</string>
+    <string name="sort_calories_desc">Sort by calories, descending</string>
 </resources>
