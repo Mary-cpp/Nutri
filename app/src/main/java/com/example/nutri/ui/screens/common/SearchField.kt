@@ -19,18 +19,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.nutri.R
-import com.example.nutri.ui.screens.search.SearchViewModel
 import com.example.nutri.ui.theme.NutriTheme
+import kotlinx.coroutines.Job
 
 @Composable
 fun SearchTextField(
-    vm: SearchViewModel? = null){
+    search: (String) -> Job
+){
 
     val searchParameter = remember{ mutableStateOf(TextFieldValue("")) }
 
     LaunchedEffect(searchParameter.value ){
         if(searchParameter.value.text != ""){
-            vm?.getRecipes(searchParameter.value.text)
+            search.invoke(searchParameter.value.text)
         }
     }
     OutlinedTextField(

@@ -15,6 +15,7 @@ import com.example.nutri.R
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.screens.common.RecipesListForSearch
 import com.example.nutri.ui.screens.common.RecipesListForSearchTest
+import com.example.nutri.ui.screens.common.SearchFieldTest
 import com.example.nutri.ui.screens.common.SearchTextField
 import com.example.nutri.ui.theme.NutriTheme
 import kotlinx.coroutines.CoroutineScope
@@ -35,7 +36,7 @@ fun SearchPageContent(
             modifier = Modifier.padding(top = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SearchTextField(vm = vm)
+            SearchTextField(search = vm::onSearchParameterChanged)
             RecipesListForSearch(
                 listOfRecipes = vm.foundRecipes,
                 recipeId = vm.selectedRecipeId,
@@ -62,7 +63,7 @@ fun SearchPageTest(
             modifier = Modifier.padding(top = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SearchTextField()
+            SearchFieldTest()
             RecipesListForSearchTest(listOfRecipes = listOf(Recipe.createEmpty(),Recipe.createEmpty()))
             Text(
                 text = "Didn't find desired Recipe? Create!"

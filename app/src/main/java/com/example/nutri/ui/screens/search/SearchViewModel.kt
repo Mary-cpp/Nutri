@@ -32,7 +32,7 @@ class SearchViewModel @Inject constructor(
 
     private val tag = "SearchViewModel"
 
-    fun getRecipes(name: String) = viewModelScope.launch{
+    fun onSearchParameterChanged(name: String) = viewModelScope.launch{
 
         Log.d(tag, "getRecipes     START")
         if(name.isEmpty()) return@launch
