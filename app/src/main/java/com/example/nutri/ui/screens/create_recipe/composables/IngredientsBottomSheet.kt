@@ -18,23 +18,23 @@ fun IngredientsBottomSheet(
 ){
 
     val ingredientName: MutableState<String> = remember { mutableStateOf("") }
-    val ingredientAmount: MutableState<Int> = remember { mutableStateOf(0) }
+    val ingredientAmount: MutableState<String> = remember { mutableStateOf("") }
     val ingredientUnits: MutableState<String> = remember { mutableStateOf("g") }
 
     if (bottomSheetState.currentValue != ModalBottomSheetValue.Hidden){
         DisposableEffect(Unit) {
             onDispose {
 
-                if(ingredientName.value.isNotEmpty() || ingredientAmount.value != 0){
+                if(ingredientName.value.isNotEmpty() || ingredientAmount.value != "0"){
                     val ingredient = Ingredient(ingredientName = ingredientName.value.trim(),
-                        ingredientAmount = ingredientAmount.value,
+                        ingredientAmount = ingredientAmount.value.toInt(),
                         ingredientUnits = ingredientUnits.value)
 
                     ingredientList.add(
                         ingredient
                     )
 
-                    ingredientName.value = ""; ingredientAmount.value = 0
+                    ingredientName.value = ""; ingredientAmount.value = ""
 
                     Log.d("BOTTOM SHEET", ingredient.toString())
                 }

@@ -24,7 +24,7 @@ import com.example.nutri.ui.theme.NutriTheme
 @Composable
 fun RecipeBottomSheetContent(
     ingredientName: MutableState<String>,
-    ingredientAmount: MutableState<Int>,
+    ingredientAmount: MutableState<String>,
     ingredientUnits: MutableState<String>
 ) {
     Surface(
@@ -57,7 +57,7 @@ fun RecipeBottomSheetContent(
                     modifier = Modifier
                         .padding(end = 8.dp)
                         .size(width = 150.dp, height = 64.dp),
-                    value = ingredientAmount.value.toString(),
+                    value = ingredientAmount.value,
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done,
                         keyboardType = KeyboardType.Decimal),
@@ -65,7 +65,7 @@ fun RecipeBottomSheetContent(
                     colors = TextFieldDefaults.outlinedTextFieldColors(Color.Black),
                     onValueChange = {
                         try {
-                            ingredientAmount.value = it.toInt()
+                            ingredientAmount.value = it
                         }
                         catch (_: java.lang.NumberFormatException){ }},
                     label = { Text(LocalContext.current.getString(R.string.amount)) }
@@ -136,7 +136,7 @@ fun DropDownButtonPreview(){
 fun BottomSheetPreview(){
 
     val name = remember { mutableStateOf("") }
-    val amount = remember { mutableStateOf(0) }
+    val amount = remember { mutableStateOf("") }
     val units = remember { mutableStateOf("") }
 
     NutriTheme{
