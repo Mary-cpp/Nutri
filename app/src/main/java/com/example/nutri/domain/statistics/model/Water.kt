@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import java.util.Date
 
 @Entity(tableName = "water")
-class Water (
+data class Water (
     @PrimaryKey
     val date: Date,
     val amount: Int = 0
