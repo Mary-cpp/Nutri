@@ -47,6 +47,7 @@ class EditRecipeViewModel @Inject constructor(
                 recipeOnEdit.value = result.value
                 nameOnEdit.value = result.value.name as String
                 result.value.ingredients?.get(0)?.let{
+                    ingredientList.clear()
                     ingredientList.addAll(it.mapToDomainIngredients())
                 }
                 isLoading.value = false
