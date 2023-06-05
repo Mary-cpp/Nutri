@@ -53,6 +53,17 @@ class RecipesListViewModel @Inject constructor(
         }
     }
 
+    fun onSearchParameterChanged(name: String) = viewModelScope.launch{
+
+        Log.d(tag, "getRecipes     START")
+        if(name.isEmpty()) return@launch
+
+        val listOfRecipes: List<Recipe>? = useCase.getRecipesWithNameLike(name)
+        listOfRecipes?.let{ recipeList.value = it }
+
+        Log.d(tag, "getRecipes     END")
+    }
+
     fun onSortListSelectedItemChanged(param: SortAction) {
         viewModelScope.launch {
             useCase.sortRecipesBy(

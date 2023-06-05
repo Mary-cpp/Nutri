@@ -68,7 +68,8 @@ fun MyRecipesPage(
                 Modifier.padding(start = 24.dp, end = 24.dp, top = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                SearchTextField()
+
+                SearchTextField(vm::onSearchParameterChanged)
                 SortAndFilter(vm)
                 if (isLoading) {
                     Column(
