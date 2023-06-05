@@ -23,7 +23,7 @@ interface MealDAO {
     @Insert
     suspend fun addMeal(it: MealEntity): Long
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRecipeInMeal(it: RecipeInMeal)
 
     @Query("SELECT * FROM meals WHERE id = :id")
@@ -32,7 +32,7 @@ interface MealDAO {
     @Query("SELECT id FROM meals WHERE date = :date AND id_category = :idCategory")
     suspend fun getMealByDateAndCategory(date: String, idCategory: String) : String?
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRecipesInMeal(list: List<RecipeInMeal>)
 
     @Transaction
