@@ -10,6 +10,7 @@ import com.example.nutri.domain.bmi.model.ActivityType
 import com.example.nutri.domain.bmi.model.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.lang.NumberFormatException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,11 +18,11 @@ class BmiViewModel @Inject constructor(
     private val userUseCase: BmiInteractor
 ) : ViewModel(){
 
-    val userWeight: MutableState<Int> = mutableStateOf(0)
+    val userWeight: MutableState<String> = mutableStateOf("")
     val userWeightUnit: MutableState<String> = mutableStateOf("kg")
-    val userHeight: MutableState<Int> = mutableStateOf(0)
+    val userHeight: MutableState<String> = mutableStateOf("")
     val userHeightUnit: MutableState<String> = mutableStateOf("sm")
-    val userAge: MutableState<Int> = mutableStateOf(0)
+    val userAge: MutableState<String> = mutableStateOf("")
     val userSex: MutableState<Char> = mutableStateOf('M')
     val userActivity: MutableState<ActivityType> = mutableStateOf(ActivityType.SEDENTARY)
 
@@ -29,21 +30,26 @@ class BmiViewModel @Inject constructor(
 
 
     fun onCalculateButtonClicked() = viewModelScope.launch{
-        user.value = User(
-            sex = userSex.value,
-            height = userHeight.value.toFloat(),
-            heightMeasure = userHeightUnit.value,
-            weight = userWeight.value.toFloat(),
-            weightMeasure = userWeightUnit.value,
-            age = userAge.value,
-            activityType = userActivity.value
-        )
+        try{
+            user.value = User(
+                sex = userSex.value,
+                height = userHeight.value.toFloat(),
+                heightMeasure = userHeightUnit.value,
+                weight = userWeight.value.toFloat(),
+                weightMeasure = userWeightUnit.value,
+                age = userAge.value.toInt(),
+                activityType = userActivity.value
+            )
 
-        val plan = userUseCase.countBMI(user.value!!)
-        user.value!!.plan = plan
+            val plan = userUseCase.countBMI(user.value!!)
+            user.value!!.plan = plan
 
-        Log.d("COUNT_PLAN", "ACTIVITY TYPE ${user.value!!.activityType.text}")
-        Log.d("COUNT_PLAN", user.value!!.plan!!.kcal.toString())
+            Log.d("COUNT_PLAN", "ACTIVITY TYPE ${user.value!!.activityType.text}")
+            Log.d("COUNT_PLAN", user.value!!.plan!!.kcal.toString())
+
+        } catch (e: NumberFormatException){
+            Log.e(this@BmiViewModel::class.java.simpleName, e.toString())
+        }
     }
 
     fun onUsePlanTextClicked() = viewModelScope.launch {

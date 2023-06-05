@@ -128,10 +128,9 @@ fun BmiCalcCard(vm : BmiViewModel){
                 val weightUnits = vm.userWeightUnit
 
                 OutlinedTextField(
-                    value = weight.value.toString(),
+                    value = weight.value,
                     onValueChange = {
-                        if (it.isNotEmpty() && it != "0"){
-                            weight.value = it.toInt()}
+                            weight.value = it
                         },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     shape = NutriShape.smallRoundedCornerShape,
@@ -152,10 +151,9 @@ fun BmiCalcCard(vm : BmiViewModel){
 
                 val heightUnits = vm.userHeightUnit
                 OutlinedTextField(
-                    value = height.value.toString(),
+                    value = height.value,
                     onValueChange = {
-                        if (it.isNotEmpty()){
-                        height.value = it.toInt()}
+                        height.value = it
                     },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     shape = NutriShape.smallRoundedCornerShape,
@@ -178,15 +176,13 @@ fun BmiCalcCard(vm : BmiViewModel){
                 horizontalArrangement = Arrangement.SpaceBetween
             ){
                 OutlinedTextField(
-                    value = age.value.toString(),
+                    value = age.value,
                     onValueChange = {
-                        if (it.isNotEmpty()){
-                            age.value = it.toInt()}
-                            },
+                        age.value = it},
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     shape = NutriShape.smallRoundedCornerShape,
                     colors = TextFieldDefaults.outlinedTextFieldColors(MaterialTheme.colors.primary),
-                    modifier = Modifier.size(width = 88.dp, height = 64.dp),
+                    modifier = Modifier.size(width = 96.dp, height = 64.dp),
                     label = { Text( LocalContext.current.getString(R.string.age))}
                 )
             }
