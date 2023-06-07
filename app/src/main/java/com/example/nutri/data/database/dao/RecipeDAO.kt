@@ -64,6 +64,10 @@ interface RecipeDAO {
     fun getCommonRecipeEntity(recipeId: String) : RecipeEntityCommon
 
     @Transaction
+    @Query("SELECT * FROM recipes")
+    fun getCommonRecipeFlow(): Flow<List<RecipeEntityCommon>>
+
+    @Transaction
     suspend fun addCommonRecipe(
         recipe: RecipeEntityCommon,
     )

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.nutri.core.ResultState
 import com.example.nutri.core.data
 import com.example.nutri.domain.recipes.interactor.LocalRecipesInteractor
+import com.example.nutri.domain.recipes.model.FilterActions
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.navigation.NavControllerHolder
 import com.example.nutri.ui.navigation.NavigationViewModel
@@ -31,16 +32,16 @@ class RecipesListViewModel @Inject constructor(
     = MutableStateFlow(ResultState.Loading)
     val recipeListState : StateFlow<ResultState<List<Recipe>>> = _recipeListState
 
-    private val tag = "MyRecipesViewModel"
+    private val tag = this::class.java.simpleName
 
     override fun onResume(owner: LifecycleOwner) {
         getSavedRecipes()
     }
 
-    private fun getSavedRecipes() = viewModelScope.launch{
+    fun getSavedRecipes() = viewModelScope.launch{
         Log.d(tag, "MyRecipes Screen Loaded        START")
 
-        useCase.receiveRecipes().collect{ result ->
+        useCase.receiveCommonRecipes().collect{ result ->
             _recipeListState.value = result
             when(recipeListState.value){
                 is ResultState.Success -> {
@@ -71,6 +72,21 @@ class RecipesListViewModel @Inject constructor(
                 list = recipeList.value
             )
                 .collect { sortResult -> recipeList.value = sortResult }
+        }
+    }
+
+    fun onFilterListSelectedItemChanged(param:FilterActions){
+        viewModelScope.launch {
+            Log.i(tag, "Filter recipes start")
+            val filteredRecipes: Flow<List<Recipe>> = when (param){
+                is FilterActions.Diet -> useCase.filterRecipesByDiet(param, recipeList.value)
+                is FilterActions.Caution -> useCase.filterRecipesByCautions(param, recipeList.value)
+            }
+            try{
+                filteredRecipes.collect{ filteredList ->
+                    recipeList.value = filteredList
+                }
+            } catch (e: NullPointerException) { Log.e(tag, e.toString())}
         }
     }
 }

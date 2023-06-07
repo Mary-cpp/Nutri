@@ -3,7 +3,14 @@ package com.example.nutri.data.recipe.local.repository
 import android.util.Log
 import com.example.nutri.core.ResultState
 import com.example.nutri.data.database.RecipeDatabase
-import com.example.nutri.data.recipe.local.entity.*
+import com.example.nutri.data.recipe.local.entity.IngredientEntity
+import com.example.nutri.data.recipe.local.entity.IngredientInRecipe
+import com.example.nutri.data.recipe.local.entity.Label
+import com.example.nutri.data.recipe.local.entity.LabelsInRecipe
+import com.example.nutri.data.recipe.local.entity.NutrientEntity
+import com.example.nutri.data.recipe.local.entity.NutrientsInRecipe
+import com.example.nutri.data.recipe.local.entity.RecipeEntity
+import com.example.nutri.data.recipe.local.entity.RecipeEntityCommon
 import com.example.nutri.data.recipe.remote.dto.Characteristics
 import com.example.nutri.data.recipe.remote.dto.Ingredient
 import com.example.nutri.data.recipe.remote.dto.nutrients.BaseNutrient
@@ -15,7 +22,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
-import java.util.*
+import java.util.UUID
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -93,6 +100,22 @@ class RecipeDatabaseGatewayImpl @Inject constructor(
         catch (e: Exception) {
             Log.e(TAG, "Caught $e")
             flowOf( ResultState.Error(exception = e))
+        }
+    }
+
+    override suspend fun getCommonRecipeFlow() :Flow<ResultState<List<Recipe>>>{
+        return try{
+            database.recipeDAO().getCommonRecipeFlow()
+                .flowOn(Dispatchers.IO)
+                .map { list ->
+                    ResultState.Success(list.map {
+                        mapCommonEntityToRecipe(it)
+                    })
+                }.flowOn(Dispatchers.Main)
+        }
+        catch(e: Exception){
+            Log.e(TAG, e.toString())
+            flowOf(ResultState.Error(e))
         }
     }
 

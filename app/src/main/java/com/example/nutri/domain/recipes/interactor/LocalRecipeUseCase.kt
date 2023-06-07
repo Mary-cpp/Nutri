@@ -2,11 +2,13 @@ package com.example.nutri.domain.recipes.interactor
 
 import com.example.nutri.core.ResultState
 import com.example.nutri.domain.recipes.RecipeDatabaseGateway
+import com.example.nutri.domain.recipes.model.FilterActions
 import com.example.nutri.domain.recipes.model.Recipe
 import com.example.nutri.ui.screens.my_recipes.composables.SortAction
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
@@ -20,6 +22,10 @@ class LocalRecipeUseCase @Inject constructor(
 
     override suspend fun receiveRecipes() : Flow<ResultState<List<Recipe>>> {
         return db.getRecipesListFlow()
+    }
+
+    override suspend fun receiveCommonRecipes(): Flow<ResultState<List<Recipe>>> {
+        return db.getCommonRecipeFlow()
     }
 
     override suspend fun getCommonRecipe(recipeId: String): Flow<ResultState<Recipe>> {
@@ -49,5 +55,23 @@ class LocalRecipeUseCase @Inject constructor(
                 emit(list.sortedByDescending { it.calories })
             }.flowOn(Dispatchers.Unconfined)
         }
+    }
+
+    override fun filterRecipesByCautions(
+        filterAction: FilterActions.Caution,
+        list: List<Recipe>
+    ): Flow<List<Recipe>> {
+        return flowOf(list.filter {
+            it.healthLabels!!.contains(filterAction.cautions.name)
+        })
+    }
+
+    override fun filterRecipesByDiet(
+        filterAction: FilterActions.Diet,
+        list: List<Recipe>
+    ): Flow<List<Recipe>> {
+        return flowOf(list.filter {
+            it.healthLabels!!.contains(filterAction.dietFilter.name)
+        })
     }
 }

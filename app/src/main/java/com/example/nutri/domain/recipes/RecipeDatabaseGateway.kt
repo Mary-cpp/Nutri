@@ -10,5 +10,6 @@ interface RecipeDatabaseGateway {
     suspend fun getRecipesListFlow(): Flow<ResultState<List<Recipe>>>
     suspend fun getRecipeById(id: String) : Flow<ResultState<Recipe>>
     suspend fun getRecipesWithNameLike(name: String) : List<Recipe>?
+    suspend fun getCommonRecipeFlow() : Flow<ResultState<List<Recipe>>>
     suspend fun deleteRecipe(recipe: Recipe)
 }

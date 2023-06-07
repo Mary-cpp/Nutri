@@ -105,33 +105,27 @@ fun SortAndFilter(vm: RecipesListViewModel){
         }
 
         Box(contentAlignment = Alignment.Center){
-            var isFilterExpanded by remember { mutableStateOf(false)}
-            Button(onClick = { isFilterExpanded = !isFilterExpanded },
+            val isFilterExpanded = remember { mutableStateOf(false)}
+            Button(onClick = { isFilterExpanded.value = !isFilterExpanded.value },
                 colors = ButtonDefaults.buttonColors(MaterialTheme.colors.secondary),
                 shape = RoundedCornerShape(24.dp),
                 elevation = ButtonDefaults.elevation(4.dp)
             ) {
-                Icon(imageVector = ImageVector.vectorResource(id = R.drawable.filter_alt48px),
+                Icon(
+                    imageVector = ImageVector.vectorResource(id = R.drawable.filter_alt48px),
                     tint = Color.Black,
                     contentDescription = "SortIcon",
                     modifier = Modifier
                         .size(32.dp)
-                        .padding(end = 8.dp))
+                        .padding(end = 8.dp)
+                )
                 Text(text = LocalContext.current.getString(R.string.filter), color = Color.Black)
             }
-            val filterMenuItems = listOf("Тип диеты", "Предосторожности")
-            DropdownMenu(
-                expanded = isFilterExpanded,
-                onDismissRequest = { isFilterExpanded = false }) {
-                filterMenuItems.forEach{
-                    DropdownMenuItem(onClick = {
-                        /*selectedSortFilter = it*/
-                        /*sortButtonText =*/
-                    }) {
-                        Text(text = it)
-                    }
-                }
-            }
+            FilterCategories(
+                isExpanded = isFilterExpanded,
+                onFilterSelected = vm::onFilterListSelectedItemChanged,
+                onFiltersClear = vm::getSavedRecipes,
+            )
         }
     }
 }
