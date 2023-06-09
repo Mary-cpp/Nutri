@@ -7,11 +7,9 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.util.Log
 import com.example.nutri.R
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 
-class NotificationsHandler @Inject constructor(
-    @ApplicationContext private val context: Context
+class NotificationsHandler constructor(
+    private val context: Context
 ) {
 
     private val alarmManager: AlarmManager by lazy { context.getSystemService(Context.ALARM_SERVICE) as AlarmManager}
@@ -34,10 +32,9 @@ class NotificationsHandler @Inject constructor(
     fun enableAlarms(){
         NotificationType.values().forEach { notification ->
             setIntentData(notification)
-            var interval = AlarmManager.INTERVAL_DAY
-            if (notification == NotificationType.WATER){
-                interval = AlarmManager.INTERVAL_HOUR
-            }
+            val interval = if (notification == NotificationType.WATER){
+                AlarmManager.INTERVAL_HOUR
+            } else AlarmManager.INTERVAL_DAY
             alarmManager.setInexactRepeating(
                 AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 getTimeInMillis(notification.triggerTimeHours, notification.triggerTimeMinutes),
@@ -68,10 +65,9 @@ class NotificationsHandler @Inject constructor(
         notification : NotificationType,
     ){
         cancelAlarm(notification)
-        var interval = AlarmManager.INTERVAL_DAY
-        if (notification == NotificationType.WATER){
-            interval = AlarmManager.INTERVAL_HOUR
-        }
+        val interval = if (notification == NotificationType.WATER){
+            AlarmManager.INTERVAL_HOUR
+        } else AlarmManager.INTERVAL_DAY
         alarmManager.setInexactRepeating(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
             getTimeInMillis(notification.triggerTimeHours, notification.triggerTimeMinutes),

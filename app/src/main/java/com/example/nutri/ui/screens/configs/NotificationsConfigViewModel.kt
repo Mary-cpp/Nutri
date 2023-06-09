@@ -28,8 +28,8 @@ class NotificationsConfigViewModel @Inject constructor(
         NotificationsHandler(context = context)
     }
 
-    val areMealNotificationsEnabled = mutableStateOf(true)
-    val areWaterNotificationsEnabled = mutableStateOf(true)
+    val areMealNotificationsEnabled = mutableStateOf(false)
+    val areWaterNotificationsEnabled = mutableStateOf(false)
 
     private val tag = this::class.simpleName
     private val sp : SharedPreferences by lazy{ context.getSharedPreferences(NUTRI_PREFERENCES, Context.MODE_PRIVATE)}
@@ -43,11 +43,11 @@ class NotificationsConfigViewModel @Inject constructor(
         areMealNotificationsEnabled.value = sp.getBoolean(mealNotifIndicator, true)
         areWaterNotificationsEnabled.value = sp.getBoolean(waterNotifIndicator, true)
         NotificationType.values().forEach {
-            if (it == NotificationType.WATER) return
-            if (!sp.contains("${it.name}_hours") || !sp.contains("${it.name}_minutes")) return
+            if (it == NotificationType.WATER) return@forEach
+            if (!sp.contains("${it.name}_hours") || !sp.contains("${it.name}_minutes")) return@forEach
             it.triggerTimeHours = sp.getInt("${it.name}_hours", 0)
             it.triggerTimeMinutes = sp.getInt("${it.name}_minutes", 0)
-            Log.i(tag, "${it.triggerTimeHours}:${it.triggerTimeMinutes}")
+            Log.i(tag, "${it.name} = ${it.triggerTimeHours}:${it.triggerTimeMinutes}")
         }
     }
 
@@ -57,7 +57,7 @@ class NotificationsConfigViewModel @Inject constructor(
         minutes: Int,
     ){
         notificationType.triggerTimeHours = hours; notificationType.triggerTimeMinutes = minutes
-        Log.i(tag, "Changed ${notificationType.text} notification time on ${notificationType.triggerTimeHours}")
+        Log.i(tag, "Changed ${notificationType.text} notification time on ${notificationType.triggerTimeHours}:${notificationType.triggerTimeMinutes}")
         notificationsHandler.setAlarm(notificationType)
         sp.edit()
             .putInt("${notificationType.name}_hours", notificationType.triggerTimeHours)

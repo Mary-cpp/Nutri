@@ -43,9 +43,11 @@ fun BmiPage(
             ){
                 Column (Modifier.verticalScroll(rememberScrollState(), true)){
                     vm.user.value?.plan?.let { plan ->
-                        DietResultCard(plan = plan)
+                        DietResultCard(
+                            plan = plan,
+                            onSaveButtonClicked = vm::onUsePlanTextClicked,
+                        )
                     }
-
                     BmiCalcCard(vm = vm)
                 }
             }
@@ -225,9 +227,9 @@ fun BmiCalcCard(vm : BmiViewModel){
                     fontSize = MaterialTheme.typography.subtitle2.fontSize)
             }
 
-            vm.user.value?.plan?.let {
+            /*vm.user.value?.plan?.let {
                 TrackUser(vm = vm)
-            }
+            }*/
         }
     }
 }

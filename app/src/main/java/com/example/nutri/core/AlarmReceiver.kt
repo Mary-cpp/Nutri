@@ -39,22 +39,22 @@ class AlarmReceiver : BroadcastReceiver() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private fun notifyUser(context: Context, intent: Intent){
 
-        val title = intent.getStringExtra("notification_title")
-        val description = intent.getStringExtra("notification_description")
+        val title = intent.getStringExtra("notification_title") as String
+        val description = intent.getStringExtra("notification_description") as String
 
         createNotificationChannel(context)
 
         val notificationIntent = Intent(context, MainActivity::class.java)
         val notificationPendingIntent = PendingIntent.getActivity(
-            context, 0, notificationIntent, PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            context, 0, intent, PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
         with(NotificationManagerCompat.from(context)){
             val notificationPermission = android.Manifest.permission.POST_NOTIFICATIONS
             if (ContextCompat.checkSelfPermission(context, notificationPermission) != PackageManager.PERMISSION_GRANTED) {
                 notify(System.currentTimeMillis().toInt(), createNotification(
-                    title = title!!,
-                    details = description!!,
+                    title = title,
+                    details = description,
                     context = context,
                     notificationIntent = notificationPendingIntent,
                 ))

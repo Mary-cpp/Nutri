@@ -33,20 +33,19 @@ class MainActivity: ComponentActivity() {
     @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val sp = getSharedPreferences(NUTRI_PREFERENCES, Context.MODE_PRIVATE)
         val notificationPermission = android.Manifest.permission.POST_NOTIFICATIONS
-        if (!sp.getBoolean("isFirstRun", true)) return
 
         if (ContextCompat.checkSelfPermission(this, notificationPermission) != PackageManager.PERMISSION_GRANTED) {
-            val notificationsWorkRequest =
-                PeriodicWorkRequestBuilder<NotificationWork>(24, TimeUnit.HOURS).build()
-            WorkManager.getInstance(this).enqueue(notificationsWorkRequest)
-            sp.edit().putBoolean("isFirstRun", false).apply()
-        }
-
-        if (ContextCompat.checkSelfPermission(this, notificationPermission) != PackageManager.PERMISSION_GRANTED){
             Log.w(this::class.java.simpleName, "Notifications permission denied")
             this.requestPermissions(arrayOf(notificationPermission), 112)
+            if (sp.getBoolean("isFirstRun", true)){
+                val notificationsWorkRequest =
+                    PeriodicWorkRequestBuilder<NotificationWork>(24, TimeUnit.HOURS).build()
+                WorkManager.getInstance(this).enqueue(notificationsWorkRequest)
+                sp.edit().putBoolean("isFirstRun", false).apply()
+            }
         }
 
         setContent {
